@@ -8,7 +8,13 @@ $(function (){
 				lon : 139.729426
 			},
 			success: function( data ) {
-				console.log(data);
+				if (data.error == 1) {
+					console.log("error!");
+				} else {
+					console.log(data["result"]);
+					//for (var i=0 ; i<data[.length
+					//console.log();
+				}
 			}
 		});
 	});
