@@ -43,5 +43,5 @@ $result['error'] = $err;
 $result['result'] = $return;
 
 //var_dump($arg);
-echo json_encode($result);
+echo json_encode($result, JSON_UNESCAPED_UNICODE);
 //echo json_encode($contents);
