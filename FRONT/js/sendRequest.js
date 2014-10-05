@@ -17,12 +17,10 @@ $(function (){
 						var lat = data["result"][i]["lat"];
 						var lon = data["result"][i]["lon"];
 						console.log("title:" + title + "&lat:" + lat + "&lon:" + lon);
+						$("#result").append("title:" + title + "&lat:" + lat + "&lon:" + lon + "<br>\n");
 					}
 				}
 			}
 		});
 	});
 });
-
-
-
