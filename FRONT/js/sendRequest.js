@@ -1,4 +1,18 @@
 $(function (){
+
+	$("#gps_btn").click(function() {
+		if (navigator.geolocation) {
+			//Geolocation APIを利用できる環境向けの処理
+			//console.log('can get geo');
+			watchID = navigator.geolocation.getCurrentPosition(
+				successCallback, errorCallback
+				);
+		} else {
+			//Geolocation APIを利用できない環境向けの処理
+			//console.log('cannot get geo');
+		}
+	});
+
 	$("#btn").click(function(){
 		console.log("click");
 		$.ajax({
@@ -27,18 +41,7 @@ $(function (){
 	});
 });
 
-function get_geo(){
-	if (navigator.geolocation) {
-		//Geolocation APIを利用できる環境向けの処理
-		//console.log('can get geo');
-		watchID = navigator.geolocation.getCurrentPosition(
-				successCallback, errorCallback
-				);
-	} else {
-		//Geolocation APIを利用できない環境向けの処理
-		//console.log('cannot get geo');
-	}
-}
+
 
 /***** 位置情報が取得できた場合 *****/
 function successCallback(position) {
