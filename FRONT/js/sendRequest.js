@@ -11,9 +11,10 @@ $(function (){
 				if (data.error == 1) {
 					console.log("error!");
 				} else {
-					console.log(data["result"]);
-					//for (var i=0 ; i<data[.length
-					//console.log();
+					//console.log(data["result"]);
+					for (var i=0 ; i<data["result"].length ; i++ ) {
+						console.log(data["result"][i]["title"]);
+					}
 				}
 			}
 		});
