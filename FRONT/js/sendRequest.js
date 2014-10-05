@@ -1,6 +1,4 @@
 $(function (){
-	$("#hoge").append("aaaaaaaaaaa");
-
 	$("#btn").click(function(){
 		console.log("click");
 		$.ajax({
