@@ -1,1 +1,1 @@
-$("#hoge").html("aaaaaaaaaaa");
+$("#hoge").append("aaaaaaaaaaa");
