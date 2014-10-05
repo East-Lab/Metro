@@ -1,8 +1,8 @@
 <?php
 
-require_once("./class/Request.php");
+require_once("/home/gif-animaker/class/Request.php");
 
-$req = new Request();
+$metro = new MetroAPI();
 
 ///$contents = $req->getTrainLocation();
 //$contents = $req->getTrainInfo();
@@ -10,7 +10,7 @@ $req = new Request();
 //$contents = $req->getStationFacility();
 //$contents = $req->getStation();
 //$contents = $req->getPoiByLocation(35.681265,139.766926,1000);
-$contents = $req->getPoi();
+$contents = $metro->getPoi();
 //$contents = $req->getStationByLocation(35.681265,139.766926,1000);
 //var_dump($contents);
 echo json_encode($contents);
