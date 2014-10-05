@@ -48,8 +48,8 @@ function get_geo() {
 
 /***** 位置情報が取得できた場合 *****/
 function successCallback(position) {
-    var gl_text = "緯度：" + position.coords.latitude + "<br>";
-    gl_text += "経度：" + position.coords.longitude + "<br>";
+    var gl_text = "緯度" + position.coords.latitude + "<br>";
+    gl_text += "経度" + position.coords.longitude + "<br>";
 	$("#geo").html(gl_text);
 	get_geo();
 }
