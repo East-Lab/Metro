@@ -2,7 +2,7 @@ $(function (){
 	$("#hoge").append("aaaaaaaaaaa");
 });
 
-$("#btn").onClick(function(){
+$("#btn").click(function(){
 	console.log("click");
 	$.ajax({
 		url: "/metro/API/getMetroPOI.php",
