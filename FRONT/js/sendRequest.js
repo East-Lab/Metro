@@ -19,7 +19,7 @@ $(function (){
 						var title = data["result"][i]["title"];
 						var lat = data["result"][i]["lat"];
 						var lon = data["result"][i]["lon"];
-						$("#result").append("title:" + title + "&lat:" + lat + "&lon:" + lon + "<br>\n");
+						$("#result").append("title:" + title + "<br>lat:" + lat + "<br>lon:" + lon + "<hr>\n");
 					}
 				}
 			}
