@@ -1,6 +1,6 @@
 <?php
 
-require_once("/home/gif-animaker/class/MetroAPI.php");
+require_once("/home/gif-animaker/Metro/API/class/MetroAPI.php");
 
 $arg = $_GET;
 $err = 0;
