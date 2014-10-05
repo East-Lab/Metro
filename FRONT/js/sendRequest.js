@@ -1,3 +1,5 @@
+var lat;
+var lon;
 $(function (){
 
 	$("#btn").click(function(){
@@ -5,8 +7,10 @@ $(function (){
 		$.ajax({
 			url: "/metro/API/getMetroPOI.php",
 			data: {
-				lat : 35.6641222,
-				lon : 139.729426
+				//lat : 35.6641222,
+				//lon : 139.729426
+				lat : lat,
+				lon : lon 
 			},
 			beforeSend: function() {
 				$("#result").html("loading...");
