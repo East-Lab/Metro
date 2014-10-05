@@ -13,7 +13,10 @@ $(function (){
 				} else {
 					//console.log(data["result"]);
 					for (var i=0 ; i<data["result"].length ; i++ ) {
-						console.log(data["result"][i]["title"]);
+						var title = data["result"][i]["title"];
+						var lat = data["result"][i]["lat"];
+						var lon = data["result"][i]["lon"];
+						console.log("title:" + title + "&lat:" + lat + "&lon:" + lon);
 					}
 				}
 			}
