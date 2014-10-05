@@ -25,7 +25,7 @@ if ($err) {
 $metro = new MetroAPI();
 
 $count = 10;
-$contents = $metro->getPoiByLocation($arg["lat"],$arg["lon"],10000);
+$contents = $metro->getPoiByLocation($arg["lat"],$arg["lon"],1000000);
 $result = array();
 $return = array();
 for($i = 0 ; $i<$count ; $i++) {
