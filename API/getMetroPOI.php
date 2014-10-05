@@ -1,7 +1,5 @@
 <?php
 header("Content-Type: application/json; charset=utf-8");
-
-
 require_once("/home/gif-animaker/Metro/API/class/MetroAPI.php");
 
 $arg = $_GET;
@@ -26,7 +24,6 @@ if ($err) {
 
 $metro = new MetroAPI();
 
-
 $count = 10;
 $contents = $metro->getPoiByLocation($arg["lat"],$arg["lon"],10000);
 $result = array();
@@ -42,6 +39,4 @@ for($i = 0 ; $i<$count ; $i++) {
 $result['error'] = $err;
 $result['result'] = $return;
 
-//var_dump($arg);
 echo json_encode($result, JSON_UNESCAPED_UNICODE);
-//echo json_encode($contents);
