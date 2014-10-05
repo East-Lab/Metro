@@ -1,6 +1,11 @@
 <?php
 
-require_once("./class/Request.php");
-$req = new Request();
+require_once("./class/MetroAPI.php");
 
-$contents = $req->getPoiByLocation(35.681265,139.766926,1000);
+$arg = $_GET;
+
+$metro = new MetroAPI();
+
+$contents = $metro->getPoiByLocation(35.681265,139.766926,1000);
+var_dump($arg);
+//echo json_encode($contents);
