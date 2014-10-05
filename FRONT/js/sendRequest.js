@@ -48,6 +48,9 @@ function get_geo() {
 
 /***** 位置情報が取得できた場合 *****/
 function successCallback(position) {
+	lat = position.coords.latitude;
+	lon = position.coords.longitude;
+
     var gl_text = "lat : " + position.coords.latitude + "<br>";
     gl_text += "lon : " + position.coords.longitude + "<br>";
 	$("#geo").html(gl_text);
