@@ -1,12 +1,13 @@
 <?php
 class MetroAPI{
-	private $accessToken = '8615107f491101906849096652f4c208220cc3ea47b42915f7dd355c7eba82b0';
 	private $baseurl = 'https://api.tokyometroapp.jp/api/v2/';
 
 	private function sendRequest($data, $api) {
+		$accessToken = file_get_contents("/home/gif-animaker/Metro/API/metro.key");
+		$accessToken = str_replace(array("\r\n","\r","\n"), '', $accessToken);
 		$url = $this->baseurl . $api;
 
-		$data['acl:consumerKey'] = $this->accessToken;
+		$data['acl:consumerKey'] = $accessToken;
 
 		$options = array('http' => array(
 			'method' => 'GET',
