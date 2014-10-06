@@ -14,12 +14,20 @@ if (!isset($arg["lonA"])) {
 	$err_msg .= "lonA is not set.\n";
 	$err = 1;
 }
+if (!isset($arg["radiusA"])) {
+	$err_msg .= "radiusA is not set.\n";
+	$err = 1;
+}
 if (!isset($arg["latB"])) {
 	$err_msg .= "latB is not set.\n";
 	$err = 1;
 }
 if (!isset($arg["lonB"])) {
 	$err_msg .= "lonB is not set.\n";
+	$err = 1;
+}
+if (!isset($arg["radiusB"])) {
+	$err_msg .= "radiusB is not set.\n";
 	$err = 1;
 }
 if ($err) {
@@ -33,4 +41,5 @@ if ($err) {
 
 $metro = new MetroAPI();
 
-$contents = $metro->getPoiByLocation($arg["lat"],$arg["lon"],1000000);
+$contents = $metro->get2Point($arg["latA"],$arg["lonA"], $arg["radiusA"],$arg["latB"],$arg["lonB"], $arg["radiusB"], 10);
+echo $contents;

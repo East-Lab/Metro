@@ -18,7 +18,7 @@ class MetroAPI{
 		return $contents;
 	}
 
-	public function getPoiByLocation($lat, $lon, $radius) {
+	public function getPoiByLocation($lat, $lon, $radius, $count) {
 		$data['rdf:type'] = 'ug:Poi'; 
 		$data['lat'] = $lat; 
 		$data['lon'] = $lon; 
@@ -26,7 +26,6 @@ class MetroAPI{
 		$contents = json_decode($this->sendRequest($data, "places"), true);
 		$result = array();
 		$return = array();
-		$count = 10;
 		for($i = 0 ; $i<$count; $i++) {
 			$r = $contents[$i];
 			if (!$r["dc:title"]) {
@@ -38,9 +37,49 @@ class MetroAPI{
 				"lon" => $r["geo:long"],
 			);
 		} 
-		$result['error'] = $err;
+		$result['error'] = 0;
 		$result['result'] = $return;
 		return json_encode($result, JSON_UNESCAPED_UNICODE);
+	}
+
+	public function get2Point($latA, $lonA, $radiusA, $latB, $lonB, $radiusB, $count) {
+		$conA = json_decode(getPoiByLocation($latA, $lonA, $radiusA, $count));
+		$err = 0;
+		$err_msg = "";
+		if ($conA["error"] == 1) {
+			$err_msg .= "[A] get poi error.\n";
+			$err = 1;
+		}
+		$conB = json_decode(getPoiByLocation($latB, $lonB, $radiusB, 1));
+		if ($conB["error"] == 1) {
+			$err_msg .= "[B] get poi error.\n";
+			$err = 1;
+		}
+		$arr = array();
+		if ($err) {
+			$arr = array();
+		} else {
+			for ($i = 0; $i < $count ; $i++) {
+				if(!$conB["result"][$i]["title"]) break;
+				$arr[] = array(
+					"pointA" => array(
+						"lat" => $conA["result"][$i]["lat"],
+						"lon" => $conA["result"][$i]["lon"],
+						"title" => $conA["result"][$i]["title"],
+					),
+					"pointB" => array(
+						"lat" => $conA["result"][$i]["lat"],
+						"lon" => $conA["result"][$i]["lon"],
+						"title" => $conA["result"][$i]["title"],
+					),
+				);
+			}
+		}
+		$result = array(
+			"error" => $err,
+			"result" => $arr,
+		);
+		return json_encode($result);
 	}
 
 /*
