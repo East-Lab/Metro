@@ -43,14 +43,14 @@ class MetroAPI{
 	}
 
 	public function get2Point($latA, $lonA, $radiusA, $latB, $lonB, $radiusB, $count) {
-		$conA = json_decode($this->getPoiByLocation($latA, $lonA, $radiusA, $count));
+		$conA = json_decode($this->getPoiByLocation($latA, $lonA, $radiusA, $count), true);
 		$err = 0;
 		$err_msg = "";
 		if ($conA["error"] == 1) {
 			$err_msg .= "[A] get poi error.\n";
 			$err = 1;
 		}
-		$conB = json_decode($this->getPoiByLocation($latB, $lonB, $radiusB, 1));
+		$conB = json_decode($this->getPoiByLocation($latB, $lonB, $radiusB, 1), true);
 		if ($conB["error"] == 1) {
 			$err_msg .= "[B] get poi error.\n";
 			$err = 1;
