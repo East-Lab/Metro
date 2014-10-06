@@ -82,11 +82,7 @@ class MetroAPI{
 				if(!$conA["result"][$i]["title"]) break;
 				$stationA = str_replace(strstr($conA["result"][$i]["title"], "出入口"),'',$conA["result"][$i]["title"]);
 				$stationB = str_replace(strstr($conB["result"][0]["title"], "出入口"),'',$conB["result"][0]["title"]);
-				if ($stationA !== $stationB) {
-					if (!$this->isNearStation($stationA, $stationB)) {
-						continue;
-					}
-				}
+				if ($stationA !== $stationB && !$this->isNearStation($stationA, $stationB)) continue;
 				$arr[] = array(
 					"pointA" => array(
 						"lat" => $conA["result"][$i]["lat"],
