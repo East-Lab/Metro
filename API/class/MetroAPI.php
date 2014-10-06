@@ -26,6 +26,7 @@ class MetroAPI{
 		return json_decode($this->sendRequest($data, "places"), true);
 		$result = array();
 		$return = array();
+		$count = 10;
 		for($i = 0 ; $i<$count ; $i++) {
 			$r = $contents[$i];
 			$return[] = array(
