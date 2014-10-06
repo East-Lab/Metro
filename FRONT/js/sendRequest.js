@@ -10,7 +10,8 @@ $(function (){
 				//lat : 35.6641222,
 				//lon : 139.729426
 				lat : lat,
-				lon : lon 
+				lon : lon, 
+				radius : 100000
 			},
 			beforeSend: function() {
 				$("#result").html("loading...");
