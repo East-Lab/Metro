@@ -111,6 +111,7 @@ class MetroAPI{
 		}
 		$result = array(
 			"error" => $err,
+			"error_msg" => $err_msg,
 			"result" => $arr,
 		);
 		return json_encode($result);
