@@ -66,13 +66,13 @@ class MetroAPI{
 						"lat" => $conA["result"][$i]["lat"],
 						"lon" => $conA["result"][$i]["lon"],
 						"title" => $conA["result"][$i]["title"],
-						"station" => strstr($conA["result"][$i]["title"], "出入口"),
+						"station" => str_replace(strstr($conA["result"][$i]["title"], "出入口"),'',$conA["result"][$i]["title"]),
 					),
 					"pointB" => array(
 						"lat" => $conB["result"][0]["lat"],
 						"lon" => $conB["result"][0]["lon"],
 						"title" => $conB["result"][0]["title"],
-						"station" => strstr($conB["result"][0]["title"], "出入口"),
+						"station" => str_replace(strstr($conB["result"][0]["title"], "出入口"),'',$conA["result"][0]["title"]),
 					),
 				);
 			}
