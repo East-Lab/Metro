@@ -18,6 +18,29 @@ class MetroAPI{
 		return $contents;
 	}
 
+	public function getPoiByLocation($lat, $lon, $radius) {
+		$data['rdf:type'] = 'ug:Poi'; 
+		$data['lat'] = $lat; 
+		$data['lon'] = $lon; 
+		$data['radius'] = $radius; 
+		return json_decode($this->sendRequest($data, "places"), true);
+		$result = array();
+		$return = array();
+		for($i = 0 ; $i<$count ; $i++) {
+			$r = $contents[$i];
+			$return[] = array(
+				"title" => $r["dc:title"],
+				"lat" => $r["geo:lat"],
+				"lon" => $r["geo:long"],
+			);
+		} 
+		$result['error'] = $err;
+		$result['result'] = $return;
+		return json_encode($result, JSON_UNESCAPED_UNICODE);
+	}
+
+/*
+
 	public function getTrainLocation() {
 		$data['rdf:type'] = 'odpt:Train'; 
 		return json_decode($this->sendRequest($data, "datapoints"), true);
@@ -59,14 +82,6 @@ class MetroAPI{
 		return json_decode($this->sendRequest($data, "datapoints"), true);
 	}
 
-	public function getPoiByLocation($lat, $lon, $radius) {
-		$data['rdf:type'] = 'ug:Poi'; 
-		$data['lat'] = $lat; 
-		$data['lon'] = $lon; 
-		$data['radius'] = $radius; 
-		return json_decode($this->sendRequest($data, "places"), true);
-	}
-
 	public function getStationByLocation($lat, $lon, $radius) {
 		$data['rdf:type'] = 'mlit:Station'; 
 		$data['lat'] = $lat; 
@@ -82,4 +97,5 @@ class MetroAPI{
 		$data['radius'] = $radius; 
 		return json_decode($this->sendRequest($data, "places"), true);
 	}
+ */
 }

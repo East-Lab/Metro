@@ -18,8 +18,8 @@ API仕様
 
 ## サンプルURL
 * 東京駅
-  * http://gif-animaker.sakura.ne.jp/metro/API/getMetroPOI.php?lat=35.681265&lon=139.766926
+  * http://gif-animaker.sakura.ne.jp/metro/API/getMetroPOI.php?lat=35.681265&lon=139.766926&radius=100000
 * 六本木駅
-  * http://gif-animaker.sakura.ne.jp/metro/API/getMetroPOI.php?lat=35.6641222&lon=139.729426
+  * http://gif-animaker.sakura.ne.jp/metro/API/getMetroPOI.php?lat=35.6641222&lon=139.729426&radius=100000
 * 国立競技場
-  * http://gif-animaker.sakura.ne.jp/metro/API/getMetroPOI.php?lat=35.678086&lon=139.714935 
+  * http://gif-animaker.sakura.ne.jp/metro/API/getMetroPOI.php?lat=35.678086&lon=139.714935&radius=100000

@@ -2,19 +2,24 @@
 header("Content-Type: application/json; charset=utf-8");
 require_once("/home/gif-animaker/Metro/API/class/MetroAPI.php");
 
+
 $arg = $_GET;
 $err = 0;
 $err_msg = "";
-if (!isset($arg["lat"])) {
-	$err_msg .= "lat is not set.\n";
+if (!isset($arg["latA"])) {
+	$err_msg .= "latA is not set.\n";
 	$err = 1;
 }
-if (!isset($arg["lon"])) {
-	$err_msg .= "lon is not set.\n";
+if (!isset($arg["lonA"])) {
+	$err_msg .= "lonA is not set.\n";
 	$err = 1;
 }
-if (!isset($arg["radius"])) {
-	$err_msg .= "radius is not set.\n";
+if (!isset($arg["latB"])) {
+	$err_msg .= "latB is not set.\n";
+	$err = 1;
+}
+if (!isset($arg["lonB"])) {
+	$err_msg .= "lonB is not set.\n";
 	$err = 1;
 }
 if ($err) {
@@ -28,6 +33,4 @@ if ($err) {
 
 $metro = new MetroAPI();
 
-$count = 10;
-$contents = $metro->getPoiByLocation($arg["lat"],$arg["lon"], $arg["radius"]);
-echo $contents;
+$contents = $metro->getPoiByLocation($arg["lat"],$arg["lon"],1000000);
