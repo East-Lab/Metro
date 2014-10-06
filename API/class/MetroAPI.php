@@ -72,7 +72,7 @@ class MetroAPI{
 		if ($conA["error"] == 1) {
 			$err_msg .= "[A] get poi error.\n";
 			$err = 1;
-		} else if($conA["result"].count == 0) {
+		} else if(count($conA["result"]) == 0) {
 			$err_msg .= "[A] no near point.\n";
 			$err = 1;
 		}
@@ -80,7 +80,7 @@ class MetroAPI{
 		if ($conB["error"] == 1) {
 			$err_msg .= "[B] get poi error.\n";
 			$err = 1;
-		} else if($conB["result"].count == 0) {
+		} else if (count($conB["result"]) == 0) {
 			$err_msg .= "[B] no near point.\n";
 			$err = 1;
 		}
