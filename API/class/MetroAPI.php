@@ -70,18 +70,18 @@ class MetroAPI{
 		$err = 0;
 		$err_msg = "";
 		if ($conA["error"] == 1) {
-			$err_msg .= "[A] get poi error.\n";
+			$err_msg .= "A : get poi error.\n";
 			$err = 1;
 		} else if(count($conA["result"]) == 0) {
-			$err_msg .= "[A] no near point.\n";
+			$err_msg .= "A : no near point.\n";
 			$err = 1;
 		}
 		$conB = json_decode($this->getPoiByLocation($latB, $lonB, $radiusB, 1), true);
 		if ($conB["error"] == 1) {
-			$err_msg .= "[B] get poi error.\n";
+			$err_msg .= "B : get poi error.\n";
 			$err = 1;
 		} else if (count($conB["result"]) == 0) {
-			$err_msg .= "[B] no near point.\n";
+			$err_msg .= "B : no near point.\n";
 			$err = 1;
 		}
 		$arr = array();
