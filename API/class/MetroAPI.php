@@ -60,7 +60,7 @@ class MetroAPI{
 			$arr = array();
 		} else {
 			for ($i = 0; $i < $count ; $i++) {
-				if(!$conB["result"][$i]["title"]) break;
+				if(!$conA["result"][$i]["title"]) break;
 				$arr[] = array(
 					"pointA" => array(
 						"lat" => $conA["result"][$i]["lat"],
@@ -68,9 +68,9 @@ class MetroAPI{
 						"title" => $conA["result"][$i]["title"],
 					),
 					"pointB" => array(
-						"lat" => $conB["result"][$i]["lat"],
-						"lon" => $conB["result"][$i]["lon"],
-						"title" => $conB["result"][$i]["title"],
+						"lat" => $conB["result"][0]["lat"],
+						"lon" => $conB["result"][0]["lon"],
+						"title" => $conB["result"][0]["title"],
 					),
 				);
 			}
