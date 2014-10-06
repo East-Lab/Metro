@@ -30,4 +30,4 @@ $metro = new MetroAPI();
 
 $count = 10;
 $contents = $metro->getPoiByLocation($arg["lat"],$arg["lon"], $arg["radius"]);
-echo $contents;
+var_dump($contents);
