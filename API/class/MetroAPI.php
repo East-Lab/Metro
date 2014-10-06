@@ -6,6 +6,10 @@ class MetroAPI{
 			0 => "永田町",
 			1 => "赤坂見附",
 		),
+		1 => array(
+			0 => "溜池山王",
+			1 => "国会議事堂前",
+		),
 	);
 
 	private function sendRequest($data, $api) {
@@ -68,10 +72,16 @@ class MetroAPI{
 		if ($conA["error"] == 1) {
 			$err_msg .= "[A] get poi error.\n";
 			$err = 1;
+		} else if($conA["result"].count == 0) {
+			$err_msg .= "[A] no near point.\n";
+			$err = 1;
 		}
 		$conB = json_decode($this->getPoiByLocation($latB, $lonB, $radiusB, 1), true);
 		if ($conB["error"] == 1) {
 			$err_msg .= "[B] get poi error.\n";
+			$err = 1;
+		} else if($conB["result"].count == 0) {
+			$err_msg .= "[B] no near point.\n";
 			$err = 1;
 		}
 		$arr = array();
