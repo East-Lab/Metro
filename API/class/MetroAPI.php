@@ -23,7 +23,6 @@ class MetroAPI{
 		$data['lat'] = $lat; 
 		$data['lon'] = $lon; 
 		$data['radius'] = $radius; 
-		return json_decode($this->sendRequest($data, "places"), true);
 		$result = array();
 		$return = array();
 		$count = 10;
