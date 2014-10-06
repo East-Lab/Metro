@@ -61,18 +61,21 @@ class MetroAPI{
 		} else {
 			for ($i = 0; $i < $count ; $i++) {
 				if(!$conA["result"][$i]["title"]) break;
+				$stationA = str_replace(strstr($conA["result"][$i]["title"], "出入口"),'',$conA["result"][$i]["title"]);
+				$stationB = str_replace(strstr($conB["result"][0]["title"], "出入口"),'',$conB["result"][0]["title"]);
+				if ($stationA !== $stationB) continue;
 				$arr[] = array(
 					"pointA" => array(
 						"lat" => $conA["result"][$i]["lat"],
 						"lon" => $conA["result"][$i]["lon"],
 						"title" => $conA["result"][$i]["title"],
-						"station" => str_replace(strstr($conA["result"][$i]["title"], "出入口"),'',$conA["result"][$i]["title"]),
+						"station" => $stationA,
 					),
 					"pointB" => array(
 						"lat" => $conB["result"][0]["lat"],
 						"lon" => $conB["result"][0]["lon"],
 						"title" => $conB["result"][0]["title"],
-						"station" => str_replace(strstr($conB["result"][0]["title"], "出入口"),'',$conB["result"][0]["title"]),
+						"station" => $stationB,
 					),
 				);
 			}
