@@ -27,8 +27,11 @@ class MetroAPI{
 		$result = array();
 		$return = array();
 		$count = 10;
-		for($i = 0 ; $i<$count ; $i++) {
+		for($i = 0 ; $i<$count; $i++) {
 			$r = $contents[$i];
+			if (!$r["dc:title"]) {
+				break;
+			}
 			$return[] = array(
 				"title" => $r["dc:title"],
 				"lat" => $r["geo:lat"],
