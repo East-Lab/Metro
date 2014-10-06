@@ -51,10 +51,12 @@ API仕様
   * result = 結果の配列
   	* pointA = 現在値付近の出入口情報
   		* title = 出入口の名前
+  		* station = 駅名
   		* lat = 緯度
   		* lon = 経度
   	* pointB = 目的地の出入口情報
   		* title = 出入口の名前
+  		* station = 駅名
   		* lat = 緯度
   		* lon = 経度
 * 失敗時
