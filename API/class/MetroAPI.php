@@ -72,7 +72,7 @@ class MetroAPI{
 						"lat" => $conB["result"][0]["lat"],
 						"lon" => $conB["result"][0]["lon"],
 						"title" => $conB["result"][0]["title"],
-						"station" => strstr($conB["result"][$i]["title"], "出入口"),
+						"station" => strstr($conB["result"][0]["title"], "出入口"),
 					),
 				);
 			}
