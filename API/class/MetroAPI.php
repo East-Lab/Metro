@@ -68,9 +68,9 @@ class MetroAPI{
 						"title" => $conA["result"][$i]["title"],
 					),
 					"pointB" => array(
-						"lat" => $conA["result"][$i]["lat"],
-						"lon" => $conA["result"][$i]["lon"],
-						"title" => $conA["result"][$i]["title"],
+						"lat" => $conB["result"][$i]["lat"],
+						"lon" => $conB["result"][$i]["lon"],
+						"title" => $conB["result"][$i]["title"],
 					),
 				);
 			}
