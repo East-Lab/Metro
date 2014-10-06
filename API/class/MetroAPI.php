@@ -1,6 +1,12 @@
 <?php
 class MetroAPI{
 	private $baseurl = 'https://api.tokyometroapp.jp/api/v2/';
+	private $nearStation = array(
+		0 => array(
+			0 => "永田町",
+			1 => "赤坂見附",
+		),
+	);
 
 	private function sendRequest($data, $api) {
 		$accessToken = file_get_contents("/home/gif-animaker/Metro/API/metro.key");
@@ -16,6 +22,19 @@ class MetroAPI{
 		$contents = file_get_contents($url, false, stream_context_create($options));
 
 		return $contents;
+	}
+
+	private function isNearStation($stA, $stB) {
+		foreach ($this->nearStation as $key => $value) {
+			$count = 0;
+			foreach ($value as $k => $v) {
+				if ($stA === $v || $stB === $v) $count++;
+			}
+			if ($count >= 2) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public function getPoiByLocation($lat, $lon, $radius, $count) {
@@ -63,7 +82,11 @@ class MetroAPI{
 				if(!$conA["result"][$i]["title"]) break;
 				$stationA = str_replace(strstr($conA["result"][$i]["title"], "出入口"),'',$conA["result"][$i]["title"]);
 				$stationB = str_replace(strstr($conB["result"][0]["title"], "出入口"),'',$conB["result"][0]["title"]);
-				if ($stationA !== $stationB) continue;
+				if ($stationA !== $stationB) {
+					if (!$this->isNearStation($stationA, $stationB)) {
+						continue;
+					}
+				}
 				$arr[] = array(
 					"pointA" => array(
 						"lat" => $conA["result"][$i]["lat"],
