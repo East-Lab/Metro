@@ -3,7 +3,7 @@ class MetroAPI{
 	private $baseurl = 'https://api.tokyometroapp.jp/api/v2/';
 	private $nearStation = array(
 		0 => array(
-			0 => "永田町",
+			0 => "田町",
 			1 => "赤坂見附",
 		),
 	);
