@@ -82,8 +82,6 @@ class MetroAPI{
 		return json_encode($result);
 	}
 
-/*
-
 	public function getTrainLocation() {
 		$data['rdf:type'] = 'odpt:Train'; 
 		return json_decode($this->sendRequest($data, "datapoints"), true);
@@ -140,5 +138,4 @@ class MetroAPI{
 		$data['radius'] = $radius; 
 		return json_decode($this->sendRequest($data, "places"), true);
 	}
- */
 }
