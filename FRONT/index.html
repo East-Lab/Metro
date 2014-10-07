@@ -16,7 +16,7 @@
     </script>
 
   </head>
-  <body ng-app="mapsApp">
+  <body>
 
     <ons-page>
       <ons-toolbar>
@@ -27,7 +27,7 @@
       </ons-toolbar>
 
       <div class="profile-card">
-<div ng-controller="MapCtrl">
+<div  ng-app="mapsApp" ng-controller="MapCtrl">
     <div id="map"></div>
     <div id="class" ng-repeat="marker in markers | orderBy : 'title'">
          <a href="#" ng-click="openInfoWindow($event, marker)">{{marker.title}}</a>
