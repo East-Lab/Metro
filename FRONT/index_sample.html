@@ -9,16 +9,17 @@
 
     <script src="lib/onsen/js/angular/angular.js"></script>
     <script src="lib/onsen/js/onsenui.js"></script>
+    <script src="lib/onsen/js/googleMapsAngular.js"></script>
+    <script src="http://maps.googleapis.com/maps/api/js?key=&sensor=false&extension=.js"></script>
     <script>
       ons.bootstrap();
     </script>
 
   </head>
-  <body>
+  <body ng-app="mapsApp">
 
     <ons-page>
       <ons-toolbar>
-        <div class="left"><ons-back-button>Back</ons-back-button></div>
         <div class="center">Profile</div>
         <div class="right">
           <ons-toolbar-button><ons-icon icon="ion-gear-a" style="vertical-align: -4px; font-size: 28px;"></ons-icon></ons-toolbar-button>
@@ -26,12 +27,12 @@
       </ons-toolbar>
 
       <div class="profile-card">
-
-        <img src="images/profile-image-01.png" class="profile-image">
-        <div class="profile-name">Dave Graham</div>
-        <div class="profile-id">@davegraham</div>
-        <div class="profile-desc">Freelance designer, software engineer and cyclist</div>
-
+<div ng-controller="MapCtrl">
+    <div id="map"></div>
+    <div id="class" ng-repeat="marker in markers | orderBy : 'title'">
+         <a href="#" ng-click="openInfoWindow($event, marker)">{{marker.title}}</a>
+    </div>
+</div>
       </div>
 
       <ons-list>
