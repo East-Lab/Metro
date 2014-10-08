@@ -9,6 +9,7 @@
         navigator.geolocation.getCurrentPosition(
             function(pos) {
                 initMap();
+                getPoint(pos.coords.latitude, pos.coords.longitude);
                 calcRoute(pos.coords.latitude + "," + pos.coords.longitude);
             },
             function(error) {
@@ -26,8 +27,9 @@
                 alert(msg);
 
                 initMap();
+
                 calcRoute(directionLatLng);
-	    },
+	          },
             {
                 enableHighAccuracy:true, timeout:15000, maximumAge:15000
             }
@@ -38,8 +40,8 @@
     function initMap() {
         var mapElm = document.getElementById("map");
         mapElm.style.width  = document.width  + "px";
-//        mapElm.style.height = document.height + "px";
-        mapElm.style.height = "150px";
+        mapElm.style.height = (document.height * 0.7) + "px";
+//        mapElm.style.height = "250px";
 
         var option = {
             zoom: 18,
@@ -51,7 +53,7 @@
 
     // ルート設定
     function calcRoute(originLatLng) {
-        var mode = document.getElementById("mode").value;
+        var mode = "WALKING";
         var req = {
             origin: originLatLng,
             destination: directionLatLng,
@@ -63,3 +65,76 @@
             }
 	});
     }
+
+
+
+// Metro API
+function getPoint(lat, lon){
+    console.log("click");
+    $.ajax({
+      url: "/metro/API/getMetroPOI.php",
+      data: {
+        //lat : 35.6641222,
+        //lon : 139.729426
+        lat : lat,
+        lon : lon,
+        radius : 100000
+      },
+      beforeSend: function() {
+        $("#result").html("loading...");
+      },
+      success: function( data ) {
+        if (data.error == 1) {
+          $("#result").html(data["error_msg"]);
+        } else {
+          $("#result").html("");
+            var title = data["result"][0]["title"];
+            var latOut = data["result"][0]["lat"];
+            var lonOut = data["result"][0]["lon"];
+            $("#result").append("title:" + title + "<br>lat:" + lat + "<br>lon:" + lon + "<hr>\n");
+        }
+      }
+    });
+}
+
+function get_geo() {
+  if (navigator.geolocation) {
+    //Geolocation APIを利用できる環境向けの処理
+    //console.log('can get geo');
+    watchID = navigator.geolocation.getCurrentPosition(
+        successCallback, errorCallback
+        );
+  } else {
+    //Geolocation APIを利用できない環境向けの処理
+    console.log('cannot get geo');
+  }
+}
+
+
+/***** 位置情報が取得できた場合 *****/
+function successCallback(position) {
+  lat = position.coords.latitude;
+  lon = position.coords.longitude;
+
+    var gl_text = "lat : " + position.coords.latitude + "<br>";
+    gl_text += "lon : " + position.coords.longitude + "<br>";
+  $("#geo").html(gl_text);
+  get_geo();
+}
+
+/***** 位置情報が取得できない場合 *****/
+function errorCallback(error) {
+    var err_msg = "";
+    switch(error.code)
+    {
+        case 1:
+            err_msg = "位置情報の利用が許可されていません";
+            break;
+        case 2:
+            err_msg = "デバイスの位置が判定できません";
+            break;
+        case 3:
+            err_msg = "タイムアウトしました";
+            break;
+    }
+}
