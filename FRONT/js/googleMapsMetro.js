@@ -38,7 +38,7 @@
     function initMap() {
         var mapElm = document.getElementById("map");
         mapElm.style.width  = document.width  + "px";
-        mapElm.style.height = document.height + "px";
+        mapElm.style.height = document.height / 3 + "px";
 
         var option = {
             zoom: 18,
