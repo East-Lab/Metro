@@ -54,7 +54,7 @@
     // ルート設定
     function calcRoute(originLatLng, directionLatLng) {
         alert(originLatLng);
-        alert(directionLatLngMetro);
+        alert(directionLatLng);
 
         var mode = "WALKING";
         var req = {
