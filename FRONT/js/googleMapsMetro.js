@@ -97,7 +97,7 @@ function getPoint(lat, lon){
             var latOut = data["result"][0]["lat"];
             var lonOut = data["result"][0]["lon"];
             var metroPoint = latOut + "," + lonOut;
-            //var start = lat + "," + lon;
+            var start = lat + "," + lon;
             $("#result").append("title:" + title + "<br>lat:" + latOut + "<br>lon:" + lonOut + "<br>metro:" + metroPoint + "<br>start:" + start + "<hr>\n");
 
             alert("2 " + metroPoint);
