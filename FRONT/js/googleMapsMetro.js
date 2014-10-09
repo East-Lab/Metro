@@ -10,7 +10,7 @@
             function(pos) {
                 initMap();
                 var metroIn = getPoint(pos.coords.latitude, pos.coords.longitude);
-                alert(metroIn);
+                alert("1 " + metroIn);
                 calcRoute(pos.coords.latitude + "," + pos.coords.longitude, metroIn);
             },
             function(error) {
@@ -99,7 +99,7 @@ function getPoint(lat, lon){
             //var start = lat + "," + lon;
             $("#result").append("title:" + title + "<br>lat:" + latOut + "<br>lon:" + lonOut + "<br>metro:" + metroPoint + "<br>start:" + start + "<hr>\n");
 
-            alert(metroPoint);
+            alert("2 " + metroPoint);
             return metroPoint;
 
         }
