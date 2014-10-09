@@ -1,6 +1,5 @@
  // 目的地の緯度,経度
     var directionLatLng = "35.681382,139.766084";
-    var directionLatLngMetro;
 
     var directionsDisplay = new google.maps.DirectionsRenderer();
     var directionsService = new google.maps.DirectionsService();
@@ -10,8 +9,8 @@
         navigator.geolocation.getCurrentPosition(
             function(pos) {
                 initMap();
-                getPoint(pos.coords.latitude, pos.coords.longitude);
-                calcRoute(pos.coords.latitude + "," + pos.coords.longitude);
+                var metroIn = getPoint(pos.coords.latitude, pos.coords.longitude);
+                calcRoute(pos.coords.latitude + "," + pos.coords.longitude, metroIn);
             },
             function(error) {
                 var msg = "";
@@ -53,7 +52,7 @@
     }
 
     // ルート設定
-    function calcRoute(originLatLng) {
+    function calcRoute(originLatLng, directionLatLng) {
         alert(originLatLng);
         alert(directionLatLngMetro);
 
@@ -95,9 +94,11 @@ function getPoint(lat, lon){
             var title = data["result"][0]["title"];
             var latOut = data["result"][0]["lat"];
             var lonOut = data["result"][0]["lon"];
-            directionLatLngMetro = latOut + "," + lonOut;
-            var start = lat + "," + lon;
-            $("#result").append("title:" + title + "<br>lat:" + latOut + "<br>lon:" + lonOut + "<br>metro:" + directionLatLngMetro + "<br>start:" + start + "<hr>\n");
+            var metroPoint = latOut + "," + lonOut;
+            //var start = lat + "," + lon;
+            $("#result").append("title:" + title + "<br>lat:" + latOut + "<br>lon:" + lonOut + "<br>metro:" + metroPoint + "<br>start:" + start + "<hr>\n");
+
+            return metroPoint;
 
         }
       }
