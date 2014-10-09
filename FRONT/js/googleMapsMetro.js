@@ -92,8 +92,10 @@ function getPoint(lat, lon){
             var title = data["result"][0]["title"];
             var latOut = data["result"][0]["lat"];
             var lonOut = data["result"][0]["lon"];
-            $("#result").append("title:" + title + "<br>lat:" + latOut + "<br>lon:" + lonOut + "<hr>\n");
             directionLatLngMetro = latOut + "," + lonOut;
+            var start = lat + "," + lon;
+            $("#result").append("title:" + title + "<br>lat:" + latOut + "<br>lon:" + lonOut + "<br>metro:" + directionLatLngMetro + "<br>start:" + start + "<hr>\n");
+
         }
       }
     });
