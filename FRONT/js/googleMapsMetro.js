@@ -1,5 +1,6 @@
  // 目的地の緯度,経度
     var directionLatLng = "35.681382,139.766084";
+    var directionLatLngMetro;
 
     var directionsDisplay = new google.maps.DirectionsRenderer();
     var directionsService = new google.maps.DirectionsService();
@@ -56,7 +57,7 @@
         var mode = "WALKING";
         var req = {
             origin: originLatLng,
-            destination: directionLatLng,
+            destination: directionLatLngMetro,
             travelMode: google.maps.TravelMode[mode]
         };
         directionsService.route(req, function(res, status) {
@@ -92,7 +93,7 @@ function getPoint(lat, lon){
             var latOut = data["result"][0]["lat"];
             var lonOut = data["result"][0]["lon"];
             $("#result").append("title:" + title + "<br>lat:" + latOut + "<br>lon:" + lonOut + "<hr>\n");
-            directionLatLng = latOut + "," + lonOut;
+            directionLatLngMetro = latOut + "," + lonOut;
         }
       }
     });
