@@ -54,10 +54,13 @@
 
     // ルート設定
     function calcRoute(originLatLng) {
+        alert(originLatLng);
+        alert(directionLatLngMetro);
+
         var mode = "WALKING";
         var req = {
             origin: originLatLng,
-            destination: directionLatLng,
+            destination: directionLatLngMetro,
             travelMode: google.maps.TravelMode[mode]
         };
         directionsService.route(req, function(res, status) {
