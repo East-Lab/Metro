@@ -54,8 +54,8 @@
 
     // ルート設定
     function calcRoute(originLatLng, directionLatLng) {
-        alert(originLatLng);
-        alert(directionLatLng);
+        //alert(originLatLng);
+        //alert(directionLatLng);
 
         var mode = "WALKING";
         var req = {
@@ -99,6 +99,7 @@ function getPoint(lat, lon){
             //var start = lat + "," + lon;
             $("#result").append("title:" + title + "<br>lat:" + latOut + "<br>lon:" + lonOut + "<br>metro:" + metroPoint + "<br>start:" + start + "<hr>\n");
 
+            alert(metroPoint);
             return metroPoint;
 
         }
