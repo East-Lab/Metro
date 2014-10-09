@@ -57,7 +57,7 @@
         var mode = "WALKING";
         var req = {
             origin: originLatLng,
-            destination: directionLatLngMetro,
+            destination: directionLatLng,
             travelMode: google.maps.TravelMode[mode]
         };
         directionsService.route(req, function(res, status) {
