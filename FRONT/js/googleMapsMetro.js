@@ -92,6 +92,8 @@ function getPoint(lat, lon){
         if (data.error == 1) {
           $("#result").html(data["error_msg"]);
         } else {
+          alert("a ");
+
           $("#result").html("");
             var title = data["result"][0]["title"];
             var latOut = data["result"][0]["lat"];
@@ -100,7 +102,7 @@ function getPoint(lat, lon){
             var start = lat + "," + lon;
             $("#result").append("title:" + title + "<br>lat:" + latOut + "<br>lon:" + lonOut + "<br>metro:" + metroPoint + "<br>start:" + start + "<hr>\n");
 
-            alert("2 " + metroPoint);
+            alert("b ");
             return metroPoint;
 
         }
