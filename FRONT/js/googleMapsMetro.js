@@ -11,7 +11,7 @@
                 initMap();
                 alert("1 ");
                 var metroIn = getPoint(pos.coords.latitude, pos.coords.longitude);
-                alert("2 ");
+                alert("2 " + metroIn);
                 calcRoute(pos.coords.latitude + "," + pos.coords.longitude, metroIn);
             },
             function(error) {
