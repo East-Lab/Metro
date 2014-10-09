@@ -9,7 +9,7 @@
         navigator.geolocation.getCurrentPosition(
             function(pos) {
                 initMap();
-                var metroIn = getPoint(pos.coords.latitude, pos.coords.longitude);
+                getPoint(pos.coords.latitude, pos.coords.longitude);
                 alert("1 " + metroIn);
                 calcRoute(pos.coords.latitude + "," + pos.coords.longitude, metroIn);
             },
