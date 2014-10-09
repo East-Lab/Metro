@@ -9,8 +9,9 @@
         navigator.geolocation.getCurrentPosition(
             function(pos) {
                 initMap();
+                alert("1 ");
                 getPoint(pos.coords.latitude, pos.coords.longitude);
-                alert("1 " + metroIn);
+                alert("2 ");
                 calcRoute(pos.coords.latitude + "," + pos.coords.longitude, metroIn);
             },
             function(error) {
