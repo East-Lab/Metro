@@ -9,10 +9,11 @@
         navigator.geolocation.getCurrentPosition(
             function(pos) {
                 initMap();
-                alert("1 ");
+//                alert("1 ");
                 var metroIn = getPoint(pos.coords.latitude, pos.coords.longitude);
-                alert("2 " + metroIn);
-                calcRoute(pos.coords.latitude + "," + pos.coords.longitude, metroIn);
+//                alert("2 " + metroIn);
+//                calcRoute(pos.coords.latitude + "," + pos.coords.longitude, metroIn);
+
             },
             function(error) {
                 var msg = "";
@@ -61,14 +62,14 @@
         var mode = "WALKING";
         var req = {
             origin: originLatLng,
-            destination: directionLatLngMetro,
+            destination: directionLatLng,
             travelMode: google.maps.TravelMode[mode]
         };
         directionsService.route(req, function(res, status) {
             if (google.maps.DirectionsStatus.OK == status) {
                 directionsDisplay.setDirections(res);
             }
-	});
+	      });
     }
 
 
@@ -92,7 +93,7 @@ function getPoint(lat, lon){
         if (data.error == 1) {
           $("#result").html(data["error_msg"]);
         } else {
-          alert("a ");
+//          alert("a ");
 
           $("#result").html("");
             var title = data["result"][0]["title"];
@@ -102,7 +103,9 @@ function getPoint(lat, lon){
             var start = lat + "," + lon;
             $("#result").append("title:" + title + "<br>lat:" + latOut + "<br>lon:" + lonOut + "<br>metro:" + metroPoint + "<br>start:" + start + "<hr>\n");
 
-            alert("b ");
+//            alert("b ");
+            calcRoute(start, metroPoint);
+
             return metroPoint;
 
         }
