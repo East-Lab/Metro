@@ -1,5 +1,5 @@
  // 目的地の緯度,経度
-    var directionLatLng = "35.681382,139.766084";
+//    var directionLatLng = "35.681382,139.766084";
 
     var directionsDisplay = new google.maps.DirectionsRenderer();
     var directionsService = new google.maps.DirectionsService();
@@ -10,6 +10,7 @@
             function(pos) {
                 initMap();
                 var metroIn = getPoint(pos.coords.latitude, pos.coords.longitude);
+                alert(metroIn);
                 calcRoute(pos.coords.latitude + "," + pos.coords.longitude, metroIn);
             },
             function(error) {
