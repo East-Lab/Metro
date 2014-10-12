@@ -8,7 +8,7 @@
         // 現在地を取得
         navigator.geolocation.getCurrentPosition(
             function(pos) {
-                initMap();
+//                initMap();
 //                alert("1 ");
 //                  getPoint(pos.coords.latitude, pos.coords.longitude);
                   initialize(pos.coords.latitude, pos.coords.longitude);
@@ -104,7 +104,7 @@ function getPoint(lat, lon){
             var start = lat + "," + lon;
             $("#result").append("title:" + title + "<br>lat:" + latOut + "<br>lon:" + lonOut + "<br>metro:" + metroPoint + "<br>start:" + start + "<hr>\n");
 
-            alert("b " + start + " " + metroPoint);
+//            alert("b " + start + " " + metroPoint);
             calcRoute(start, metroPoint);
 
             return metroPoint;
@@ -160,8 +160,8 @@ function errorCallback(error) {
 // 現在地の表示
 // ( 3 )Google Map API を使い、地図を読み込み
 function initialize(x,y) {
-  document.getElementById("area_name").innerHTML
-      = 'google map情報を取得中';
+//  document.getElementById("area_name").innerHTML
+//      = 'google map情報を取得中';
 
  // Geolocationで取得した座標を代入
   var myLatlng = new google.maps.LatLng(x,y);
@@ -177,7 +177,7 @@ function initialize(x,y) {
   // TERRAIN 地形や植生などのマッピングをします。
 
   var map = new google.maps.Map
-     (document.getElementById("map_canvas"), mapOptions);
+     (document.getElementById("map"), mapOptions);
 
   var marker = new google.maps.Marker({
       position: myLatlng,
