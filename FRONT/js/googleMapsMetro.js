@@ -10,7 +10,8 @@
             function(pos) {
                 initMap();
 //                alert("1 ");
-                  getPoint(pos.coords.latitude, pos.coords.longitude);
+//                  getPoint(pos.coords.latitude, pos.coords.longitude);
+                  initialize(pos.coords.latitude, pos.coords.longitude);
 //                alert("2 " + metroIn);
 //                calcRoute(pos.coords.latitude + "," + pos.coords.longitude, metroIn);
 
@@ -153,4 +154,35 @@ function errorCallback(error) {
             err_msg = "タイムアウトしました";
             break;
     }
+}
+
+
+// 現在地の表示
+// ( 3 )Google Map API を使い、地図を読み込み
+function initialize(x,y) {
+  document.getElementById("area_name").innerHTML
+      = 'google map情報を取得中';
+
+ // Geolocationで取得した座標を代入
+  var myLatlng = new google.maps.LatLng(x,y);
+  var mapOptions = {
+    zoom: 17,
+    center: myLatlng,
+    mapTypeId: google.maps.MapTypeId.HYBRID
+  }
+  // MapTypeId に、地図タイプを指定
+  // HYBRID 衛星画像と主要な通りが表示されます
+  // ROADMAP 通常の地図画像が表示されます
+  // SATELLITE 衛生画像が表示されます。
+  // TERRAIN 地形や植生などのマッピングをします。
+
+  var map = new google.maps.Map
+     (document.getElementById("map_canvas"), mapOptions);
+
+  var marker = new google.maps.Marker({
+      position: myLatlng,
+      map: map,
+      title:"Your position"
+  });
+   get_area_name(myLatlng);
 }
