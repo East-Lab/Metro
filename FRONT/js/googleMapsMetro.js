@@ -60,6 +60,7 @@
         directionsDisplay.setMap(gmap);
 
         // ユーザのマーカーアイコンを変更
+        /*
         var markerImage = new google.maps.MarkerImage(
           // 画像の場所
           "images/bluedot.png",
@@ -70,6 +71,7 @@
           // Anchorポイント
           new google.maps.Point(10, 24)
         );
+        */
 
         // 現在地のマーカー表示
         var marker = new google.maps.Marker({
