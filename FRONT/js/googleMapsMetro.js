@@ -14,6 +14,14 @@
             function(pos) {
                 initMap();
                 alert("1 ");
+                // 現在地のマーカー表示
+                var marker = new google.maps.Marker({
+                  map:gmap,
+                  draggable:false,
+                  animation: google.maps.Animation.DROP,
+                  position: pos,
+                  title: "現在地"
+                });
 
                   getPoint(pos.coords.latitude, pos.coords.longitude);
 //                  initialize(pos.coords.latitude, pos.coords.longitude);
@@ -73,14 +81,6 @@
         );
         */
 
-        // 現在地のマーカー表示
-        var marker = new google.maps.Marker({
-          map:gmap,
-          draggable:false,
-          animation: google.maps.Animation.DROP,
-          position: pos,
-          title: "現在地"
-        });
 
     }
 
