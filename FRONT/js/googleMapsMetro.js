@@ -12,7 +12,7 @@
             function(pos) {
                 initMap();
 //                alert("1 ");
-//                  getPoint(pos.coords.latitude, pos.coords.longitude);
+                  getPoint(pos.coords.latitude, pos.coords.longitude);
 //                  initialize(pos.coords.latitude, pos.coords.longitude);
 //                alert("2 " + metroIn);
 //                calcRoute(pos.coords.latitude + "," + pos.coords.longitude, metroIn);
