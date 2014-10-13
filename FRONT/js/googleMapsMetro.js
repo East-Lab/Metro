@@ -15,6 +15,7 @@
                 initMap();
                 alert("1 ");
                 // 現在地のマーカー表示
+                /*
                 var marker = new google.maps.Marker({
                   map:gmap,
                   draggable:false,
@@ -22,6 +23,7 @@
                   position: pos,
                   title: "現在地"
                 });
+                */
 
                   getPoint(pos.coords.latitude, pos.coords.longitude);
 //                  initialize(pos.coords.latitude, pos.coords.longitude);
@@ -123,7 +125,7 @@ function getPoint(lat, lon){
         if (data.error == 1) {
           $("#result").html(data["error_msg"]);
         } else {
-//          alert("a ");
+          alert("a ");
 
           $("#result").html("");
             var title = data["result"][0]["title"];
