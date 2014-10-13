@@ -114,7 +114,7 @@ class MetroAPI{
 			"error_msg" => $err_msg,
 			"result" => $arr,
 		);
-		return json_encode($result);
+		return $result;
 	}
 
 	public function getTrainLocation() {
