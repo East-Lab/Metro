@@ -161,7 +161,7 @@ function errorCallback(error) {
 
 // initialize
 // マップオブジェクトを作成し、マーカーを表示
-function initialize(){
+function initGL2(){
   alert("initialize in");
 
 	var myLatLng = geoLocate(); // MAPの初期位置
@@ -200,7 +200,7 @@ function initialize(){
 
 }
 
-google.maps.event.addDomListener(window, 'load', initialize); // Windowがロードされたとき表示させる
+//google.maps.event.addDomListener(window, 'load', initialize); // Windowがロードされたとき表示させる
 
 
 // 現在地取得
