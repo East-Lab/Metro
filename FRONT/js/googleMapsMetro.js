@@ -158,44 +158,6 @@ function errorCallback(error) {
     }
 }
 
-// 現在地取得
-function geoLocate(){
-	// 位置情報取得のオプション。高精度にする
-	var position_options = {
-		enableHightAccuracy: true
-	};
-	// 現在地取得（変わる毎に更新）
-	navigator.geolocation.watchPosition(success, fatal, position_options);
-
-	//位置情報取得成功時
-	function success(position){
-		var myLatLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-		return myLatLng;
-	}
-
-	// 位置情報取得失敗時
-	function fatal(error){
-		var message = "";
-
-		switch(error.code){
-			// 位置情報が取得出来ない場合
-			case error.POSITION_UNAVAILABLE:
-				message = "位置情報の取得ができませんでした。";
-				break;
-			// Geolocationの使用が許可されない場合
-			case error.PERMISSION_DENIED:
-				message = "位置情報取得の使用許可がされませんでした。";
-				break;
-			// タイムアウトした場合
-			case error.PERMISSION_DENIED_TIMEOUT:
-				message = "位置情報取得中にタイムアウトしました。";
-				break;
-		}
-		window.alert(message);
-		return null;
-	}
-}
-
 
 // initialize
 // マップオブジェクトを作成し、マーカーを表示
@@ -234,4 +196,45 @@ function initialize(){
 		icon: markerImage
 	});
 
+}
+
+google.maps.event.addDomListener(window, 'load', initialize); // Windowがロードされたとき表示させる
+
+
+// 現在地取得
+function geoLocate(){
+  // 位置情報取得のオプション。高精度にする
+  var position_options = {
+    enableHightAccuracy: true
+  };
+  // 現在地取得（変わる毎に更新）
+  navigator.geolocation.watchPosition(success, fatal, position_options);
+
+  //位置情報取得成功時
+  function success(position){
+    var myLatLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+    return myLatLng;
+  }
+
+  // 位置情報取得失敗時
+  function fatal(error){
+    var message = "";
+
+    switch(error.code){
+      // 位置情報が取得出来ない場合
+      case error.POSITION_UNAVAILABLE:
+        message = "位置情報の取得ができませんでした。";
+        break;
+      // Geolocationの使用が許可されない場合
+      case error.PERMISSION_DENIED:
+        message = "位置情報取得の使用許可がされませんでした。";
+        break;
+      // タイムアウトした場合
+      case error.PERMISSION_DENIED_TIMEOUT:
+        message = "位置情報取得中にタイムアウトしました。";
+        break;
+    }
+    window.alert(message);
+    return null;
+  }
 }
