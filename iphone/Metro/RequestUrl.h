@@ -10,7 +10,7 @@
 
 @protocol RequestUrlDelegate <NSObject>
 
-- (void)onSuccessRequest;
+- (void)onSuccessRequest:(NSData *)data;
 - (void)onfailedRequest;
 
 @end

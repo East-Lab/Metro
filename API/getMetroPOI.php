@@ -17,6 +17,9 @@ if (!isset($arg["radius"])) {
 	$err_msg .= "radius is not set.\n";
 	$err = 1;
 }
+if (!isset($arg["escape"])) {
+	$arg["escape"] = 1;
+}
 if ($err) {
 	$response = array(
 		"error" => $err,
@@ -29,4 +32,8 @@ if ($err) {
 $metro = new MetroAPI();
 
 $contents = $metro->getPoiByLocation($arg["lat"],$arg["lon"], $arg["radius"], 10);
-echo $contents;
+if ($arg["escape"]) {
+	echo json_encode($contents, JSON_UNESCAPED_UNICODE);
+} else {
+	echo json_encode($contents);
+}

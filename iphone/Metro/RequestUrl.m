@@ -24,9 +24,9 @@
                 [delegate onfailedRequest];
             }
         } else {
-            NSLog(@"resData: %@", resData);
+            //NSLog(@"resData: %@", resData);
             if (delegate) {
-                [delegate onSuccessRequest];
+                [delegate onSuccessRequest:resData];
             }
         }
     }];

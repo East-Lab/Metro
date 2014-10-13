@@ -62,7 +62,7 @@ class MetroAPI{
 		} 
 		$result['error'] = 0;
 		$result['result'] = $return;
-		return json_encode($result, JSON_UNESCAPED_UNICODE);
+		return $result;
 	}
 
 	public function get2Point($latA, $lonA, $radiusA, $latB, $lonB, $radiusB, $count) {
