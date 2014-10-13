@@ -1,7 +1,7 @@
  // 目的地の緯度,経度
 //    var directionLatLng = "35.681382,139.766084";
 
-    var map;
+//    var map;
 
     var directionsDisplay = new google.maps.DirectionsRenderer();
     var directionsService = new google.maps.DirectionsService();
@@ -13,7 +13,8 @@
             function(pos) {
                 initMap();
 //                alert("1 ");
-                  getPoint(pos.coords.latitude, pos.coords.longitude);
+
+//                  getPoint(pos.coords.latitude, pos.coords.longitude);
 //                  initialize(pos.coords.latitude, pos.coords.longitude);
 //                alert("2 " + metroIn);
 //                calcRoute(pos.coords.latitude + "," + pos.coords.longitude, metroIn);
@@ -56,6 +57,29 @@
         };
         var gmap = new google.maps.Map(mapElm, option);
         directionsDisplay.setMap(gmap);
+
+        // ユーザのマーカーアイコンを変更
+        var markerImage = new google.maps.MarkerImage(
+          // 画像の場所
+          "image/bluedot.png",
+          // マーカーのサイズ
+          new google.maps.Size(20, 24),
+          // 画像の基準位置
+          new google.maps.Point(0, 0),
+          // Anchorポイント
+          new google.maps.Point(10, 24)
+        );
+
+        // 現在地のマーカー表示
+        var marker = new google.maps.Marker({
+          map:gmap,
+          draggable:false,
+          animation: google.maps.Animation.DROP,
+          position: pos,
+          title: "現在地",
+          icon: markerImage
+        });
+
     }
 
     // ルート設定
@@ -160,6 +184,7 @@ function errorCallback(error) {
 }
 
 
+/*
 // initialize
 // マップオブジェクトを作成し、マーカーを表示
 function initGL2(){
@@ -200,11 +225,13 @@ function initGL2(){
 	});
 
 }
+*/
 
 //google.maps.event.addDomListener(window, 'load', initialize); // Windowがロードされたとき表示させる
 
 
 // 現在地取得
+/*
 function geoLocate(){
   alert("geolocate in");
   // 位置情報取得のオプション。高精度にする
@@ -242,3 +269,4 @@ function geoLocate(){
     return null;
   }
 }
+*/
