@@ -2,7 +2,7 @@
 //    var directionLatLng = "35.681382,139.766084";
 
 //    var map;
-    var gmap;
+//    var gmap;
 
     var directionsDisplay = new google.maps.DirectionsRenderer();
     var directionsService = new google.maps.DirectionsService();
@@ -66,7 +66,7 @@
             zoom: 18,
             mapTypeId: google.maps.MapTypeId.ROADMAP
         };
-        gmap = new google.maps.Map(mapElm, option);
+        var gmap = new google.maps.Map(mapElm, option);
         directionsDisplay.setMap(gmap);
 
         // ユーザのマーカーアイコンを変更
