@@ -2,16 +2,17 @@
 //  ViewController.h
 //  Metro
 //
-//  Created by 川島 大地 on 2014/10/06.
-//  Copyright (c) 2014年 川島 大地. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 #import "RequestUrl.h"
+#import "LocationManager.h"
+#import <GoogleMaps/GoogleMaps.h>
 
-@interface ViewController : UIViewController<RequestUrlDelegate>
+@interface ViewController : UIViewController<RequestUrlDelegate, LocationManagerDelegate, GMSMapViewDelegate>
 
 @property (nonatomic, retain) RequestUrl *req;
+@property (nonatomic, assign) NSUserDefaults *ud;
 
 
 @end

@@ -2,11 +2,11 @@
 //  AppDelegate.m
 //  Metro
 //
-//  Created by 川島 大地 on 2014/10/06.
-//  Copyright (c) 2014年 川島 大地. All rights reserved.
 //
 
 #import "AppDelegate.h"
+#import <GoogleMaps/GoogleMaps.h>
+#import "LocationManager.h"
 
 @interface AppDelegate ()
 
@@ -17,6 +17,9 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    [GMSServices provideAPIKey:@"AIzaSyBCotJZmAShb7rrmxjFg0lncbCKCm9Nvm4"];
+    [[LocationManager sharedManager] startLocationSearvice];
+    [[LocationManager sharedManager] startHeadingSearvice];
     return YES;
 }
 
