@@ -13,7 +13,7 @@
 //        navigator.geolocation.getCurrentPosition(
             function(pos) {
                 initMap();
-                alert("1 ");
+//                alert("1 ");
                 // 現在地のマーカー表示
                 /*
                 var marker = new google.maps.Marker({
@@ -110,7 +110,7 @@ function getPoint(lat, lon){
         if (data.error == 1) {
           $("#result").html(data["error_msg"]);
         } else {
-          alert("a ");
+  //        alert("a ");
 
           $("#result").html("");
             var title = data["result"][0]["title"];
