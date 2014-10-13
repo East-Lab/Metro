@@ -8,7 +8,8 @@
 
     function initGL() {
         // 現在地を取得
-        navigator.geolocation.getCurrentPosition(
+        navigator.geolocation.watchPosition(
+//        navigator.geolocation.getCurrentPosition(
             function(pos) {
                 initMap();
 //                alert("1 ");
