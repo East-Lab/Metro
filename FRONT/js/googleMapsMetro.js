@@ -1,6 +1,8 @@
  // 目的地の緯度,経度
 //    var directionLatLng = "35.681382,139.766084";
 
+    var map;
+
     var directionsDisplay = new google.maps.DirectionsRenderer();
     var directionsService = new google.maps.DirectionsService();
 
@@ -8,10 +10,10 @@
         // 現在地を取得
         navigator.geolocation.getCurrentPosition(
             function(pos) {
-//                initMap();
+                initMap();
 //                alert("1 ");
 //                  getPoint(pos.coords.latitude, pos.coords.longitude);
-                  initialize(pos.coords.latitude, pos.coords.longitude);
+//                  initialize(pos.coords.latitude, pos.coords.longitude);
 //                alert("2 " + metroIn);
 //                calcRoute(pos.coords.latitude + "," + pos.coords.longitude, metroIn);
 
@@ -156,33 +158,80 @@ function errorCallback(error) {
     }
 }
 
+// 現在地取得
+function geoLocate(){
+	// 位置情報取得のオプション。高精度にする
+	var position_options = {
+		enableHightAccuracy: true
+	};
+	// 現在地取得（変わる毎に更新）
+	navigator.geolocation.watchPosition(success, fatal, position_options);
 
-// 現在地の表示
-// ( 3 )Google Map API を使い、地図を読み込み
-function initialize(x,y) {
-//  document.getElementById("area_name").innerHTML
-//      = 'google map情報を取得中';
+	//位置情報取得成功時
+	function success(position){
+		var myLatLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+		return myLatLng;
+	}
 
- // Geolocationで取得した座標を代入
-  var myLatlng = new google.maps.LatLng(x,y);
-  var mapOptions = {
-    zoom: 17,
-    center: myLatlng,
-    mapTypeId: google.maps.MapTypeId.HYBRID
-  }
-  // MapTypeId に、地図タイプを指定
-  // HYBRID 衛星画像と主要な通りが表示されます
-  // ROADMAP 通常の地図画像が表示されます
-  // SATELLITE 衛生画像が表示されます。
-  // TERRAIN 地形や植生などのマッピングをします。
+	// 位置情報取得失敗時
+	function fatal(error){
+		var message = "";
 
-  var map = new google.maps.Map
-     (document.getElementById("map"), mapOptions);
+		switch(error.code){
+			// 位置情報が取得出来ない場合
+			case error.POSITION_UNAVAILABLE:
+				message = "位置情報の取得ができませんでした。";
+				break;
+			// Geolocationの使用が許可されない場合
+			case error.PERMISSION_DENIED:
+				message = "位置情報取得の使用許可がされませんでした。";
+				break;
+			// タイムアウトした場合
+			case error.PERMISSION_DENIED_TIMEOUT:
+				message = "位置情報取得中にタイムアウトしました。";
+				break;
+		}
+		window.alert(message);
+		return null;
+	}
+}
 
-  var marker = new google.maps.Marker({
-      position: myLatlng,
-      map: map,
-      title:"Your position"
-  });
-   get_area_name(myLatlng);
+
+// initialize
+// マップオブジェクトを作成し、マーカーを表示
+function initialize(){
+	var myLatLng = geoLocate(); // MAPの初期位置
+
+	if (myLatLng == null){ // 位置情報取得に失敗した場合、東京駅をセンターにしてMAP表示
+		myLatLng = new google.maps.LatLng(35.681382, 139.766084);
+	}
+	var mapOptions = {
+		center: myLatLng,
+		zoom:18,
+		mapTypeId: google.maps.MapTypeId.ROADMAP
+	};
+	map = new google.maps.Map(document.getElementById("map"), mapOptions);
+
+	// ユーザのマーカーアイコンを変更
+	var markerImage = new google.maps.MarkerImage(
+		// 画像の場所
+		"image/bluedot.png",
+		// マーカーのサイズ
+		new google.maps.Size(20, 24),
+		// 画像の基準位置
+		new google.maps.Point(0, 0),
+		// Anchorポイント
+		new google.maps.Point(10, 24)
+	);
+
+	// 現在地のマーカー表示
+	var marker = new google.maps.Marker({
+		map:map,
+		draggable:false,
+		animation: google.maps.Animation.DROP,
+		position: myLatLng,
+		title: "現在地",
+		icon: markerImage
+	});
+
 }
