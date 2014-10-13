@@ -8,10 +8,20 @@
         <scene sceneID="ufC-wZ-h7g">
             <objects>
                 <viewController id="vXZ-lx-hvc" customClass="ViewController" sceneMemberID="viewController">
-                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="0aL-b0-oi1"/>
+                        <viewControllerLayoutGuide type="bottom" id="aSY-wz-FTa"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="CQ1-0G-Xyx">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="286" y="258"/>
         </scene>
     </scenes>
 </document>

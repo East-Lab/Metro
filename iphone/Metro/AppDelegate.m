@@ -6,7 +6,6 @@
 
 #import "AppDelegate.h"
 #import <GoogleMaps/GoogleMaps.h>
-#import "LocationManager.h"
 
 @interface AppDelegate ()
 
@@ -17,9 +16,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
-    [GMSServices provideAPIKey:@"AIzaSyBCotJZmAShb7rrmxjFg0lncbCKCm9Nvm4"];
-    [[LocationManager sharedManager] startLocationSearvice];
-    [[LocationManager sharedManager] startHeadingSearvice];
+    [GMSServices provideAPIKey:@"AIzaSyDXBlm_WVTKM3RaEogY1WXFDakJAccSa4c"];
     return YES;
 }
 

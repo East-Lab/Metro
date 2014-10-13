@@ -7,56 +7,68 @@
 #import "ViewController.h"
 #import "RequestUrl.h"
 #import <GoogleMaps/GoogleMaps.h>
-#import "LocationManager.h"
+#import "PBFlatButton.h"
 
 @implementation ViewController{
     GMSMapView *mapView_;
+    int zoom;
 }
 
 - (void)viewDidLoad {
-    [LocationManager sharedManager].delegate = self;
+    [GMSMarker markerImageWithColor:[UIColor blueColor]];
 
     _req = [RequestUrl new];
     _req.delegate = self;
+    
+    zoom = 18;
     
     self.ud = [NSUserDefaults standardUserDefaults];
     [self showInitialMap];
     
     
+    
     NSURL *url = [NSURL URLWithString:@"http://gif-animaker.sakura.ne.jp/metro/API/get2Point.php?latA=35.675742&lonA=139.738220&radiusA=200000&latB=35.679672&lonB=139.738541&radiusB=200000&escape=0"];
     [self.req sendAsynchronousRequest:url];
-    
-    //NSTimer *timer = [NSTimer
-    //                  scheduledTimerWithTimeInterval:1.5
-    //                  target:self
-    //                  selector:@selector(updateMap:)
-    //                  userInfo:nil
-    //                  repeats:YES
-    //                  ];
-    //[timer fire];
 }
 
--(void) updateMap
-{
+-(void) updateMap {
+    /*
     GMSCameraPosition *camera = [GMSCameraPosition cameraWithLatitude:[LocationManager sharedManager].lat
                                                             longitude:[LocationManager sharedManager].lon
-                                                                 zoom:19];
+                                                                 zoom:18];
     [mapView_ animateToCameraPosition:camera];
+     */
 }
 
 - (void)showInitialMap{
-    GMSCameraPosition *camera = [GMSCameraPosition cameraWithLatitude:[self.ud floatForKey:@"lat"]
-                                                            longitude:[self.ud floatForKey:@"lon"]
-                                                                 zoom:18];
+    GMSCameraPosition *camera = [GMSCameraPosition cameraWithLatitude:[self.ud floatForKey:@"lat"]longitude:[self.ud floatForKey:@"lon"] zoom:zoom];
+    mapView_ = [GMSMapView mapWithFrame:self.view.bounds camera:camera];
+    [self.view addSubview:mapView_];
+    //self.view = mapView_;
+    mapView_.myLocationEnabled = YES;
     mapView_.delegate = self;
     mapView_.settings.myLocationButton = YES;
-    mapView_.myLocationEnabled = YES;
-    mapView_ = [GMSMapView mapWithFrame:CGRectZero camera:camera];
-    self.view = mapView_;
+    mapView_.settings.compassButton = YES;
     
+    UISearchBar *searchBar;
+    searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 44.0f)];
+    searchBar.showsCancelButton = YES;
+    searchBar.tintColor = [UIColor whiteColor];
+    searchBar.delegate = self;
+    searchBar.placeholder = @"目的地を入力してください";
+    [searchBar sizeToFit];
+    [self.view addSubview:searchBar];
     
-    UISearchBar *sb = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 100, self.view.bounds.size.width, 44.0f)];
-    [self.view addSubview:sb];
+    [[PBFlatSettings sharedInstance] setBackgroundColor:[UIColor whiteColor]];
+    PBFlatButton *upBtn = [[PBFlatButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width-52, self.view.frame.size.height-180, 38, 38)];
+    [upBtn setTitle:@"+" forState:UIControlStateNormal];
+    [upBtn addTarget:self action:@selector(onTouchZoominBtn) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:upBtn];
+    
+    PBFlatButton *downBtn = [[PBFlatButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width-52, self.view.frame.size.height-142, 38, 38)];
+    [downBtn setTitle:@"-" forState:UIControlStateNormal];
+    [downBtn addTarget:self action:@selector(onTouchZoomoutBtn) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:downBtn];
 }
 
 - (void)place2PointMarker:(NSDictionary *)dic {
@@ -93,6 +105,8 @@
     polyline.map = mapView_;
 }
 
+#pragma mark - RequestUrlDelegate method
+
 - (void)onSuccessRequest:(NSData *)data {
     NSError *error = nil;
     NSMutableDictionary *dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&error];
@@ -103,59 +117,48 @@
     
 }
 
-#pragma mark  - LocationManagerDelegate method
-- (void)updateHeadingInformation {
-    NSLog(@"%s",__func__);
-    [self.ud setFloat:[LocationManager sharedManager].lat forKey:@"lat"];
-    [self.ud setFloat:[LocationManager sharedManager].lon forKey:@"lon"];
+#pragma mapview delegate
+-(void) mapView:(GMSMapView *)mapView didChangeCameraPosition:(GMSCameraPosition *)position {
+    [self.ud setFloat:position.target.longitude forKey:@"lon"];
+    [self.ud setFloat:position.target.latitude forKey:@"lat"];
+    [self.ud setFloat:position.zoom forKey:@"zoom"];
 }
 
-- (void)updateLocationInfomation {
-    NSLog(@"%s",__func__);
+#pragma mark - search bar delegate method
+
+-(void)searchBarSearchButtonClicked:(UISearchBar*)searchBar {
+    [searchBar resignFirstResponder];
 }
+
+-(void)searchBarCancelButtonClicked:(UISearchBar*)searchBar {
+    [searchBar resignFirstResponder];
+}
+
+-(void)searchBar:(UISearchBar*)searchBar textDidChange:(NSString*)searchText {
+}
+
+#pragma mark - private method
+-(void)onTouchZoominBtn {
+    if (zoom < 21) {
+        zoom = [self.ud floatForKey:@"zoom"] + 1;
+    } else {
+        zoom = 21;
+    }
+    NSLog(@"zoom:%d",zoom);
+    GMSCameraPosition *camera = [GMSCameraPosition cameraWithLatitude:[self.ud floatForKey:@"lat"]longitude:[self.ud floatForKey:@"lon"] zoom:zoom];
+    [mapView_ animateToCameraPosition:camera];
+}
+
+-(void)onTouchZoomoutBtn {
+    if (zoom > 2) {
+        zoom = [self.ud floatForKey:@"zoom"] - 1;
+    } else {
+        zoom = 2;
+    }
+    NSLog(@"zoom:%d",zoom);
+    GMSCameraPosition *camera = [GMSCameraPosition cameraWithLatitude:[self.ud floatForKey:@"lat"]longitude:[self.ud floatForKey:@"lon"] zoom:zoom];
+    [mapView_ animateToCameraPosition:camera];
+}
+
 
 @end
-
-/*
-#import "ViewController.h"
-#import "RequestUrl.h"
-
-@interface ViewController ()
-
-@end
-
-@implementation ViewController
-
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    // Do any additional setup after loading the view, typically from a nib.
-    _req = [RequestUrl new];
-    _req.delegate = self;
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-- (IBAction)onTouchBtn:(id)sender {
-    NSLog(@"%s",__func__);
-    NSURL *url = [NSURL URLWithString:@"http://gif-animaker.sakura.ne.jp/metro/API/get2Point.php?latA=35.675742&lonA=139.738220&radiusA=200000&latB=35.679672&lonB=139.738541&radiusB=200000&escape=0"];
-    [self.req sendAsynchronousRequest:url];
-}
-
-- (void)onSuccessRequest:(NSData *)data {
-    NSLog(@"data:%@",data);
-    NSError *error = nil;
-    NSMutableDictionary *dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&error];
-    NSLog(@"name = %@", dic[@"result"][0][@"pointA"][@"title"]);
-    
-}
-
-- (void)onfailedRequest {
-    NSLog(@"%s",__func__);
-}
-
-@end
-
-*/
