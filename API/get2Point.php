@@ -30,6 +30,9 @@ if (!isset($arg["radiusB"])) {
 	$err_msg .= "radiusB is not set.\n";
 	$err = 1;
 }
+if (!isset($arg["escape"])) {
+	$arg["escape"] = 1;
+}
 if ($err) {
 	$response = array(
 		"error" => $err,
@@ -42,4 +45,8 @@ if ($err) {
 $metro = new MetroAPI();
 
 $contents = $metro->get2Point($arg["latA"],$arg["lonA"], $arg["radiusA"],$arg["latB"],$arg["lonB"], $arg["radiusB"], 10);
-echo $contents;
+if ($arg["escape"]) {
+	echo json_encode($contents, JSON_UNESCAPED_UNICODE);
+} else {
+	echo json_encode($contents);
+}
