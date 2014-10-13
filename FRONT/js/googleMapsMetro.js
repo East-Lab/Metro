@@ -13,9 +13,9 @@
 //        navigator.geolocation.getCurrentPosition(
             function(pos) {
                 initMap();
-//                alert("1 ");
+                alert("1 ");
 
-//                  getPoint(pos.coords.latitude, pos.coords.longitude);
+                  getPoint(pos.coords.latitude, pos.coords.longitude);
 //                  initialize(pos.coords.latitude, pos.coords.longitude);
 //                alert("2 " + metroIn);
 //                calcRoute(pos.coords.latitude + "," + pos.coords.longitude, metroIn);
@@ -79,8 +79,7 @@
           draggable:false,
           animation: google.maps.Animation.DROP,
           position: pos,
-          title: "現在地",
-          icon: markerImage
+          title: "現在地"
         });
 
     }
