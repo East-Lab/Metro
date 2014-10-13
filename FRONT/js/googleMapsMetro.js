@@ -61,7 +61,7 @@
         // ユーザのマーカーアイコンを変更
         var markerImage = new google.maps.MarkerImage(
           // 画像の場所
-          "image/bluedot.png",
+          "../image/bluedot.png",
           // マーカーのサイズ
           new google.maps.Size(20, 24),
           // 画像の基準位置
