@@ -62,11 +62,11 @@ class MetroAPI{
 		} 
 		$result['error'] = 0;
 		$result['result'] = $return;
-		return json_encode($result, JSON_UNESCAPED_UNICODE);
+		return $result;
 	}
 
 	public function get2Point($latA, $lonA, $radiusA, $latB, $lonB, $radiusB, $count) {
-		$conA = json_decode($this->getPoiByLocation($latA, $lonA, $radiusA, $count), true);
+		$conA = $this->getPoiByLocation($latA, $lonA, $radiusA, $count);
 		$err = 0;
 		$err_msg = "";
 		if ($conA["error"] == 1) {
@@ -76,7 +76,7 @@ class MetroAPI{
 			$err_msg .= "A : no near point.\n";
 			$err = 1;
 		}
-		$conB = json_decode($this->getPoiByLocation($latB, $lonB, $radiusB, 1), true);
+		$conB = $this->getPoiByLocation($latB, $lonB, $radiusB, 1);
 		if ($conB["error"] == 1) {
 			$err_msg .= "B : get poi error.\n";
 			$err = 1;
@@ -114,7 +114,7 @@ class MetroAPI{
 			"error_msg" => $err_msg,
 			"result" => $arr,
 		);
-		return json_encode($result);
+		return $result;
 	}
 
 	public function getTrainLocation() {

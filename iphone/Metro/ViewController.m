@@ -33,8 +33,21 @@
     [self.req sendAsynchronousRequest:url];
 }
 
-- (void)onSuccessRequest {
-    NSLog(@"%s",__func__);
+- (void)onSuccessRequest:(NSData *)data {
+    NSLog(@"data:%@",data);
+    NSString *str = [NSString stringWithFormat:@"%@",data];
+    NSString *decodedString = (NSString *)CFBridgingRelease(CFURLCreateStringByReplacingPercentEscapesUsingEncoding(kCFAllocatorDefault,(CFStringRef)str,CFSTR(""),kCFStringEncodingUTF8));
+    NSLog(@"str:%@",decodedString);
+    //NSString *json = [NSString stringWithFormat:@"%@",data];
+    //NSData *jsonData = [json dataUsingEncoding:NSUTF8StringEncoding];
+    //NSError *error = nil;
+    //NSMutableDictionary *dic = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingAllowFragments error:&error];
+    //if (error != nil) {
+    //    NSLog(@"failed to parse Json %ld", (long)error.code);
+    //    return;
+    //}
+    //NSLog(@"name = %@", dic[@"error"]);
+    
 }
 
 - (void)onfailedRequest {
