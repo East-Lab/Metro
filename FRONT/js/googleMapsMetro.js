@@ -162,6 +162,8 @@ function errorCallback(error) {
 // initialize
 // マップオブジェクトを作成し、マーカーを表示
 function initialize(){
+  alert("initialize in");
+
 	var myLatLng = geoLocate(); // MAPの初期位置
 
 	if (myLatLng == null){ // 位置情報取得に失敗した場合、東京駅をセンターにしてMAP表示
@@ -203,6 +205,7 @@ google.maps.event.addDomListener(window, 'load', initialize); // Windowがロー
 
 // 現在地取得
 function geoLocate(){
+  alert("geolocate in");
   // 位置情報取得のオプション。高精度にする
   var position_options = {
     enableHightAccuracy: true
