@@ -200,7 +200,7 @@ function initialize(){
 
 }
 
-//google.maps.event.addDomListener(window, 'load', initialize); // Windowがロードされたとき表示させる
+google.maps.event.addDomListener(window, 'load', initialize); // Windowがロードされたとき表示させる
 
 
 // 現在地取得
