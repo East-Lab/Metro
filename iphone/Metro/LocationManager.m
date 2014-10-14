@@ -5,20 +5,12 @@
 #import "LocationManager.h"
 
 static LocationManager *manager = nil;
-//static CLLocationDegrees lon;
-//static CLLocationDegrees lat;
-
 
 @interface LocationManager();
-
 
 @end
 
 @implementation LocationManager
-@synthesize lon;
-@synthesize lat;
-@synthesize headCoordinate;
-@synthesize headDirection;
 
 #pragma mark - singleton
 
@@ -29,31 +21,50 @@ static LocationManager *manager = nil;
     return manager;
 }
 
-- (void)startLocationSearvice{
-    if ([CLLocationManager locationServicesEnabled]) {
-        self.locationManager = [[CLLocationManager alloc] init];
-        self.locationManager.delegate = self;
-        self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
-        self.locationManager.activityType = CLActivityTypeFitness;
-        [self.locationManager requestWhenInUseAuthorization];
-        [self.locationManager startUpdatingLocation];
-        NSLog(@"Start updating location.");
-    } else {
-        NSLog(@"The location services(location) is disabled.");
+- (void)findLocation:(NSString *)location {
+    if(self.geocoder == nil)
+    {
+        self.geocoder = [[CLGeocoder alloc] init];
     }
-}
-
-- (void)startHeadingSearvice{
-    if ([CLLocationManager headingAvailable]) {
-        self.locationManager.delegate = self;
-        [self.locationManager requestWhenInUseAuthorization];
-        [self.locationManager startUpdatingHeading];
-    }else{
-        NSLog(@"The location services(heading) is disabled.");
-    }
+    NSString *address = location;
+    [self.geocoder geocodeAddressString:address completionHandler:^(NSArray *placemarks, NSError *error) {
+    NSString *res;
+        
+        if(placemarks.count > 0) {
+            CLPlacemark *placemark = [placemarks objectAtIndex:0];
+            if (self.delegate) {
+                [self.delegate didCompleteGeocoder:placemark.location.coordinate];
+            }
+        } else if (error.domain == kCLErrorDomain) {
+            switch (error.code) {
+                case kCLErrorDenied:
+                    res = @"Location Services Denied by User";
+                    break;
+                case kCLErrorNetwork:
+                    res = @"No Network";
+                    break;
+                case kCLErrorGeocodeFoundNoResult:
+                    res = @"No Result Found";
+                    break;
+                default:
+                    res = error.localizedDescription;
+                    break;
+            }
+            if (self.delegate) {
+                [self.delegate didFailedGeocoder:res];
+            }
+        } else {
+            res = error.localizedDescription;
+            if (self.delegate) {
+                [self.delegate didFailedGeocoder:res];
+            }
+        }
+    }];
+    
 }
 
 #pragma mark - 位置情報 LocationSearvice
+/*
 - (void)locationManager:(CLLocationManager *)manager
     didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation {
     
@@ -80,6 +91,7 @@ static LocationManager *manager = nil;
         [self.delegate updateHeadingInformation];
     }
 }
+ */
 
 
 #pragma mark - プライベートメソッド
