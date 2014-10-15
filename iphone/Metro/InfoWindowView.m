@@ -32,8 +32,4 @@
     return [[[NSBundle mainBundle] loadNibNamed:className owner:nil options:0] firstObject];
 }
 
-- (IBAction)onTapBtn:(id)sender {
-    NSLog(@"tap");
-}
-
 @end

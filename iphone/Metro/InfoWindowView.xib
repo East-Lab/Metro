@@ -7,23 +7,17 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="U7l-S6-shJ" customClass="InfoWindowView">
-            <rect key="frame" x="0.0" y="0.0" width="199" height="76"/>
+            <rect key="frame" x="0.0" y="0.0" width="155" height="62"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="infoDark" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="saz-BD-TWG">
-                    <rect key="frame" x="169" y="27" width="22" height="22"/>
-                    <connections>
-                        <action selector="onTapBtn:" destination="U7l-S6-shJ" eventType="touchUpInside" id="eTj-Eg-tmK"/>
-                    </connections>
-                </button>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Bvo-7w-R6h">
-                    <rect key="frame" x="8" y="46" width="153" height="22"/>
+                    <rect key="frame" x="1" y="32" width="153" height="22"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="H6P-94-Lsw">
-                    <rect key="frame" x="8" y="8" width="153" height="22"/>
+                    <rect key="frame" x="1" y="8" width="153" height="22"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                     <nil key="highlightedColor"/>
@@ -35,11 +29,10 @@
             <nil key="simulatedBottomBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
-                <outlet property="btn" destination="saz-BD-TWG" id="wjT-kc-3cE"/>
                 <outlet property="snippet" destination="Bvo-7w-R6h" id="cYW-1S-U3s"/>
                 <outlet property="title" destination="H6P-94-Lsw" id="A1l-hL-h7n"/>
             </connections>
-            <point key="canvasLocation" x="282.5" y="137"/>
+            <point key="canvasLocation" x="307.5" y="135"/>
         </view>
         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="bwv-l7-Bbv">
             <rect key="frame" x="0.0" y="0.0" width="42" height="21"/>

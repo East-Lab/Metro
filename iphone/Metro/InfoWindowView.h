@@ -13,6 +13,5 @@
 + (instancetype)view;
 @property (weak, nonatomic) IBOutlet UILabel *title;
 @property (weak, nonatomic) IBOutlet UILabel *snippet;
-@property (weak, nonatomic) IBOutlet UIButton *btn;
 
 @end
