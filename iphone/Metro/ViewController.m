@@ -221,8 +221,8 @@
 - (void) onTouchGoThereBtn {
     NSLog(@"%s", __func__);
     
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://gif-animaker.sakura.ne.jp/metro/API/get2Point.php?latA=%lf&lonA=%lf&radiusA=200000&latB=35.679672&lonB=139.738541&radiusB=200000&escape=0", mapView_.myLocation.coordinate.latitude, mapView_.myLocation.coordinate.longitude]];
-    //NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://gif-animaker.sakura.ne.jp/metro/API/get2Point.php?latA=%lf&lonA=%lf&radiusA=200000&latB=%lf&lonB=%lf&radiusB=200000&escape=0", 35.675888, 139.744858, searchedMarker.position.latitude, searchedMarker.position.longitude]];//国会議事堂
+    //NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://gif-animaker.sakura.ne.jp/metro/API/get2Point.php?latA=%lf&lonA=%lf&radiusA=200000&latB=35.679672&lonB=139.738541&radiusB=200000&escape=0", mapView_.myLocation.coordinate.latitude, mapView_.myLocation.coordinate.longitude]];
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://gif-animaker.sakura.ne.jp/metro/API/get2Point.php?latA=%lf&lonA=%lf&radiusA=200000&latB=%lf&lonB=%lf&radiusB=200000&escape=0", mapView_.myLocation.coordinate.latitude, mapView_.myLocation.coordinate.longitude, searchedMarker.position.latitude, searchedMarker.position.longitude]];//国会議事堂
     NSLog(@"url : %@", url);
     [self.req sendAsynchronousRequest:url];
 }
