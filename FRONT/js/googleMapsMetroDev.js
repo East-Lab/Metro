@@ -30,7 +30,7 @@
               		var marker = new google.maps.Marker({
               			position: myLatlng,
               			map: gmap,
-              			title: "Maybe you are here now."
+              			title: "Maybe you are here now.",
                     icon: "bluedot.png"
               		});
               		markersArray.push(marker);
