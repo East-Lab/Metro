@@ -9,6 +9,7 @@
     var markersArray = [];
 
     function initGL() {
+        alert("initGl in");
         initMap();
         // 現在地を取得
         navigator.geolocation.watchPosition(
