@@ -84,6 +84,7 @@
 
     // 地図の初期化
     function initMap() {
+        alert("init map in");
         var mapElm = document.getElementById("map");
         mapElm.style.width  = document.width  + "px";
         mapElm.style.height = (document.height * 0.7) + "px";
@@ -94,7 +95,9 @@
             mapTypeId: google.maps.MapTypeId.ROADMAP
         };
         gmap = new google.maps.Map(mapElm, option);
+
         //directionsDisplay.setMap(gmap);
+        alert("init map end");
 
     }
 
