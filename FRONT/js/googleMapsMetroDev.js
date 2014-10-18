@@ -27,7 +27,7 @@
               		}
 
               		// マーカーを配列に格納する
-                  var image = 'bluedot.png';
+                  var image = 'images/bluedot.png';
               		var marker = new google.maps.Marker({
               			position: myLatlng,
               			map: gmap,
