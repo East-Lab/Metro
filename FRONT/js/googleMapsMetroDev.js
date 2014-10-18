@@ -32,7 +32,12 @@
               			position: myLatlng,
               			map: gmap,
               			title: "Maybe you are here now.",
-                    icon: image
+                    icon:  new google.maps.MarkerImage(
+                        image,                     // url
+                        new google.maps.Size(31,31), // size
+                        new google.maps.Point(0,0),  // origin
+                        new google.maps.Point(16,16) // anchor
+                    )
               		});
               		markersArray.push(marker);
 
