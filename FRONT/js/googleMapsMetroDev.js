@@ -2,17 +2,44 @@
 //    var directionLatLng = "35.681382,139.766084";
 
 //    var map;
-//    var gmap;
+    var gmap;
 
     var directionsDisplay = new google.maps.DirectionsRenderer();
     var directionsService = new google.maps.DirectionsService();
+    var markersArray = [];
 
     function initGL() {
+        initMap();
         // 現在地を取得
         navigator.geolocation.watchPosition(
 //        navigator.geolocation.getCurrentPosition(
             function(pos) {
-                initMap();
+              		var myLatlng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+              		gmap.setCenter(myLatlng);
+
+              		// マーカーの配列を空にする
+              		if (markersArray) {
+              			for (i in markersArray) {
+              				markersArray[i].setMap(null);
+              			}
+              			markersArray.length = 0;
+              		}
+
+              		// マーカーを配列に格納する
+              		var marker = new google.maps.Marker({
+              			position: myLatlng,
+              			map: gmap,
+              			title: "Maybe you are here now."
+                    icon: "bluedot.png"
+              		});
+              		markersArray.push(marker);
+
+              		// マーカーの配列を表示する
+              		if (markersArray) {
+              			for (i in markersArray) {
+              				markersArray[i].setMap(gmap);
+              			}
+              		}
 //                alert("1 ");
                 // 現在地のマーカー表示
                 /*
@@ -25,7 +52,7 @@
                 });
                 */
 
-                  getPoint(pos.coords.latitude, pos.coords.longitude);
+//                  getPoint(pos.coords.latitude, pos.coords.longitude);
 //                  initialize(pos.coords.latitude, pos.coords.longitude);
 //                alert("2 " + metroIn);
 //                calcRoute(pos.coords.latitude + "," + pos.coords.longitude, metroIn);
@@ -66,8 +93,8 @@
             zoom: 18,
             mapTypeId: google.maps.MapTypeId.ROADMAP
         };
-        var gmap = new google.maps.Map(mapElm, option);
-        directionsDisplay.setMap(gmap);
+        gmap = new google.maps.Map(mapElm, option);
+        //directionsDisplay.setMap(gmap);
 
     }
 
