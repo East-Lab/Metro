@@ -9,7 +9,7 @@
     var markersArray = [];
 
     function initGL() {
-        alert("initGl in");
+        //alert("initGl in");
         initMap();
         // 現在地を取得
         navigator.geolocation.watchPosition(
@@ -27,7 +27,7 @@
               		}
 
               		// マーカーを配列に格納する
-                  var image = 'images/bluedot.png';
+                  var image = 'https://gif-animaker.sakura.ne.jp/metro/FRONT/js/images/bluedot.png';
               		var marker = new google.maps.Marker({
               			position: myLatlng,
               			map: gmap,
@@ -86,7 +86,7 @@
 
     // 地図の初期化
     function initMap() {
-        alert("init map in");
+        //alert("init map in");
         var mapElm = document.getElementById("map");
         mapElm.style.width  = document.width  + "px";
         mapElm.style.height = (document.height * 0.7) + "px";
@@ -99,7 +99,7 @@
         gmap = new google.maps.Map(mapElm, option);
 
         //directionsDisplay.setMap(gmap);
-        alert("init map end");
+        //alert("init map end");
 
     }
 
