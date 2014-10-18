@@ -27,12 +27,12 @@
               		}
 
               		// マーカーを配列に格納する
-                  var image = 'bluedot.png';
+                  //var image = 'bluedot.png';
               		var marker = new google.maps.Marker({
               			position: myLatlng,
               			map: gmap,
-              			title: "Maybe you are here now.",
-                    icon: image
+              			title: "Maybe you are here now."
+                    //icon: image
               		});
               		markersArray.push(marker);
 
