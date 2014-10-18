@@ -14,13 +14,17 @@
     int zoom;
     UISearchBar *sb;
     GMSMarker *searchedMarker;
+    GMSMarker *nearPOImarker;
+    GMSMarker *currentLocMarker;
+    GMSMarker *markerA;
+    GMSMarker *markerB;
     UIButton *goThereBtn;
     UIAlertView *alert;
+    GMSPolyline *polyline;
 }
 
 - (void)viewDidLoad {
     [GMSMarker markerImageWithColor:[UIColor blueColor]];
-     searchedMarker = [[GMSMarker alloc] init];
     
     
 
@@ -38,7 +42,7 @@
 }
 
 - (void)showInitialMap{
-    GMSCameraPosition *camera = [GMSCameraPosition cameraWithLatitude:[self.ud floatForKey:@"lat"]longitude:[self.ud floatForKey:@"lon"] zoom:zoom];
+    GMSCameraPosition *camera = [GMSCameraPosition cameraWithLatitude:[self.ud floatForKey:@"lat"]longitude:[self.ud floatForKey:@"lon"] zoom:[self.ud floatForKey:@"zoom"]];
     mapView_ = [GMSMapView mapWithFrame:self.view.bounds camera:camera];
     [self.view addSubview:mapView_];
     //self.view = mapView_;
@@ -95,15 +99,22 @@
 
 
 #pragma mark - RequestUrlDelegate method
-
-- (void)onSuccessRequest:(NSData *)data {
+- (void)onSuccessRequestPOI:(NSData *)data {
     NSError *error = nil;
     NSMutableDictionary *dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&error];
-    [self place2PointMarker:dic];
+    //[self placePOIMarker:dic];
+    [self performSelectorOnMainThread:@selector(placePOIMarker:) withObject:dic waitUntilDone:NO];
 }
 
-- (void)onfailedRequest {
-    NSLog(@"failed Request.");
+- (void)onSuccessRequest2Point:(NSData *)data {
+    NSError *error = nil;
+    NSMutableDictionary *dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&error];
+    //[self place2PointMarker:dic];
+    [self performSelectorOnMainThread:@selector(place2PointMarker:) withObject:dic waitUntilDone:NO];
+}
+
+- (void)onFailedRequest:(NSString *)err{
+    [self showAlert:err];
 }
 
 #pragma mapview delegate
@@ -146,8 +157,11 @@
 
 #pragma mark - LocationManagerDelegate method
 - (void) didCompleteGeocoder:(CLLocationCoordinate2D)coordinate {
-    GMSCameraPosition *camera = [GMSCameraPosition cameraWithLatitude:coordinate.latitude longitude:coordinate.longitude zoom:zoom];
+    GMSCameraPosition *camera = [GMSCameraPosition cameraWithLatitude:coordinate.latitude longitude:coordinate.longitude zoom:[self.ud floatForKey:@"zoom"]];
     [mapView_ animateToCameraPosition:camera];
+    polyline.map = nil;
+    [self clearMarker];
+    searchedMarker = [[GMSMarker alloc] init];
     searchedMarker.appearAnimation = YES;
     searchedMarker.position = CLLocationCoordinate2DMake(coordinate.latitude, coordinate.longitude);
     searchedMarker.title = self.searchText;
@@ -172,7 +186,7 @@
 
 #pragma mark - private method
 -(void)onTouchZoominBtn {
-    if (zoom < 21) {
+    if ([self.ud floatForKey:@"zoom"] < 21) {
         zoom = [self.ud floatForKey:@"zoom"] + 1;
     } else {
         zoom = 21;
@@ -183,7 +197,7 @@
 }
 
 -(void)onTouchZoomoutBtn {
-    if (zoom > 2) {
+    if ([self.ud floatForKey:@"zoom"] > 2) {
         zoom = [self.ud floatForKey:@"zoom"] - 1;
     } else {
         zoom = 2;
@@ -191,19 +205,6 @@
     NSLog(@"zoom:%d",zoom);
     GMSCameraPosition *camera = [GMSCameraPosition cameraWithLatitude:[self.ud floatForKey:@"lat"]longitude:[self.ud floatForKey:@"lon"] zoom:zoom];
     [mapView_ animateToCameraPosition:camera];
-}
-
-- (void) showNoWayAlert {
-    NSLog(@"%s", __func__);
-    alert =
-    [[UIAlertView alloc]
-     initWithTitle:@"エラー"
-     message:@"地下道を通って目的地へ行く道がありません"
-     delegate:nil
-     cancelButtonTitle:nil
-     otherButtonTitles:@"OK", nil
-     ];
-    [alert show];
 }
 
 - (void) showAlert:(NSString *)msg {
@@ -222,14 +223,61 @@
     NSLog(@"%s", __func__);
     
     //NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://gif-animaker.sakura.ne.jp/metro/API/get2Point.php?latA=%lf&lonA=%lf&radiusA=200000&latB=35.679672&lonB=139.738541&radiusB=200000&escape=0", mapView_.myLocation.coordinate.latitude, mapView_.myLocation.coordinate.longitude]];
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://gif-animaker.sakura.ne.jp/metro/API/get2Point.php?latA=%lf&lonA=%lf&radiusA=200000&latB=%lf&lonB=%lf&radiusB=200000&escape=0", mapView_.myLocation.coordinate.latitude, mapView_.myLocation.coordinate.longitude, searchedMarker.position.latitude, searchedMarker.position.longitude]];//国会議事堂
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://gif-animaker.sakura.ne.jp/metro/API/get2Point.php?latA=%lf&lonA=%lf&radiusA=200000&latB=%lf&lonB=%lf&radiusB=200000&escape=0", mapView_.myLocation.coordinate.latitude, mapView_.myLocation.coordinate.longitude, searchedMarker.position.latitude, searchedMarker.position.longitude]];
     NSLog(@"url : %@", url);
-    [self.req sendAsynchronousRequest:url];
+    [self.req sendAsynchronousRequestFor2Point:url];
 }
 
 - (void) onTouchGoGroundBtn {
     NSLog(@"%s", __func__);
-    
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://gif-animaker.sakura.ne.jp/metro/API/getMetroPOI.php?lat=%lf&lon=%lf&radius=100000", mapView_.myLocation.coordinate.latitude, mapView_.myLocation.coordinate.longitude]];
+    NSLog(@"url : %@", url);
+    [self.req sendAsynchronousRequestForPOI:url];
+}
+
+- (void)placePOIMarker:(NSDictionary *)dic {
+    NSString *err_str =  dic[@"error"];
+    NSInteger err = [err_str intValue];
+    if (err == 0) {
+        NSLog(@"count : %ld", [dic[@"result"] count]);
+        if ([dic[@"result"] count] == 0) {
+            [self performSelectorOnMainThread:@selector(showAlert:) withObject:@"近くに地下鉄の出入口が見つかりませんでした" waitUntilDone:NO];
+        } else {
+            NSString *title =  dic[@"result"][0][@"title"];
+            float lat =  [dic[@"result"][0][@"lat"] floatValue];
+            float lon =  [dic[@"result"][0][@"lon"] floatValue];
+            NSLog(@"title = %@", title);
+            
+            [self clearMarker];
+            nearPOImarker = [[GMSMarker alloc] init];
+            nearPOImarker.map = mapView_;
+            nearPOImarker.position = CLLocationCoordinate2DMake(lat, lon);
+            nearPOImarker.title = title;
+            nearPOImarker.icon = [GMSMarker markerImageWithColor:[UIColor orangeColor]];
+            nearPOImarker.map = mapView_;
+            
+            GMSMutablePath *path = [GMSMutablePath path];
+            [path addCoordinate:CLLocationCoordinate2DMake(lat, lon)];
+            [path addCoordinate:CLLocationCoordinate2DMake(mapView_.myLocation.coordinate.latitude, mapView_.myLocation.coordinate.longitude)];
+            polyline.map = nil;
+            polyline = [GMSPolyline polylineWithPath:path];
+            polyline.strokeWidth = 5.f;
+            polyline.strokeColor = [UIColor redColor];
+            polyline.map = mapView_;
+            
+            CLLocationCoordinate2D loc = CLLocationCoordinate2DMake((mapView_.myLocation.coordinate.latitude + lat)/2, (mapView_.myLocation.coordinate.longitude + lon)/2);
+            CLLocation *A = [[CLLocation alloc] initWithLatitude:lat longitude:lon];
+            CLLocation *B = [[CLLocation alloc] initWithLatitude:mapView_.myLocation.coordinate.latitude longitude:mapView_.myLocation.coordinate.longitude];
+            
+            CLLocationDistance distance = [A distanceFromLocation:B];
+            float z = [GMSCameraPosition zoomAtCoordinate:loc forMeters:distance perPoints:300];
+            GMSCameraPosition *camera = [GMSCameraPosition cameraWithLatitude:loc.latitude longitude:loc.longitude zoom:z];
+            [mapView_ animateToCameraPosition:camera];
+        }
+    } else {
+        NSLog(@"%ld", [dic[@"result"] count]);
+        [self performSelectorOnMainThread:@selector(showAlert:) withObject:@"近くに地下鉄の出入口が見つかりませんでした" waitUntilDone:NO];
+    }
 }
 
 - (void)place2PointMarker:(NSDictionary *)dic {
@@ -238,7 +286,7 @@
     if (err == 0) {
         NSLog(@"count : %ld", [dic[@"result"] count]);
         if ([dic[@"result"] count] == 0) {
-            [self performSelectorOnMainThread:@selector(showNoWayAlert) withObject:nil waitUntilDone:NO];
+            [self performSelectorOnMainThread:@selector(showAlert:) withObject:@"地下道を通って目的地へ行くルートが見つかりませんでした" waitUntilDone:NO];
         } else {
             NSString *title =  dic[@"result"][0][@"pointA"][@"title"];
             NSString *station =  dic[@"result"][0][@"pointA"][@"station"];
@@ -247,13 +295,14 @@
             NSLog(@"title = %@", title);
             NSLog(@"station = %@", station);
             
-            GMSMarker *currentLocMarker = [[GMSMarker alloc] init];
+            [self clearMarker];
+            currentLocMarker = [[GMSMarker alloc] init];
             currentLocMarker.position = CLLocationCoordinate2DMake(mapView_.myLocation.coordinate.latitude, mapView_.myLocation.coordinate.longitude);
             currentLocMarker.title = @"現在地";
             currentLocMarker.icon = [GMSMarker markerImageWithColor:[UIColor blueColor]];
             currentLocMarker.map = mapView_;
             
-            GMSMarker *markerA = [[GMSMarker alloc] init];
+            markerA = [[GMSMarker alloc] init];
             markerA.position = CLLocationCoordinate2DMake(latA, lonA);
             markerA.title = title;
             markerA.snippet = station;
@@ -266,7 +315,7 @@
             float lonB =  [dic[@"result"][0][@"pointB"][@"lon"] floatValue];
             NSLog(@"title = %@", title);
             NSLog(@"station = %@", station);
-            GMSMarker *markerB = [[GMSMarker alloc] init];
+            markerB = [[GMSMarker alloc] init];
             markerB.position = CLLocationCoordinate2DMake(latB, lonB);
             markerB.title = title;
             markerB.snippet = station;
@@ -274,15 +323,27 @@
             markerB.map = mapView_;
             
             GMSMutablePath *path = [GMSMutablePath path];
+            [path addCoordinate:mapView_.myLocation.coordinate];
             [path addCoordinate:CLLocationCoordinate2DMake(latA, lonA)];
             [path addCoordinate:CLLocationCoordinate2DMake(latB, lonB)];
-            GMSPolyline *polyline = [GMSPolyline polylineWithPath:path];
+            [path addCoordinate:searchedMarker.position];
+            polyline.map = nil;
+            polyline = [GMSPolyline polylineWithPath:path];
             polyline.strokeWidth = 5.f;
             polyline.strokeColor = [UIColor redColor];
             polyline.map = mapView_;
         }
     } else {
         NSLog(@"%ld", [dic[@"result"] count]);
+        [self performSelectorOnMainThread:@selector(showAlert:) withObject:@"地下道を通って目的地へ行くルートが見つかりませんでした" waitUntilDone:NO];
     }
+}
+
+- (void) clearMarker {
+    markerA.map = nil;
+    markerB.map = nil;
+    searchedMarker.map = nil;
+    currentLocMarker.map = nil;
+    nearPOImarker.map = nil;
 }
 @end
