@@ -15,7 +15,7 @@
         navigator.geolocation.watchPosition(
 //        navigator.geolocation.getCurrentPosition(
             function(pos) {
-              		var myLatlng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+              		var myLatlng = new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude);
               		gmap.setCenter(myLatlng);
 
               		// マーカーの配列を空にする
