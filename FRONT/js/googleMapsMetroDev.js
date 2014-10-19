@@ -8,6 +8,8 @@
     var directionsService = new google.maps.DirectionsService();
     var markersArray = [];
 
+    var initialLocationGlobal;
+
     function initGL() {
         //alert("initGl in");
         initMap();
@@ -16,6 +18,9 @@
 //        navigator.geolocation.getCurrentPosition(
             function(pos) {
               		var myLatlng = new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude);
+                  
+                  initialLocationGlobal = myLatlng;
+
               		gmap.setCenter(myLatlng);
 
               		// マーカーの配列を空にする
