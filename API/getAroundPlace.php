@@ -1,5 +1,6 @@
 <?php
 header("Content-Type: application/json; charset=utf-8");
+require_once("/home/gif-animaker/Metro/API/class/GoogleAPI");
 
 $arg = $_GET;
 $err = 0;
