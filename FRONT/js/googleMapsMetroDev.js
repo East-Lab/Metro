@@ -34,9 +34,12 @@
               			title: "Maybe you are here now.",
                     icon:  new google.maps.MarkerImage(
                         image,                     // url
-                        new google.maps.Size(15,15), // size
-                        new google.maps.Point(0,15),  // origin
-                        new google.maps.Point(7,7) // anchor
+//                        new google.maps.Size(17,17), // size
+                        null,                           //size
+//                        new google.maps.Point(0,15),  // origin
+                        null,                          // origin
+                        new google.maps.Point(8,8),    // anchor
+                        new google.maps.Size(17, 17)  //scaled size
                     )
               		});
               		markersArray.push(marker);
