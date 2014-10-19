@@ -33,7 +33,7 @@
 
               		// マーカーを配列に格納する
                   var image = 'https://gif-animaker.sakura.ne.jp/metro/FRONT/js/images/bluedot.png';
-              		var marker = new google.maps.Marker({
+              		var nowMarker = new google.maps.Marker({
               			position: myLatlng,
               			map: gmap,
               			title: "Maybe you are here now.",
@@ -47,7 +47,7 @@
                         new google.maps.Size(17, 17)  //scaled size
                     )
               		});
-              		markersArray.push(marker);
+              		markersArray.push(nowMarker);
 
               		// マーカーの配列を表示する
               		if (markersArray) {
@@ -55,22 +55,6 @@
               				markersArray[i].setMap(gmap);
               			}
               		}
-//                alert("1 ");
-                // 現在地のマーカー表示
-                /*
-                var marker = new google.maps.Marker({
-                  map:gmap,
-                  draggable:false,
-                  animation: google.maps.Animation.DROP,
-                  position: pos,
-                  title: "現在地"
-                });
-                */
-
-//                  getPoint(pos.coords.latitude, pos.coords.longitude);
-//                  initialize(pos.coords.latitude, pos.coords.longitude);
-//                alert("2 " + metroIn);
-//                calcRoute(pos.coords.latitude + "," + pos.coords.longitude, metroIn);
 
             },
             function(error) {
@@ -85,11 +69,11 @@
                 default: // case error.POSITION_UNAVAILABLE:
                     msg = "位置情報が取得できませんでした。";
                 }
-                alert(msg);
+                alert(msg, "call init");
 
                 initMap();
 
-                calcRoute(directionLatLng);
+                //calcRoute(directionLatLng);
 	          },
             {
                 enableHighAccuracy:true, timeout:15000, maximumAge:15000
@@ -135,6 +119,7 @@
           marker.setVisible(false);
           var place = autocomplete.getPlace();
           if (!place.geometry) {
+            alert("no geometry");
             return;
           }
 
@@ -338,7 +323,7 @@ function HomeControl(controlDiv, map){
   //現在地へ移動
   google.maps.event.addDomListener(controlUI, 'click', function(){
     map.setCenter(initialLocationGlobal);
-    map.setZoom(13);
+    map.setZoom(18);
     //map.setMapTypeId('satellite');
   });
 
