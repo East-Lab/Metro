@@ -111,7 +111,7 @@
     　　var homeControl = new HomeControl(homeControlDiv, gmap);
 
     　　homeControlDiv.index = 1;
-    　　map.controls[google.maps.ControlPosition.TOP_RIGHT].push(homeControlDiv);
+    　　gmap.controls[google.maps.ControlPosition.TOP_RIGHT].push(homeControlDiv);
 
 
         directionsDisplay.setMap(gmap);
