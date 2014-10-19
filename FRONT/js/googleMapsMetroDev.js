@@ -336,11 +336,10 @@ function HomeControl(controlDiv, map){
 
 
 　　//現在地へ移動
-　google.maps.event.addDomListener(controlUI, 'click', function(){
+  google.maps.event.addDomListener(controlUI, 'click', function(){
     map.setCenter(initialLocationGlobal);
     map.setZoom(13);
     //map.setMapTypeId('satellite');
-　});
-
+  });
 
 }
