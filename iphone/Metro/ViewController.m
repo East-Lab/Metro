@@ -21,12 +21,18 @@
     UIButton *goThereBtn;
     UIAlertView *alert;
     GMSPolyline *polyline;
+    NSInteger mode;
 }
+
+typedef NS_ENUM (NSInteger, modeNum) {
+    goDestination,
+    goGround
+};
 
 - (void)viewDidLoad {
     [GMSMarker markerImageWithColor:[UIColor blueColor]];
     
-    
+    mode = goGround;
 
     _req = [RequestUrl new];
     _req.delegate = self;
@@ -114,7 +120,7 @@
 }
 
 - (void)onFailedRequest:(NSString *)err{
-    [self showAlert:err];
+    [self showAlertWithYesNo:err];
 }
 
 #pragma mapview delegate
@@ -138,6 +144,7 @@
     //return infoView;
     return nil;
 }
+
 
 #pragma mark - search bar delegate method
 
@@ -181,10 +188,10 @@
 
 - (void) didFailedGeocoder:(NSString *)err{
     NSLog(@"error : %@", err);
-    [self showAlert:err];
+    [self showAlertWithYesNo:err];
 }
 
-#pragma mark - private method
+#pragma mark - touch btn method
 -(void)onTouchZoominBtn {
     if ([self.ud floatForKey:@"zoom"] < 21) {
         zoom = [self.ud floatForKey:@"zoom"] + 1;
@@ -196,7 +203,7 @@
     [mapView_ animateToCameraPosition:camera];
 }
 
--(void)onTouchZoomoutBtn {
+-(void) onTouchZoomoutBtn {
     if ([self.ud floatForKey:@"zoom"] > 2) {
         zoom = [self.ud floatForKey:@"zoom"] - 1;
     } else {
@@ -207,41 +214,38 @@
     [mapView_ animateToCameraPosition:camera];
 }
 
-- (void) showAlert:(NSString *)msg {
-    alert =
-    [[UIAlertView alloc]
-     initWithTitle:@"エラー"
-     message:msg
-     delegate:self
-     cancelButtonTitle:nil
-     otherButtonTitles:@"OK", nil
-     ];
-    [alert show];
-}
-
 - (void) onTouchGoThereBtn {
     NSLog(@"%s", __func__);
-    
-    //NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://gif-animaker.sakura.ne.jp/metro/API/get2Point.php?latA=%lf&lonA=%lf&radiusA=200000&latB=35.679672&lonB=139.738541&radiusB=200000&escape=0", mapView_.myLocation.coordinate.latitude, mapView_.myLocation.coordinate.longitude]];
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://gif-animaker.sakura.ne.jp/metro/API/get2Point.php?latA=%lf&lonA=%lf&radiusA=200000&latB=%lf&lonB=%lf&radiusB=200000&escape=0", mapView_.myLocation.coordinate.latitude, mapView_.myLocation.coordinate.longitude, searchedMarker.position.latitude, searchedMarker.position.longitude]];
-    NSLog(@"url : %@", url);
-    [self.req sendAsynchronousRequestFor2Point:url];
+    if (mapView_.myLocation.coordinate.latitude == 0) {
+        [self showAlert:@"現在地が取得できませんでした"];
+    } else {
+        mode = goDestination;
+        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://gif-animaker.sakura.ne.jp/metro/API/get2Point.php?latA=%lf&lonA=%lf&radiusA=1000&latB=%lf&lonB=%lf&radiusB=200000&escape=0", mapView_.myLocation.coordinate.latitude, mapView_.myLocation.coordinate.longitude, searchedMarker.position.latitude, searchedMarker.position.longitude]];
+        NSLog(@"url : %@", url);
+        [self.req sendAsynchronousRequestFor2Point:url];
+    }
 }
 
 - (void) onTouchGoGroundBtn {
     NSLog(@"%s", __func__);
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://gif-animaker.sakura.ne.jp/metro/API/getMetroPOI.php?lat=%lf&lon=%lf&radius=100000", mapView_.myLocation.coordinate.latitude, mapView_.myLocation.coordinate.longitude]];
-    NSLog(@"url : %@", url);
-    [self.req sendAsynchronousRequestForPOI:url];
+    if (mapView_.myLocation.coordinate.latitude == 0) {
+        [self showAlert:@"現在地が取得できませんでした"];
+    } else {
+        mode = goGround;
+        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://gif-animaker.sakura.ne.jp/metro/API/getMetroPOI.php?lat=%lf&lon=%lf&radius=1000", mapView_.myLocation.coordinate.latitude, mapView_.myLocation.coordinate.longitude]];
+        NSLog(@"url : %@", url);
+        [self.req sendAsynchronousRequestForPOI:url];
+    }
 }
 
+#pragma mark - marker set method
 - (void)placePOIMarker:(NSDictionary *)dic {
     NSString *err_str =  dic[@"error"];
     NSInteger err = [err_str intValue];
     if (err == 0) {
         NSLog(@"count : %ld", [dic[@"result"] count]);
         if ([dic[@"result"] count] == 0) {
-            [self performSelectorOnMainThread:@selector(showAlert:) withObject:@"近くに地下鉄の出入口が見つかりませんでした" waitUntilDone:NO];
+            [self performSelectorOnMainThread:@selector(showAlertWithYesNo:) withObject:@"1km以内に駅の出入口が見つかりませんでした。範囲を広げて検索しますか？" waitUntilDone:NO];
         } else {
             NSString *title =  dic[@"result"][0][@"title"];
             float lat =  [dic[@"result"][0][@"lat"] floatValue];
@@ -276,7 +280,7 @@
         }
     } else {
         NSLog(@"%ld", [dic[@"result"] count]);
-        [self performSelectorOnMainThread:@selector(showAlert:) withObject:@"近くに地下鉄の出入口が見つかりませんでした" waitUntilDone:NO];
+        [self performSelectorOnMainThread:@selector(showAlertWithYesNo:) withObject:@"サーバ-エラー" waitUntilDone:NO];
     }
 }
 
@@ -286,7 +290,7 @@
     if (err == 0) {
         NSLog(@"count : %ld", [dic[@"result"] count]);
         if ([dic[@"result"] count] == 0) {
-            [self performSelectorOnMainThread:@selector(showAlert:) withObject:@"地下道を通って目的地へ行くルートが見つかりませんでした" waitUntilDone:NO];
+            [self performSelectorOnMainThread:@selector(showAlertWithYesNo:) withObject:@"1km以内に駅の出入口が見つかりませんでした。範囲を広げて検索しますか？" waitUntilDone:NO];
         } else {
             NSString *title =  dic[@"result"][0][@"pointA"][@"title"];
             NSString *station =  dic[@"result"][0][@"pointA"][@"station"];
@@ -295,7 +299,11 @@
             NSLog(@"title = %@", title);
             NSLog(@"station = %@", station);
             
-            [self clearMarker];
+            markerA.map = nil;
+            markerB.map = nil;
+            currentLocMarker.map = nil;
+            nearPOImarker.map = nil;
+            
             currentLocMarker = [[GMSMarker alloc] init];
             currentLocMarker.position = CLLocationCoordinate2DMake(mapView_.myLocation.coordinate.latitude, mapView_.myLocation.coordinate.longitude);
             currentLocMarker.title = @"現在地";
@@ -333,9 +341,9 @@
             polyline.strokeColor = [UIColor redColor];
             polyline.map = mapView_;
         }
-    } else {
+    } else if (err == 1) {
         NSLog(@"%ld", [dic[@"result"] count]);
-        [self performSelectorOnMainThread:@selector(showAlert:) withObject:@"地下道を通って目的地へ行くルートが見つかりませんでした" waitUntilDone:NO];
+        [self performSelectorOnMainThread:@selector(showAlertWithYesNo:) withObject:@"1km以内に駅の出入口が見つかりませんでした。範囲を広げて検索しますか？" waitUntilDone:NO];
     }
 }
 
@@ -345,5 +353,51 @@
     searchedMarker.map = nil;
     currentLocMarker.map = nil;
     nearPOImarker.map = nil;
+}
+
+# pragma mark - alert method
+-(void)alertView:(UIAlertView*)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    NSLog(@"buttonIndex : %ld", buttonIndex);
+    if (buttonIndex == 1) {
+        NSURL *url;
+        switch (mode) {
+            case goGround:
+                url = [NSURL URLWithString:[NSString stringWithFormat:@"http://gif-animaker.sakura.ne.jp/metro/API/getMetroPOI.php?lat=%lf&lon=%lf&radius=10000000", mapView_.myLocation.coordinate.latitude, mapView_.myLocation.coordinate.longitude]];
+                NSLog(@"url : %@", url);
+                [self.req sendAsynchronousRequestForPOI:url];
+                break;
+            case goDestination:
+                url = [NSURL URLWithString:[NSString stringWithFormat:@"http://gif-animaker.sakura.ne.jp/metro/API/get2Point.php?latA=%lf&lonA=%lf&radiusA=1000000&latB=%lf&lonB=%lf&radiusB=200000&escape=0", mapView_.myLocation.coordinate.latitude, mapView_.myLocation.coordinate.longitude, searchedMarker.position.latitude, searchedMarker.position.longitude]];
+                NSLog(@"url : %@", url);
+                [self.req sendAsynchronousRequestFor2Point:url];
+                break;
+            default:
+                break;
+        }
+    }
+}
+
+- (void) showAlert:(NSString *)msg {
+    alert =
+    [[UIAlertView alloc]
+     initWithTitle:@"エラー"
+     message:msg
+     delegate:self
+     cancelButtonTitle:nil
+     otherButtonTitles:@"OK", nil
+     ];
+    [alert show];
+}
+
+- (void) showAlertWithYesNo:(NSString *)msg {
+    alert =
+    [[UIAlertView alloc]
+     initWithTitle:@"エラー"
+     message:msg
+     delegate:self
+     cancelButtonTitle:@"いいえ"
+     otherButtonTitles:@"はい", nil
+     ];
+    [alert show];
 }
 @end

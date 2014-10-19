@@ -22,8 +22,7 @@ static LocationManager *manager = nil;
 }
 
 - (void)findLocation:(NSString *)location {
-    if(self.geocoder == nil)
-    {
+    if (self.geocoder == nil) {
         self.geocoder = [[CLGeocoder alloc] init];
     }
     NSString *address = location;

@@ -20,7 +20,6 @@
 
 @property (nonatomic,strong) id<LocationManagerDelegate> delegate;
 
-
 + (LocationManager *)sharedManager;
 - (void)findLocation:(NSString *)location;
 
