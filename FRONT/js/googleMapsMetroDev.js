@@ -18,7 +18,7 @@
 //        navigator.geolocation.getCurrentPosition(
             function(pos) {
               		var myLatlng = new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude);
-                  
+
                   initialLocationGlobal = myLatlng;
 
               		gmap.setCenter(myLatlng);
@@ -287,7 +287,7 @@ function HomeControl(controlDiv, map){
   　　//現在地へ移動
    　google.maps.event.addDomListener(controlUI, 'click', function()
   　　{
-      map.setCenter(initialLocation);
+      map.setCenter(initialLocationGlobal);
       map.setZoom(13);
       //map.setMapTypeId('satellite');
   　　});
