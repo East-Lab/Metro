@@ -6,7 +6,6 @@ class GoogleAPI{
 		$data['lat'] = $lat; 
 		$data['lon'] = $lon; 
 		$data['radius'] = $radius; 
-		$self->sendRequest($data);
 		$contents = json_decode($this->sendRequest($data), true);
 		return $contents;
 	}
@@ -26,4 +25,4 @@ class GoogleAPI{
 
 		return $contents;
 	}
-
+}
