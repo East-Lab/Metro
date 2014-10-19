@@ -24,29 +24,21 @@
 
     <ons-page>
       <ons-toolbar>
-        <div class="center">Profile</div>
+        <div class="center">MetRoad</div>
         <div class="right">
         </div>
       </ons-toolbar>
 
-      <ons-list>
-        <ons-list-item>
-          <ons-row>
-            <ons-col class="info-col">
-              <div class="info-num">87</div>
-              <div class="info-unit">Comments</div>
-            </ons-col>
-            <ons-col class="info-col">
-              <div class="info-num">40</div>
-              <div class="info-unit">Following</div>
-            </ons-col>
-            <ons-col class="info-col">
-              <div class="info-num">38</div>
-              <div class="info-unit">Followers</div>
-            </ons-col>
-          </ons-row>
-        </ons-list-item>
-      </ons-list>
+      <br>
+
+      <div>
+        <div id="map">取得中</div>
+      </div>
+
+
+      <div id="result"></div>
+
+      <ons-button>Tap Me</ons-button>
 
       <ons-list modifier="inset" style="margin-top: 10px">
         <ons-list-item modifier="chevron">
@@ -62,15 +54,6 @@
         </ons-list-item>
 
       </ons-list>
-
-      <br>
-
-      <div>
-        <div id="map">取得中</div>
-      </div>
-
-
-      <div id="result"></div>
 
 
     </ons-page>
