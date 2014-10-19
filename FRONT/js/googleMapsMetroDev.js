@@ -100,7 +100,7 @@
         var homeControl = new HomeControl(homeControlDiv, gmap);
 
         homeControlDiv.index = 1;
-        gmap.controls[google.maps.ControlPosition.TOP_RIGHT].push(homeControlDiv);
+        gmap.controls[google.maps.ControlPosition.BOTTOM_RIGHT].push(homeControlDiv);
 
         // Place検索
         var input = (document.getElementById('pac-input'));
@@ -117,6 +117,7 @@
         });
 
         google.maps.event.addListener(autocomplete, 'place_changed', function() {
+          alert("place changed");
           infowindow.close();
           marker.setVisible(false);
           var place = autocomplete.getPlace();
