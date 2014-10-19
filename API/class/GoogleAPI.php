@@ -26,4 +26,4 @@ class GoogleAPI{
 
 		return $contents;
 	}
-
+}
