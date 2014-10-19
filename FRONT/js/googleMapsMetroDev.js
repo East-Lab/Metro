@@ -146,7 +146,7 @@
             gmap.setZoom(17);  // Why 17? Because it looks good.
           }
           marker.setIcon(/** @type {google.maps.Icon} */({
-            url: place.icon,
+            url: 'https://gif-animaker.sakura.ne.jp/metro/FRONT/js/images/bluedot.png',
             size: new google.maps.Size(71, 71),
             origin: new google.maps.Point(0, 0),
             anchor: new google.maps.Point(17, 34),
