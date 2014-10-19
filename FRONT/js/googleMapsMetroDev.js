@@ -35,8 +35,8 @@
                     icon:  new google.maps.MarkerImage(
                         image,                     // url
                         new google.maps.Size(15,15), // size
-                        new google.maps.Point(0,0),  // origin
-                        new google.maps.Point(16,16) // anchor
+                        new google.maps.Point(0,15),  // origin
+                        new google.maps.Point(7,7) // anchor
                     )
               		});
               		markersArray.push(marker);
@@ -103,7 +103,7 @@
         };
         gmap = new google.maps.Map(mapElm, option);
 
-        //directionsDisplay.setMap(gmap);
+        directionsDisplay.setMap(gmap);
         //alert("init map end");
 
     }
@@ -208,3 +208,36 @@ function errorCallback(error) {
             break;
     }
 }
+
+$(function (){
+
+  $("#btn_toriaezu").click(function(){
+      navigator.geolocation.getCurrentPosition(
+            function(pos) {
+              getPoint(pos.coords.latitude, pos.coords.longitude);
+            },
+            function(error) {
+                var msg = "";
+                switch (error.code) {
+                case error.PERMISSION_DENIED:
+                    msg = "位置情報の取得の使用が許可されませんでした。";
+                    break;
+                case error.PERMISSION_DENIED_TIMEOUT:
+                    msg = "位置情報の取得中にタイムアウトしました。";
+                    break;
+                default: // case error.POSITION_UNAVAILABLE:
+                    msg = "位置情報が取得できませんでした。";
+                }
+                alert(msg);
+
+                initMap();
+                calcRoute(directionLatLng);
+	          },
+            {
+                enableHighAccuracy:true, timeout:15000, maximumAge:15000
+            }
+      );
+
+
+  });
+});
