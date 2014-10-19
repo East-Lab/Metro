@@ -23,6 +23,7 @@
     GMSPolyline *polyline;
     NSInteger mode;
     UITableView *tb;
+    NSDictionary *d;
 }
 
 typedef NS_ENUM (NSInteger, modeNum) {
@@ -121,18 +122,18 @@ typedef NS_ENUM (NSInteger, modeNum) {
 }
 
 - (void)onSuccessRequestNearPlace:(NSData *)data {
-    NSError *error = nil;
-    NSMutableDictionary *dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&error];
-    NSDictionary *d = dic;
-    for (int i = 0; i < [d count]; i++) {
-        NSLog(@"%@", [d objectForKey:@"1"]);
-    }
-    
-    tb = [[UITableView alloc] initWithFrame:CGRectMake(10, 70, self.view.frame.size.width-20, self.view.frame.size.height-70) style:UITableViewStylePlain];
-    tb.delegate = self;
-    tb.dataSource = self;
-    [self.view addSubview:tb];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        NSError *error = nil;
+        NSMutableDictionary *dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&error];
+        d = dic;
+        
+        tb = [[UITableView alloc] initWithFrame:CGRectMake(10, 70, self.view.frame.size.width-20, self.view.frame.size.height-300) style:UITableViewStylePlain];
+        tb.delegate = self;
+        tb.dataSource = self;
+        [self.view addSubview:tb];
+    });
 }
+                   
 
 - (void)onFailedRequest:(NSString *)err{
     [self showAlertWithYesNo:err];
@@ -173,25 +174,36 @@ typedef NS_ENUM (NSInteger, modeNum) {
 -(void)searchBarCancelButtonClicked:(UISearchBar*)searchBar {
     [searchBar resignFirstResponder];
     [tb removeFromSuperview];
+    [tb removeFromSuperview];
+    [tb removeFromSuperview];
 }
 
 -(void)searchBar:(UISearchBar*)searchBar textDidChange:(NSString*)searchText {
     self.searchText = searchText;
+    if ([searchText length] != 0) {
+        [tb removeFromSuperview];
+    } else {
+        //[self getNearPlace];
+    }
 }
 
 -(void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar {
-    
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://gif-animaker.sakura.ne.jp/metro/API/getAroundPlace.php?lat=%lf&lon=%lf&radius=2000", mapView_.myLocation.coordinate.latitude, mapView_.myLocation.coordinate.longitude]];
-    NSLog(@"url : %@", url);
-    [self.req sendAsynchronousRequestForNearPlace:url];
+    [self getNearPlace];
 }
 
-
+- (void)getNearPlace {
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://gif-animaker.sakura.ne.jp/metro/API/getAroundPlace.php?lat=%lf&lon=%lf&radius=2000", mapView_.myLocation.coordinate.latitude, mapView_.myLocation.coordinate.longitude]];
+    NSLog(@"url : %@", url);
+    [self.req sendAsynchronousRequestForNearPlace:url]; 
+}
 
 #pragma mark - UITableViewDelegate
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     NSLog(@"hoge");
-    return 3;
+    //NSLog(@"%@", d[@"result"][0][@"name"]);
+    NSLog(@"%lu", (unsigned long)[d[@"result"] count]);
+    //return [d[@"result"] count];
+    return 20;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -202,33 +214,26 @@ typedef NS_ENUM (NSInteger, modeNum) {
         cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
     }
     
-    cell.textLabel.text = @"hoge";
+    cell.textLabel.text = d[@"result"][indexPath.row][@"name"];
+    //NSLog(@"%@", d[@"result"][0][@"name"]);
+    //cell.textLabel.text = @"hoge";
     
     return cell;
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    CLLocationCoordinate2D coordinate;
+    coordinate.latitude = [d[@"result"][indexPath.row][@"location"][@"lat"] floatValue];
+    coordinate.longitude = [d[@"result"][indexPath.row][@"location"][@"lng"] floatValue];
+    NSLog(@"lat:%lf, lon:%lf", coordinate.latitude, coordinate.longitude);
+    NSString *title = d[@"result"][indexPath.row][@"name"];
+    [self markDestinationPlace:coordinate withTitle:title];
+    [tb removeFromSuperview];
+}
+
 #pragma mark - LocationManagerDelegate method
 - (void) didCompleteGeocoder:(CLLocationCoordinate2D)coordinate {
-    GMSCameraPosition *camera = [GMSCameraPosition cameraWithLatitude:coordinate.latitude longitude:coordinate.longitude zoom:[self.ud floatForKey:@"zoom"]];
-    [mapView_ animateToCameraPosition:camera];
-    polyline.map = nil;
-    [self clearMarker];
-    searchedMarker = [[GMSMarker alloc] init];
-    searchedMarker.appearAnimation = YES;
-    searchedMarker.position = CLLocationCoordinate2DMake(coordinate.latitude, coordinate.longitude);
-    searchedMarker.title = self.searchText;
-    //searchedMarker.snippet = station;
-    searchedMarker.map = mapView_;
-    
-    [goThereBtn removeFromSuperview];
-    goThereBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, self.view.frame.size.height - 120, self.view.frame.size.width - 75, 50)];
-    [goThereBtn setTitle:@"ここへ行く" forState:UIControlStateNormal];
-    [goThereBtn addTarget:self action:@selector(onTouchGoThereBtn) forControlEvents:UIControlEventTouchUpInside];
-    goThereBtn.backgroundColor = [UIColor purpleColor];
-    [goThereBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    goThereBtn.layer.shadowOpacity = 0.3f;
-    goThereBtn.layer.shadowOffset = CGSizeMake(0.5, 0.5);
-    [self.view addSubview:goThereBtn];
+    [self markDestinationPlace:coordinate withTitle:self.searchText];
 }
 
 - (void) didFailedGeocoder:(NSString *)err{
@@ -445,4 +450,30 @@ typedef NS_ENUM (NSInteger, modeNum) {
      ];
     [alert show];
 }
+
+- (void)markDestinationPlace:(CLLocationCoordinate2D) coordinate withTitle:(NSString *)title{
+    GMSCameraPosition *camera = [GMSCameraPosition cameraWithLatitude:coordinate.latitude longitude:coordinate.longitude zoom:[self.ud floatForKey:@"zoom"]];
+    [mapView_ animateToCameraPosition:camera];
+    polyline.map = nil;
+    [self clearMarker];
+    searchedMarker = [[GMSMarker alloc] init];
+    searchedMarker.appearAnimation = YES;
+    searchedMarker.position = CLLocationCoordinate2DMake(coordinate.latitude, coordinate.longitude);
+    //searchedMarker.title = self.searchText;
+    searchedMarker.title = title;
+    //searchedMarker.snippet = station;
+    searchedMarker.map = mapView_;
+    
+    [goThereBtn removeFromSuperview];
+    goThereBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, self.view.frame.size.height - 120, self.view.frame.size.width - 75, 50)];
+    [goThereBtn setTitle:@"ここへ行く" forState:UIControlStateNormal];
+    [goThereBtn addTarget:self action:@selector(onTouchGoThereBtn) forControlEvents:UIControlEventTouchUpInside];
+    goThereBtn.backgroundColor = [UIColor purpleColor];
+    [goThereBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    goThereBtn.layer.shadowOpacity = 0.3f;
+    goThereBtn.layer.shadowOffset = CGSizeMake(0.5, 0.5);
+    [self.view addSubview:goThereBtn];
+}
+
+
 @end
