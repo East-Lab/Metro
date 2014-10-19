@@ -110,8 +110,8 @@
         var homeControlDiv = document.createElement('DIV');
         var homeControl = new HomeControl(homeControlDiv, gmap);
 
-    　　homeControlDiv.index = 1;
-    　　gmap.controls[google.maps.ControlPosition.TOP_RIGHT].push(homeControlDiv);
+        homeControlDiv.index = 1;
+        gmap.controls[google.maps.ControlPosition.TOP_RIGHT].push(homeControlDiv);
 
 
         directionsDisplay.setMap(gmap);
@@ -254,8 +254,7 @@ $(function (){
 });
 
 //◆現在地コントロール
-function HomeControl(controlDiv, map)
-　　　　{
+function HomeControl(controlDiv, map){
 
   //マップ端から5pxのオフセット
   controlDiv.style.padding = '5px';
@@ -280,13 +279,13 @@ function HomeControl(controlDiv, map)
   controlUI.appendChild(controlText);
 
 
-　　//現在地へ移動
+  　　//現在地へ移動
    　google.maps.event.addDomListener(controlUI, 'click', function()
-　　{
+  　　{
       map.setCenter(initialLocation);
       map.setZoom(13);
       //map.setMapTypeId('satellite');
-　　});
+  　　});
 
 
 }
