@@ -10,6 +10,7 @@
 
 - (void)onSuccessRequest2Point:(NSData *)data;
 - (void)onSuccessRequestPOI:(NSData *)data;
+- (void)onSuccessRequestNearPlace:(NSData *)data;
 - (void)onFailedRequest:(NSString *)err;
 
 @end
@@ -18,6 +19,7 @@
 
 - (void)sendAsynchronousRequestFor2Point:(NSURL *)url;
 - (void)sendAsynchronousRequestForPOI:(NSURL *)url;
+- (void)sendAsynchronousRequestForNearPlace:(NSURL *)url;
 
 @property (nonatomic, assign) id<RequestUrlDelegate> delegate;
 

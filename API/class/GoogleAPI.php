@@ -14,7 +14,9 @@ class GoogleAPI{
 			);
 			$arr[] = $res_arr;
 		}
-		return $arr;
+		return array(
+			"result" => $arr,
+		);
 	}
 
 	private function sendRequest($data) {

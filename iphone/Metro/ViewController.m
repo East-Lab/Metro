@@ -22,6 +22,7 @@
     UIAlertView *alert;
     GMSPolyline *polyline;
     NSInteger mode;
+    UITableView *tb;
 }
 
 typedef NS_ENUM (NSInteger, modeNum) {
@@ -59,7 +60,7 @@ typedef NS_ENUM (NSInteger, modeNum) {
     mapView_.settings.indoorPicker = NO;
     
     sb = [[UISearchBar alloc] initWithFrame:CGRectMake(10, 22, self.view.bounds.size.width - 20, 44.0f)];
-    sb.showsCancelButton = NO;
+    sb.showsCancelButton = YES;
     sb.delegate = self;
     sb.placeholder = @"目的地を入力してください";
     sb.backgroundImage = [[UIImage alloc] init];
@@ -119,6 +120,20 @@ typedef NS_ENUM (NSInteger, modeNum) {
     [self performSelectorOnMainThread:@selector(place2PointMarker:) withObject:dic waitUntilDone:NO];
 }
 
+- (void)onSuccessRequestNearPlace:(NSData *)data {
+    NSError *error = nil;
+    NSMutableDictionary *dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&error];
+    NSDictionary *d = dic;
+    for (int i = 0; i < [d count]; i++) {
+        NSLog(@"%@", [d objectForKey:@"1"]);
+    }
+    
+    tb = [[UITableView alloc] initWithFrame:CGRectMake(10, 70, self.view.frame.size.width-20, self.view.frame.size.height-70) style:UITableViewStylePlain];
+    tb.delegate = self;
+    tb.dataSource = self;
+    [self.view addSubview:tb];
+}
+
 - (void)onFailedRequest:(NSString *)err{
     [self showAlertWithYesNo:err];
 }
@@ -152,14 +167,44 @@ typedef NS_ENUM (NSInteger, modeNum) {
     [searchBar resignFirstResponder];
     NSLog(@"searchText : %@", self.searchText);
     [[LocationManager sharedManager] findLocation:self.searchText];
+   
 }
 
 -(void)searchBarCancelButtonClicked:(UISearchBar*)searchBar {
     [searchBar resignFirstResponder];
+    [tb removeFromSuperview];
 }
 
 -(void)searchBar:(UISearchBar*)searchBar textDidChange:(NSString*)searchText {
     self.searchText = searchText;
+}
+
+-(void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar {
+    
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://gif-animaker.sakura.ne.jp/metro/API/getAroundPlace.php?lat=%lf&lon=%lf&radius=2000", mapView_.myLocation.coordinate.latitude, mapView_.myLocation.coordinate.longitude]];
+    NSLog(@"url : %@", url);
+    [self.req sendAsynchronousRequestForNearPlace:url];
+}
+
+
+
+#pragma mark - UITableViewDelegate
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    NSLog(@"hoge");
+    return 3;
+}
+
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSString *cellIdentifier = @"Cell";
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+    
+    if (!cell) {
+        cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
+    }
+    
+    cell.textLabel.text = @"hoge";
+    
+    return cell;
 }
 
 #pragma mark - LocationManagerDelegate method
