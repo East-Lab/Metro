@@ -91,6 +91,7 @@
 
         var option = {
             zoom: 18,
+            mapTypeControl:false,
             mapTypeId: google.maps.MapTypeId.ROADMAP
         };
         gmap = new google.maps.Map(mapElm, option);
@@ -100,7 +101,7 @@
         var homeControl = new HomeControl(homeControlDiv, gmap);
 
         homeControlDiv.index = 1;
-        gmap.controls[google.maps.ControlPosition.BOTTOM_RIGHT].push(homeControlDiv);
+        gmap.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(homeControlDiv);
 
         // Place検索
         var input = (document.getElementById('pac-input'));
