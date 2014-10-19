@@ -106,6 +106,14 @@
         };
         gmap = new google.maps.Map(mapElm, option);
 
+        // 現在地コントロール
+    　　var homeControlDiv = document.createElement('DIV');
+    　　var homeControl = new HomeControl(homeControlDiv, gmap);
+
+    　　homeControlDiv.index = 1;
+    　　map.controls[google.maps.ControlPosition.TOP_RIGHT].push(homeControlDiv);
+
+
         directionsDisplay.setMap(gmap);
         //alert("init map end");
 
@@ -244,3 +252,41 @@ $(function (){
 
   });
 });
+
+//◆現在地コントロール
+function HomeControl(controlDiv, map)
+　　　　{
+
+  //マップ端から5pxのオフセット
+  controlDiv.style.padding = '5px';
+
+  // コントロールボタン ボーダー用CSS
+  var controlUI = document.createElement('DIV');
+  controlUI.style.backgroundColor = 'white';
+  controlUI.style.borderStyle = 'solid';
+  controlUI.style.borderWidth = '2px';
+  controlUI.style.cursor = 'pointer';
+  controlUI.style.textAlign = 'center';
+  controlUI.title = 'Click to set the map to Home';
+  controlDiv.appendChild(controlUI);
+
+  // コントロールボタン装飾用CSS
+  var controlText = document.createElement('DIV');
+  controlText.style.fontFamily = 'Arial,sans-serif';
+  controlText.style.fontSize = '12px';
+  controlText.style.paddingLeft = '4px';
+  controlText.style.paddingRight = '4px';
+  controlText.innerHTML = '<b>現在地</b>';
+  controlUI.appendChild(controlText);
+
+
+　　//現在地へ移動
+   　google.maps.event.addDomListener(controlUI, 'click', function()
+　　{
+      map.setCenter(initialLocation);
+      map.setZoom(13);
+      //map.setMapTypeId('satellite');
+　　});
+
+
+}
