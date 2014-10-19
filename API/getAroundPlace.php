@@ -31,7 +31,7 @@ if ($err) {
 
 $google = new GoogleAPI();
 
-$contents = $metro->getAroundPlace($arg["lat"],$arg["lon"], $arg["radius"]);
+$contents = $google->getAroundPlace($arg["lat"],$arg["lon"], $arg["radius"]);
 if ($arg["escape"]) {
 	echo json_encode($contents, JSON_UNESCAPED_UNICODE);
 } else {
