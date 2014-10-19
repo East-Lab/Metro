@@ -107,8 +107,8 @@
         gmap = new google.maps.Map(mapElm, option);
 
         // 現在地コントロール
-    　　var homeControlDiv = document.createElement('DIV');
-    　　var homeControl = new HomeControl(homeControlDiv, gmap);
+        var homeControlDiv = document.createElement('DIV');
+        var homeControl = new HomeControl(homeControlDiv, gmap);
 
     　　homeControlDiv.index = 1;
     　　gmap.controls[google.maps.ControlPosition.TOP_RIGHT].push(homeControlDiv);
