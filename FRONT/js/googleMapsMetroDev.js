@@ -11,7 +11,7 @@
     var initialLocationGlobal;
 
     function initGL() {
-        //alert("initGl in");
+        alert("initGl in");
         initMap();
         // 現在地を取得
         navigator.geolocation.watchPosition(
@@ -83,7 +83,7 @@
 
     // 地図の初期化
     function initMap() {
-        //alert("init map in");
+        alert("init map in");
         var mapElm = document.getElementById("map");
         mapElm.style.width  = document.width  + "px";
         mapElm.style.height = (document.height * 0.7) + "px";
@@ -162,13 +162,13 @@
           infowindow.setContent('<div><strong>' + place.name + '</strong><br>' + address);
           infowindow.open(gmap, marker);
         });
-        
+
 
 
 
 
         directionsDisplay.setMap(gmap);
-        //alert("init map end");
+        alert("init map end");
 
     }
 
