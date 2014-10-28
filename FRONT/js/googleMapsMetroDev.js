@@ -51,6 +51,7 @@
               		// マーカーの配列を表示する
               		if (markersArray) {
               			for (i in markersArray) {
+                      alert("mark!!")
               				markersArray[i].setMap(gmap);
               			}
               		}
