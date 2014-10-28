@@ -20,7 +20,7 @@
 
                   initialLocationGlobal = myLatlng;
 
-              		//gmap.setCenter(myLatlng);
+              		gmap.setCenter(myLatlng);
 
               		// マーカーの配列を空にする
               		if (markersArray) {
@@ -51,12 +51,9 @@
               		// マーカーの配列を表示する
               		if (markersArray) {
               			for (i in markersArray) {
-                      alert("mark!!")
               				markersArray[i].setMap(gmap);
               			}
               		}
-
-                  alert("get now");
 
             },
             function(error) {
