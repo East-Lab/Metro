@@ -10,7 +10,11 @@
 
     var initialLocationGlobal;
 
+    var initFlg = 1;
+
     function initGL() {
+      // 目的地ボタンの無効化
+      $('#btn_mokuteki').attr('disabled', true);
 //        alert("initGl in");
         initMap();
         // 現在地を取得
@@ -20,7 +24,10 @@
 
                   initialLocationGlobal = myLatlng;
 
-              		gmap.setCenter(myLatlng);
+                  if(initFlg == 1){
+              		    gmap.setCenter(myLatlng);
+                      initFlg = 0;
+                  }
 
               		// マーカーの配列を空にする
               		if (markersArray) {
@@ -83,6 +90,11 @@
     // 地図の初期化
     function initMap() {
 //        alert("init map in");
+
+        if(initFlg == 0){
+            initFlg = 1;
+        }
+
         var mapElm = document.getElementById("map");
         mapElm.style.width  = document.width  + "px";
         mapElm.style.height = (document.height * 0.7) + "px";
@@ -175,9 +187,45 @@ function getPoint(lat, lon){
     });
 }
 
+// Metro API
+function getStationSpot(lat, lon){
+    console.log("click");
+    $.ajax({
+      url: "/metro/API/getMetroPOI.php",
+      data: {
+        //lat : 35.6641222,
+        //lon : 139.729426
+        lat : lat,
+        lon : lon,
+        radius : 100000
+      },
+      beforeSend: function() {
+        $("#result").html("loading...");
+      },
+      success: function( data ) {
+        if (data.error == 1) {
+          $("#result").html(data["error_msg"]);
+        } else {
+  //        alert("a ");
+
+          $("#result").html("");
+            var title = data["result"][0]["title"];
+            var latOut = data["result"][0]["lat"];
+            var lonOut = data["result"][0]["lon"];
+            var metroPoint = latOut + "," + lonOut;
+            var start = lat + "," + lon;
+            $("#result").append("title:" + title + "<br>lat:" + latOut + "<br>lon:" + lonOut + "<br>metro:" + metroPoint + "<br>start:" + start + "<hr>\n");
+
+            return metroPoint;
+
+        }
+      }
+    });
+}
+
 
 $(function (){
-
+//とりあえず地下へ
   $("#btn_toriaezu").click(function(){
       navigator.geolocation.getCurrentPosition(
             function(pos) {
@@ -207,6 +255,39 @@ $(function (){
 
 
   });
+
+//目的地へ
+  $("#btn_mokuteki").click(function(){
+      navigator.geolocation.getCurrentPosition(
+            function(pos) {
+              getPoint(pos.coords.latitude, pos.coords.longitude);
+            },
+            function(error) {
+                var msg = "";
+                switch (error.code) {
+                case error.PERMISSION_DENIED:
+                    msg = "位置情報の取得の使用が許可されませんでした。";
+                    break;
+                case error.PERMISSION_DENIED_TIMEOUT:
+                    msg = "位置情報の取得中にタイムアウトしました。";
+                    break;
+                default: // case error.POSITION_UNAVAILABLE:
+                    msg = "位置情報が取得できませんでした。";
+                }
+                alert(msg);
+
+                initMap();
+                calcRoute(directionLatLng);
+            },
+            {
+                enableHighAccuracy:true, timeout:15000, maximumAge:15000
+            }
+      );
+
+
+  });
+
+
 });
 
 //◆現在地コントロール
@@ -247,9 +328,11 @@ function HomeControl(controlDiv, map){
 
 // タッチしたところにピンを立てる
 function placeMarker(position, map) {
-var marker = new google.maps.Marker({
-  position: position,
-  map: map
-});
+  var marker = new google.maps.Marker({
+    position: position,
+    map: map
+  });
   map.panTo(position);
+
+  $('#btn_mokuteki').attr('disabled', true);
 }
