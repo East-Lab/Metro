@@ -334,6 +334,6 @@ function placeMarker(position, map) {
   });
   map.panTo(position);
 
-  alert("able");
+//  alert("able");
   $('#btn_mokuteki').attr('disabled', false);
 }
