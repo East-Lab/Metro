@@ -50,7 +50,7 @@ function initMap() {
 
 // ルート設定
 function calcRoute(originLatLng) {
-    var mode = "ROADMAP";
+    var mode = "WALKING";
     var req = {
         origin: originLatLng,
         destination: directionLatLng,
