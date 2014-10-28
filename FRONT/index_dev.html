@@ -3,6 +3,28 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
+    <style>
+      #pac-input {
+        background-color: #fff;
+        padding: 0 11px 0 13px;
+        width: 400px;
+        font-family: Roboto;
+        font-size: 15px;
+        font-weight: 300;
+        text-overflow: ellipsis;
+      }
+     #pac-input:focus {
+        border-color: #4d90fe;
+        margin-left: -1px;
+        padding-left: 14px;  /* Regular padding-left + 1. */
+        width: 401px;
+      }
+
+      .pac-container {
+        font-family: Roboto;
+      }
+    </style>
+
 
     <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
 
@@ -20,6 +42,7 @@
       <br>
 
       <div>
+        <input id="pac-input" class="text-input" type="text"  placeholder="周辺スポットを検索">
         <div id="map">取得中</div>
       </div>
 

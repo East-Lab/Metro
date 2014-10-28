@@ -21,7 +21,7 @@
 
                   initialLocationGlobal = myLatlng;
 
-              		gmap.setCenter(myLatlng);
+              		//gmap.setCenter(myLatlng);
 
               		// マーカーの配列を空にする
               		if (markersArray) {
@@ -103,6 +103,12 @@
         homeControlDiv.index = 1;
         gmap.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(homeControlDiv);
 
+        // タッチした場所にピンを立てる
+        google.maps.event.addListener(gmap, 'click', function(e) {
+          placeMarker(e.latLng, gmap);
+        });
+
+
         // Place検索
         var input = (document.getElementById('pac-input'));
 
@@ -134,7 +140,7 @@
             gmap.setCenter(place.geometry.location);
             gmap.setZoom(17);  // Why 17? Because it looks good.
           }
-          marker.setIcon(/** @type {google.maps.Icon} */({
+          marker.setIcon(({
             url: 'https://gif-animaker.sakura.ne.jp/metro/FRONT/js/images/bluedot.png',
             size: new google.maps.Size(71, 71),
             origin: new google.maps.Point(0, 0),
@@ -156,6 +162,8 @@
           infowindow.setContent('<div><strong>' + place.name + '</strong><br>' + address);
           infowindow.open(gmap, marker);
         });
+        
+
 
 
 
@@ -163,6 +171,9 @@
         //alert("init map end");
 
     }
+
+    // Place検索ライブラリ
+
 
     // ルート設定
     function calcRoute(originLatLng, directionLatLng) {
@@ -330,5 +341,14 @@ function HomeControl(controlDiv, map){
     map.setZoom(18);
     //map.setMapTypeId('satellite');
   });
+
+  // タッチしたところにピンを立てる
+  function placeMarker(position, map) {
+  var marker = new google.maps.Marker({
+    position: position,
+    map: map
+  });
+    map.panTo(position);
+  }
 
 }
