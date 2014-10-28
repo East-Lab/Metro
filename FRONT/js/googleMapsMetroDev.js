@@ -334,5 +334,5 @@ function placeMarker(position, map) {
   });
   map.panTo(position);
 
-  $('#btn_mokuteki').attr('disabled', true);
+  $('#btn_mokuteki').attr('disabled', false);
 }
