@@ -14,8 +14,8 @@
         alert("initGl in");
         initMap();
         // 現在地を取得
-        navigator.geolocation.watchPosition(
-//        navigator.geolocation.getCurrentPosition(
+//        navigator.geolocation.watchPosition(
+        navigator.geolocation.getCurrentPosition(
             function(pos) {
               		var myLatlng = new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude);
 
