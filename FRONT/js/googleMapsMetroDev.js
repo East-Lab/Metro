@@ -11,7 +11,7 @@
     var initialLocationGlobal;
 
     function initGL() {
-        alert("initGl in");
+//        alert("initGl in");
         initMap();
         // 現在地を取得
 //        navigator.geolocation.watchPosition(
@@ -69,7 +69,7 @@
                 default: // case error.POSITION_UNAVAILABLE:
                     msg = "位置情報が取得できませんでした。";
                 }
-                alert(msg, "call init");
+//                alert(msg, "call init");
 
                 initMap();
 
@@ -83,7 +83,7 @@
 
     // 地図の初期化
     function initMap() {
-        alert("init map in");
+//        alert("init map in");
         var mapElm = document.getElementById("map");
         mapElm.style.width  = document.width  + "px";
         mapElm.style.height = (document.height * 0.7) + "px";
@@ -110,7 +110,7 @@
 
 
         directionsDisplay.setMap(gmap);
-        alert("init map end");
+//        alert("init map end");
 
     }
 
@@ -176,47 +176,6 @@ function getPoint(lat, lon){
     });
 }
 
-function get_geo() {
-  if (navigator.geolocation) {
-    //Geolocation APIを利用できる環境向けの処理
-    //console.log('can get geo');
-    watchID = navigator.geolocation.getCurrentPosition(
-        successCallback, errorCallback
-        );
-  } else {
-    //Geolocation APIを利用できない環境向けの処理
-    console.log('cannot get geo');
-  }
-}
-
-
-/***** 位置情報が取得できた場合 *****/
-function successCallback(position) {
-  lat = position.coords.latitude;
-  lon = position.coords.longitude;
-
-    var gl_text = "lat : " + position.coords.latitude + "<br>";
-    gl_text += "lon : " + position.coords.longitude + "<br>";
-  $("#geo").html(gl_text);
-  get_geo();
-}
-
-/***** 位置情報が取得できない場合 *****/
-function errorCallback(error) {
-    var err_msg = "";
-    switch(error.code)
-    {
-        case 1:
-            err_msg = "位置情報の利用が許可されていません";
-            break;
-        case 2:
-            err_msg = "デバイスの位置が判定できません";
-            break;
-        case 3:
-            err_msg = "タイムアウトしました";
-            break;
-    }
-}
 
 $(function (){
 
@@ -284,13 +243,14 @@ function HomeControl(controlDiv, map){
     //map.setMapTypeId('satellite');
   });
 
-  // タッチしたところにピンを立てる
-  function placeMarker(position, map) {
-  var marker = new google.maps.Marker({
-    position: position,
-    map: map
-  });
-    map.panTo(position);
-  }
 
+}
+
+// タッチしたところにピンを立てる
+function placeMarker(position, map) {
+var marker = new google.maps.Marker({
+  position: position,
+  map: map
+});
+  map.panTo(position);
 }
