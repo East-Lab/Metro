@@ -50,7 +50,7 @@ function initMap() {
 
 // ルート設定
 function calcRoute(originLatLng) {
-    var mode = document.getElementById("mode").value;
+    var mode = document.getElementById("ROADMAP").value;
     var req = {
         origin: originLatLng,
         destination: directionLatLng,
