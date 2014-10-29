@@ -32,7 +32,8 @@ if ($err) {
 
 $metro = new MetroAPI();
 $contents = $metro->getPoiByLocation($arg["lat"],$arg["lon"], $arg["radius"], 1);
-echo $contents['result'][0]['title'];
+$poi = $contents['result'][0]['title'];
+$station = str_replace(strstr($poi, "出入口"),'',$poi);
 
 
 
