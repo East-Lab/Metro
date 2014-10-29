@@ -14,8 +14,12 @@ if (!isset($arg["lon"])) {
 	$err_msg .= "lon is not set.\n";
 	$err = 1;
 }
-if (!isset($arg["radius"])) {
-	$err_msg .= "radius is not set.\n";
+if (!isset($arg["radiusA"])) {
+	$err_msg .= "radiusA is not set.\n";
+	$err = 1;
+}
+if (!isset($arg["radiusB"])) {
+	$err_msg .= "radiusB is not set.\n";
 	$err = 1;
 }
 if (!isset($arg["escape"])) {
@@ -31,21 +35,15 @@ if ($err) {
 }
 
 $metro = new MetroAPI();
-$contents = $metro->getPoiByLocation($arg["lat"],$arg["lon"], $arg["radius"], 1);
-$poi = $contents['result'][0]['title'];
-$station = str_replace(strstr($poi, "出入口"),'駅',$poi);
-echo $station;
+$contents = $metro->getPoiByLocation($arg["lat"],$arg["lon"], $arg["radiusA"], 1);
+$lat = $contents['result'][0]['lat'];
+$lon = $contents['result'][0]['lon'];
 
-
-
-
-/*
 $google = new GoogleAPI();
 
-$contents = $google->getAroundPlace($arg["lat"],$arg["lon"], $arg["radius"]);
+$contents = $google->getAroundStationPlace($lat, $lon, $arg["radiusB"]);
 if ($arg["escape"]) {
 	echo json_encode($contents, JSON_UNESCAPED_UNICODE);
 } else {
 	echo json_encode($contents);
 }
- */
