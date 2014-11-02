@@ -38,7 +38,7 @@ $google = new GoogleAPI();
 $url = "http://maps.googleapis.com/maps/api/directions/json?origin={$arg["latA"]},{$arg["lonA"]}&destination={$arg["latB"]},{$arg["lonB"]}&mode=walking&sensor=false";
 $contents = $google->sendRequest($url);
 if ($arg["escape"]) {
-	echo json_encode($contents, JSON_UNESCAPED_UNICODE);
+	echo json_encode(json_decode($contents, true), JSON_UNESCAPED_UNICODE);
 } else {
-	echo json_encode($contents);
+	echo json_encode(json_decode($contents, true));
 }
