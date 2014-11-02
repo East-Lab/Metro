@@ -152,6 +152,34 @@
 	      });
     }
 
+// ルート設定_目的地へ
+function calcOrientRoute(originLatLng, directionLatLng, metroWayPointIn, metroWayPointOut) {
+    //alert(originLatLng);
+    //alert(directionLatLng);
+
+    var mode = "WALKING";
+
+       // 経由地点を設定
+    var wayPoints = [
+    {
+        location: metroWayPointIn
+    },{
+        location: metroWayPointOut
+    }];
+
+    var req = {
+        origin: originLatLng,
+        destination: directionLatLng,
+        travelMode: google.maps.TravelMode[mode],
+        waypoints: wayPoints
+    };
+    directionsService.route(req, function(res, status) {
+        if (google.maps.DirectionsStatus.OK == status) {
+            directionsDisplay.setDirections(res);
+        }
+    });
+}
+
 
 
 // Metro API
@@ -195,7 +223,7 @@ function getPoint(lat, lon){
 
 // Metro API
 function goToPoint(latNow, lonNow, latOrient, lonOrient){
-  alert("func in " + latOrient + "," + lonOrient);
+  //alert("func in " + latOrient + "," + lonOrient);
     $.ajax({
       url: "/metro/API/get2Point.php",
       data: {
@@ -213,7 +241,7 @@ function goToPoint(latNow, lonNow, latOrient, lonOrient){
         if (data.error == 1) {
           $("#result").html(data["error_msg"]);
         } else {
-          alert("to mokuteki");
+          //alert("to mokuteki");
 
           $("#result").html("");
             var titleA = data["result"][0]["pointA"]["title"];
@@ -227,7 +255,7 @@ function goToPoint(latNow, lonNow, latOrient, lonOrient){
             //var start = lat + "," + lon;
 
             var start = latNow + "," + lonNow;
-            var startMetroOut = latOutA + "," + lonOutA;
+            var startMetroIn = latOutA + "," + lonOutA;
 
             var startMetroOut = latOutB + "," + lonOutB;
             var orient = latOrient + "," + lonOrient;
@@ -235,8 +263,10 @@ function goToPoint(latNow, lonNow, latOrient, lonOrient){
             //$("#result").append("title:" + title + "<br>lat:" + latOut + "<br>lon:" + lonOut + "<br>metro:" + metroPoint + "<br>start:" + start + "<hr>\n");
 
 //            alert("b " + start + " " + metroPoint);
-            calcRoute(start, startMetroOut);
+            calcRoute(start, startMetroIn);
             calcRoute(startMetroOut, orient);
+
+//            calcOrientRoute(start, orient, startMetroIn, startMetroOut);
 
             return "success";
 
@@ -319,7 +349,7 @@ $(function (){
   $("#btn_mokuteki").click(function(){
       navigator.geolocation.getCurrentPosition(
             function(pos) {
-              alert("mokuteki btn pushed " + orientLocationLat + "," + orientLocationLon);
+              //alert("mokuteki btn pushed " + orientLocationLat + "," + orientLocationLon);
               goToPoint(pos.coords.latitude, pos.coords.longitude, orientLocationLat, orientLocationLon);
             },
             function(error) {
@@ -399,6 +429,6 @@ function placeMarker(position, map) {
   //orientLocation = latOut + "," + lonOut;
 
 
-  alert("able");
+  //alert("able");
   $('#btn_mokuteki').attr('disabled', false);
 }
