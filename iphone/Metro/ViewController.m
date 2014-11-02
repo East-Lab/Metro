@@ -169,6 +169,14 @@ typedef NS_ENUM (NSInteger, modeNum) {
         polyline2.strokeColor = [UIColor redColor];
         polyline1.map = mapView_;
         polyline2.map = mapView_;
+        
+        GMSMutablePath *path = [GMSMutablePath path];
+        [path addCoordinate:markerA.position];
+        [path addCoordinate:markerB.position];
+        polyline = [GMSPolyline polylineWithPath:path];
+        polyline.strokeWidth = 5.f;
+        polyline.strokeColor = [UIColor grayColor];
+        polyline.map = mapView_;
     });
 }
 
