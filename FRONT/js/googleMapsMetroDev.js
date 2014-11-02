@@ -10,6 +10,12 @@
 
     var initialLocationGlobal;
 
+    var orientLocationLat;
+    var orientLocationLon;
+
+    var nearMetroIn;
+    var nearMetroOut;
+
     var initFlg = 1;
 
     function initGL() {
@@ -188,6 +194,59 @@ function getPoint(lat, lon){
 }
 
 // Metro API
+function goToPoint(latNow, lonNow, latOrient, lonOrient){
+    console.log("click");
+    $.ajax({
+      url: "/metro/API/get2Point.php",
+      data: {
+        latA : latNow,
+        lonA : lonNow,
+        radiusA : 100000,
+        latB : latOrient,
+        lonB : lonOrient,
+        radiusB : 100000
+      },
+      beforeSend: function() {
+        $("#result").html("loading...");
+      },
+      success: function( data ) {
+        if (data.error == 1) {
+          $("#result").html(data["error_msg"]);
+        } else {
+  //        alert("a ");
+
+          $("#result").html("");
+            var titleA = data["result"][0]["pointA"]["title"];
+            var latOutA = data["result"][0]["pointA"]["lat"];
+            var lonOutA = data["result"][0]["pointA"]["lon"];
+            var titleB = data["result"][0]["pointB"]["title"];
+            var latOutB = data["result"][0]["pointB"]["lat"];
+            var lonOutB = data["result"][0]["pointB"]["lon"];
+
+            //var metroPoint = latOut + "," + lonOut;
+            //var start = lat + "," + lon;
+
+            var start = latNow + "," + lonNow;
+            var startMetroOut = latOutA + "," + lonOutA;
+
+            var startMetroOut = latOutB + "," + lonOutB;
+            var orient = latOrient + "," + lonOrient;
+
+            //$("#result").append("title:" + title + "<br>lat:" + latOut + "<br>lon:" + lonOut + "<br>metro:" + metroPoint + "<br>start:" + start + "<hr>\n");
+
+//            alert("b " + start + " " + metroPoint);
+            calcRoute(start, startMetroOut);
+            calcRoute(startMetroOut, orient);
+
+            return "success";
+
+        }
+      }
+    });
+}
+
+
+// Metro API
 function getStationSpot(lat, lon){
     console.log("click");
     $.ajax({
@@ -246,7 +305,7 @@ $(function (){
                 alert(msg);
 
                 initMap();
-                calcRoute(directionLatLng);
+                //calcRoute(directionLatLng);
 	          },
             {
                 enableHighAccuracy:true, timeout:15000, maximumAge:15000
@@ -260,7 +319,7 @@ $(function (){
   $("#btn_mokuteki").click(function(){
       navigator.geolocation.getCurrentPosition(
             function(pos) {
-              getPoint(pos.coords.latitude, pos.coords.longitude);
+              goToPoint(pos.coords.latitude, pos.coords.longitude, orientLocationLat, orientLocationLon);
             },
             function(error) {
                 var msg = "";
@@ -277,7 +336,7 @@ $(function (){
                 alert(msg);
 
                 initMap();
-                calcRoute(directionLatLng);
+                //calcRoute(directionLatLng);
             },
             {
                 enableHighAccuracy:true, timeout:15000, maximumAge:15000
@@ -333,6 +392,11 @@ function placeMarker(position, map) {
     map: map
   });
   map.panTo(position);
+
+  orientLocationLat = position;
+  orientLocationLon = position;
+  //orientLocation = latOut + "," + lonOut;
+
 
 //  alert("able");
   $('#btn_mokuteki').attr('disabled', false);
