@@ -6,7 +6,7 @@ class GoogleAPI{
 		$accessToken = file_get_contents("/home/gif-animaker/Metro/API/google.key");
 		$accessToken = str_replace(array("\r\n","\r","\n"), '', $accessToken);
 		$url = $this->baseurl . "?language=ja&key=$accessToken&location=$lat,$lon&radius=$radius&sensor=true";
-		$contents = json_decode($this->sendRequest($url, $data), true);
+		$contents = json_decode($this->sendRequest($url), true);
 
 		$arr = array();
 		foreach ($contents["results"] as $res) {
@@ -25,7 +25,7 @@ class GoogleAPI{
 		$accessToken = file_get_contents("/home/gif-animaker/Metro/API/google.key");
 		$accessToken = str_replace(array("\r\n","\r","\n"), '', $accessToken);
 		$url = $this->baseurl . "?language=ja&key=$accessToken&location=$lat,$lon&radius=$radius&sensor=true";
-		$contents = json_decode($this->sendRequest($url, $data), true);
+		$contents = json_decode($this->sendRequest($url), true);
 
 		$arr = array();
 		foreach ($contents["results"] as $res) {
@@ -40,7 +40,7 @@ class GoogleAPI{
 		);
 	}
 
-	private function sendRequest($url, $data) {
+	public function sendRequest($url) {
 
 		$options = array('https' => array(
 			'method' => 'GET',
