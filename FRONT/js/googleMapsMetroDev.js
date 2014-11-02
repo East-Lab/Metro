@@ -394,13 +394,13 @@ function placeMarker(position, map) {
   });
   map.panTo(position);
 
-  alert("able b");
+  //alert("able b");
 
   orientLocationLat = position.lat();
   orientLocationLon = position.lon();
   //orientLocation = latOut + "," + lonOut;
 
 
-  alert("able");
+  //alert("able");
   $('#btn_mokuteki').attr('disabled', false);
 }
