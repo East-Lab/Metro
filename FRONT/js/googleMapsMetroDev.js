@@ -319,6 +319,7 @@ $(function (){
   $("#btn_mokuteki").click(function(){
       navigator.geolocation.getCurrentPosition(
             function(pos) {
+              alert("mokuteki btn pushed");
               goToPoint(pos.coords.latitude, pos.coords.longitude, orientLocationLat, orientLocationLon);
             },
             function(error) {
