@@ -213,7 +213,7 @@ function goToPoint(latNow, lonNow, latOrient, lonOrient){
         if (data.error == 1) {
           $("#result").html(data["error_msg"]);
         } else {
-  //        alert("a ");
+          alert("to mokuteki");
 
           $("#result").html("");
             var titleA = data["result"][0]["pointA"]["title"];
