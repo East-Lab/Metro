@@ -52,8 +52,11 @@ $arr[count($steps) - 1] = array(
 	"lat" => $data["routes"][0]["legs"][0]["end_location"]["lat"],
 	"lon" => $data["routes"][0]["legs"][0]["end_location"]["lng"],
 );
+$return = array(
+	"res" => $arr,
+);
 if ($arg["escape"]) {
-	echo json_encode($arr, JSON_UNESCAPED_UNICODE);
+	echo json_encode($return, JSON_UNESCAPED_UNICODE);
 } else {
-	echo json_encode($arr);
+	echo json_encode($return);
 }

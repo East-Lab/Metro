@@ -134,6 +134,35 @@ typedef NS_ENUM (NSInteger, modeNum) {
     });
 }
                    
+- (void)onSuccessRequestRoute:(NSData *)data {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        NSError *error = nil;
+        NSMutableDictionary *dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&error];
+        NSDictionary *di = dic;
+            float lat = [di[@"res"][0][@"lat"] floatValue];
+        GMSMutablePath *path = [GMSMutablePath path];
+        for (int i =0 ; i<[dic count]; i++) {
+            [path addCoordinate:CLLocationCoordinate2DMake([di[i][@"lat"] floatValue], [di[i][@"lon"] floatValue])];
+        }
+        
+        //[path addCoordinate:CLLocationCoordinate2DMake(lat, lon)];
+        //[path addCoordinate:CLLocationCoordinate2DMake(mapView_.myLocation.coordinate.latitude, mapView_.myLocation.coordinate.longitude)];
+        polyline.map = nil;
+        polyline = [GMSPolyline polylineWithPath:path];
+        polyline.strokeWidth = 5.f;
+        polyline.strokeColor = [UIColor redColor];
+        polyline.map = mapView_;
+        
+        CLLocationCoordinate2D loc = CLLocationCoordinate2DMake((mapView_.myLocation.coordinate.latitude + lat)/2, (mapView_.myLocation.coordinate.longitude + lon)/2);
+        CLLocation *A = [[CLLocation alloc] initWithLatitude:lat longitude:lon];
+        CLLocation *B = [[CLLocation alloc] initWithLatitude:mapView_.myLocation.coordinate.latitude longitude:mapView_.myLocation.coordinate.longitude];
+        
+        CLLocationDistance distance = [A distanceFromLocation:B];
+        float z = [GMSCameraPosition zoomAtCoordinate:loc forMeters:distance perPoints:300];
+        GMSCameraPosition *camera = [GMSCameraPosition cameraWithLatitude:loc.latitude longitude:loc.longitude zoom:z];
+        [mapView_ animateToCameraPosition:camera];
+    });
+}
 
 - (void)onFailedRequest:(NSString *)err{
     [self showAlertWithYesNo:err];
@@ -310,23 +339,11 @@ typedef NS_ENUM (NSInteger, modeNum) {
             nearPOImarker.icon = [GMSMarker markerImageWithColor:[UIColor orangeColor]];
             nearPOImarker.map = mapView_;
             
-            GMSMutablePath *path = [GMSMutablePath path];
-            [path addCoordinate:CLLocationCoordinate2DMake(lat, lon)];
-            [path addCoordinate:CLLocationCoordinate2DMake(mapView_.myLocation.coordinate.latitude, mapView_.myLocation.coordinate.longitude)];
-            polyline.map = nil;
-            polyline = [GMSPolyline polylineWithPath:path];
-            polyline.strokeWidth = 5.f;
-            polyline.strokeColor = [UIColor redColor];
-            polyline.map = mapView_;
+            NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://gif-animaker.sakura.ne.jp/metro/API/getRoute.php?latA=%lf&lonA=%lf&latB=%lf&lonB=%lf&escape=0", mapView_.myLocation.coordinate.latitude, mapView_.myLocation.coordinate.longitude, lat, lon]];
+            NSLog(@"url : %@", url);
+            [self.req sendAsynchronousRequestForRoute:url];
             
-            CLLocationCoordinate2D loc = CLLocationCoordinate2DMake((mapView_.myLocation.coordinate.latitude + lat)/2, (mapView_.myLocation.coordinate.longitude + lon)/2);
-            CLLocation *A = [[CLLocation alloc] initWithLatitude:lat longitude:lon];
-            CLLocation *B = [[CLLocation alloc] initWithLatitude:mapView_.myLocation.coordinate.latitude longitude:mapView_.myLocation.coordinate.longitude];
-            
-            CLLocationDistance distance = [A distanceFromLocation:B];
-            float z = [GMSCameraPosition zoomAtCoordinate:loc forMeters:distance perPoints:300];
-            GMSCameraPosition *camera = [GMSCameraPosition cameraWithLatitude:loc.latitude longitude:loc.longitude zoom:z];
-            [mapView_ animateToCameraPosition:camera];
+           
         }
     } else {
         NSLog(@"%ld", [dic[@"result"] count]);
