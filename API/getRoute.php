@@ -38,14 +38,14 @@ $google = new GoogleAPI();
 $url = "http://maps.googleapis.com/maps/api/directions/json?origin={$arg["latA"]},{$arg["lonA"]}&destination={$arg["latB"]},{$arg["lonB"]}&mode=walking&sensor=false";
 $contents = $google->sendRequest($url);
 $data = json_decode($contents, true);
-var_dump($data["routes"][0]["legs"][0]["steps"][0]["start_location"]["lat"]);
-exit(0);
+//var_dump($data["routes"][0]["legs"][0]["steps"][0]["start_location"]["lat"]);
+//exit(0);
 $steps = $data["routes"][0]["legs"][0]["steps"];
 $arr = array();
 foreach ($steps as $s) {
 	$arr[] = array(
-		"lat" => $steps["start_location"]["lat"],
-		"lon" => $steps["start_location"]["lng"],
+		"lat" => $s["start_location"]["lat"],
+		"lon" => $s["start_location"]["lng"],
 	);
 } 
 $arr[count($steps) - 1] = array(
