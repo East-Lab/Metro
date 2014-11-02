@@ -139,14 +139,22 @@ typedef NS_ENUM (NSInteger, modeNum) {
         NSError *error = nil;
         NSMutableDictionary *dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&error];
         NSDictionary *di = dic;
-        GMSMutablePath *path = [GMSMutablePath path];
-        for (int i =0 ; i<[dic[@"res"] count]; i++) {
-            [path addCoordinate:CLLocationCoordinate2DMake([di[@"res"][i][@"lat"] floatValue], [di[@"res"][i][@"lon"] floatValue])];
-        }
-        [path addCoordinate:CLLocationCoordinate2DMake(nearPOImarker.position.latitude, nearPOImarker.position.longitude)];
+        NSString *enc_path = [NSString stringWithFormat:@"%@",di[@"polyline"]];
+        //enc_path = [enc_path stringByReplacingOccurrencesOfString:@"\\" withString:@"\\"];
+        NSLog(@"%@", enc_path);
+        GMSMutablePath *path = [GMSMutablePath pathFromEncodedPath:enc_path];
+        
+        //GMSMutablePath *path = [GMSMutablePath pathFromEncodedPath:[NSString stringWithFormat:@"%@",di[@"polyline"]]];
+        
+        //GMSMutablePath *path = [GMSMutablePath path];
+        //for (int i =0 ; i<[dic[@"res"] count]; i++) {
+        //    [path addCoordinate:CLLocationCoordinate2DMake([di[@"res"][i][@"lat"] floatValue], [di[@"res"][i][@"lon"] floatValue])];
+        //}
+        //[path addCoordinate:CLLocationCoordinate2DMake(nearPOImarker.position.latitude, nearPOImarker.position.longitude)];
         
         //[path addCoordinate:CLLocationCoordinate2DMake(lat, lon)];
         //[path addCoordinate:CLLocationCoordinate2DMake(mapView_.myLocation.coordinate.latitude, mapView_.myLocation.coordinate.longitude)];
+        
         polyline.map = nil;
         polyline = [GMSPolyline polylineWithPath:path];
         polyline.strokeWidth = 5.f;
@@ -339,7 +347,8 @@ typedef NS_ENUM (NSInteger, modeNum) {
             nearPOImarker.icon = [GMSMarker markerImageWithColor:[UIColor orangeColor]];
             nearPOImarker.map = mapView_;
             
-            NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://gif-animaker.sakura.ne.jp/metro/API/getRoute.php?latA=%lf&lonA=%lf&latB=%lf&lonB=%lf&escape=0", mapView_.myLocation.coordinate.latitude, mapView_.myLocation.coordinate.longitude, lat, lon]];
+//            NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://gif-animaker.sakura.ne.jp/metro/API/getRoute.php?latA=%lf&lonA=%lf&latB=%lf&lonB=%lf&escape=true", mapView_.myLocation.coordinate.latitude, mapView_.myLocation.coordinate.longitude, lat, lon]];
+            NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://gif-animaker.sakura.ne.jp/metro/API/getRoute.php?latA=35.532522&lonA=139.502634&latB=35.531681&lonB=139.494686&escape=true"]];
             NSLog(@"url : %@", url);
             [self.req sendAsynchronousRequestForRoute:url];
             

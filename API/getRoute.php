@@ -54,7 +54,7 @@ $arr[count($steps) - 1] = array(
 );
 $return = array(
 	"res" => $arr,
-	"polyline" => $data["routes"][0]["overview_polyline"],
+	"polyline" => $data["routes"][0]["overview_polyline"]["points"],
 );
 if ($arg["escape"]) {
 	echo json_encode($return, JSON_UNESCAPED_UNICODE);
