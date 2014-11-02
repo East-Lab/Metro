@@ -394,11 +394,8 @@ function placeMarker(position, map) {
   });
   map.panTo(position);
 
-  alert("pos " + position.lat());
-  alert("pos " + position.lon());
-
   orientLocationLat = position.lat();
-  orientLocationLon = position.lon();
+  orientLocationLon = position.lng();
   //orientLocation = latOut + "," + lonOut;
 
 
