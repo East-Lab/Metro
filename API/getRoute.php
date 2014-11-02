@@ -37,8 +37,21 @@ $google = new GoogleAPI();
 
 $url = "http://maps.googleapis.com/maps/api/directions/json?origin={$arg["latA"]},{$arg["lonA"]}&destination={$arg["latB"]},{$arg["lonB"]}&mode=walking&sensor=false";
 $contents = $google->sendRequest($url);
+$data = json_decode($contents, true);
+$steps = $data["routes"]["legs"]["steps"];
+$arr = array();
+foreach ($steps as $s) {
+	$arr[] = array(
+		"lat" => $steps["start_location"]["lat"],
+		"lon" => $steps["start_location"]["lng"],
+	);
+} 
+$arr[count($steps) - 1] = array(
+	"lat" => $data["routes"]["legs"]["end_location"]["lat"],
+	"lon" => $data["routes"]["legs"]["end_location"]["lng"],
+);
 if ($arg["escape"]) {
-	echo json_encode(json_decode($contents, true), JSON_UNESCAPED_UNICODE);
+	echo json_encode($arr, JSON_UNESCAPED_UNICODE);
 } else {
-	echo json_encode(json_decode($contents, true));
+	echo json_encode($arr);
 }
