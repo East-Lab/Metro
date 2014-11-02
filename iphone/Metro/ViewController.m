@@ -143,6 +143,7 @@ typedef NS_ENUM (NSInteger, modeNum) {
         for (int i =0 ; i<[dic[@"res"] count]; i++) {
             [path addCoordinate:CLLocationCoordinate2DMake([di[@"res"][i][@"lat"] floatValue], [di[@"res"][i][@"lon"] floatValue])];
         }
+        [path addCoordinate:CLLocationCoordinate2DMake(nearPOImarker.position.latitude, nearPOImarker.position.longitude)];
         
         //[path addCoordinate:CLLocationCoordinate2DMake(lat, lon)];
         //[path addCoordinate:CLLocationCoordinate2DMake(mapView_.myLocation.coordinate.latitude, mapView_.myLocation.coordinate.longitude)];
