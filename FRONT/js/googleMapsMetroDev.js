@@ -262,12 +262,12 @@ function goToPoint(latNow, lonNow, latOrient, lonOrient){
 
             //$("#result").append("title:" + title + "<br>lat:" + latOut + "<br>lon:" + lonOut + "<br>metro:" + metroPoint + "<br>start:" + start + "<hr>\n");
 
-            alert("b " + start + " " + startMetroIn);
-            calcRoute(start, startMetroIn);
-            alert("c " + startMetroOut + " " + orient);
-            calcRoute(startMetroOut, orient);
+//            alert("b " + start + " " + startMetroIn);
+//            calcRoute(start, startMetroIn);
+//            alert("c " + startMetroOut + " " + orient);
+//            calcRoute(startMetroOut, orient);
 
-//            calcOrientRoute(start, orient, startMetroIn, startMetroOut);
+            calcOrientRoute(start, orient, startMetroIn, startMetroOut);
 
             return "success";
 
