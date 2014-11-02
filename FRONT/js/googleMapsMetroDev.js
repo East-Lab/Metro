@@ -399,6 +399,6 @@ function placeMarker(position, map) {
   //orientLocation = latOut + "," + lonOut;
 
 
-//  alert("able");
+  alert("able");
   $('#btn_mokuteki').attr('disabled', false);
 }
