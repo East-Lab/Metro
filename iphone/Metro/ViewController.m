@@ -139,10 +139,9 @@ typedef NS_ENUM (NSInteger, modeNum) {
         NSError *error = nil;
         NSMutableDictionary *dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&error];
         NSDictionary *di = dic;
-            float lat = [di[@"res"][0][@"lat"] floatValue];
         GMSMutablePath *path = [GMSMutablePath path];
-        for (int i =0 ; i<[dic count]; i++) {
-            [path addCoordinate:CLLocationCoordinate2DMake([di[i][@"lat"] floatValue], [di[i][@"lon"] floatValue])];
+        for (int i =0 ; i<[dic[@"res"] count]; i++) {
+            [path addCoordinate:CLLocationCoordinate2DMake([di[@"res"][i][@"lat"] floatValue], [di[@"res"][i][@"lon"] floatValue])];
         }
         
         //[path addCoordinate:CLLocationCoordinate2DMake(lat, lon)];
@@ -153,8 +152,8 @@ typedef NS_ENUM (NSInteger, modeNum) {
         polyline.strokeColor = [UIColor redColor];
         polyline.map = mapView_;
         
-        CLLocationCoordinate2D loc = CLLocationCoordinate2DMake((mapView_.myLocation.coordinate.latitude + lat)/2, (mapView_.myLocation.coordinate.longitude + lon)/2);
-        CLLocation *A = [[CLLocation alloc] initWithLatitude:lat longitude:lon];
+        CLLocationCoordinate2D loc = CLLocationCoordinate2DMake((mapView_.myLocation.coordinate.latitude + nearPOImarker.position.latitude)/2, (mapView_.myLocation.coordinate.longitude + nearPOImarker.position.longitude)/2);
+        CLLocation *A = [[CLLocation alloc] initWithLatitude:nearPOImarker.position.latitude longitude:nearPOImarker.position.longitude];
         CLLocation *B = [[CLLocation alloc] initWithLatitude:mapView_.myLocation.coordinate.latitude longitude:mapView_.myLocation.coordinate.longitude];
         
         CLLocationDistance distance = [A distanceFromLocation:B];
