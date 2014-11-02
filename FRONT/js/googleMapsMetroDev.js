@@ -396,8 +396,8 @@ function placeMarker(position, map) {
 
   alert("able b");
 
-  orientLocationLat = position.coords.latitude;
-  orientLocationLon = position.coords.longitude;
+  orientLocationLat = position.lat();
+  orientLocationLon = position.lon();
   //orientLocation = latOut + "," + lonOut;
 
 
