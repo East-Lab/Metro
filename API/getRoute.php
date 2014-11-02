@@ -38,7 +38,7 @@ $google = new GoogleAPI();
 $url = "http://maps.googleapis.com/maps/api/directions/json?origin={$arg["latA"]},{$arg["lonA"]}&destination={$arg["latB"]},{$arg["lonB"]}&mode=walking&sensor=false";
 $contents = $google->sendRequest($url);
 $data = json_decode($contents, true);
-var_dump($data);
+var_dump($data["routes"]);
 exit(0);
 $steps = $data["routes"][0]["legs"]["steps"];
 $arr = array();
