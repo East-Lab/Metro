@@ -21,9 +21,13 @@
     UIButton *goThereBtn;
     UIAlertView *alert;
     GMSPolyline *polyline;
+    GMSPolyline *polyline1;
+    GMSPolyline *polyline2;
     NSInteger mode;
     UITableView *tb;
     NSDictionary *d;
+    GMSMutablePath *p1;
+    GMSMutablePath *p2;
 }
 
 typedef NS_ENUM (NSInteger, modeNum) {
@@ -133,7 +137,76 @@ typedef NS_ENUM (NSInteger, modeNum) {
         [self.view addSubview:tb];
     });
 }
-                   
+
+- (void)onSuccessRequest2PointRouteA:(NSData *)data {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        NSError *error = nil;
+        NSMutableDictionary *dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&error];
+        NSDictionary *di = dic;
+        NSString *enc_path = [NSString stringWithFormat:@"%@",di[@"polyline"]];
+        p1 = [GMSMutablePath pathFromEncodedPath:enc_path];
+        NSURL *urlB = [NSURL URLWithString:[NSString stringWithFormat:@"http://gif-animaker.sakura.ne.jp/metro/API/getRoute.php?latA=%lf&lonA=%lf&latB=%lf&lonB=%lf&escape=true", markerB.position.latitude, markerB.position.longitude, searchedMarker.position.latitude, searchedMarker.position.longitude]];
+        [self.req sendAsynchronousRequestFor2PointRouteB:urlB];
+    });
+}
+
+- (void)onSuccessRequest2PointRouteB:(NSData *)data {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        NSError *error = nil;
+        NSMutableDictionary *dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&error];
+        NSDictionary *di = dic;
+        NSString *enc_path = [NSString stringWithFormat:@"%@",di[@"polyline"]];
+        p2 = [GMSMutablePath pathFromEncodedPath:enc_path];
+        
+        polyline.map = nil;
+        polyline1.map = nil;
+        polyline2.map = nil;
+        polyline1 = [GMSPolyline polylineWithPath:p1];
+        polyline2 = [GMSPolyline polylineWithPath:p2];
+        polyline1.strokeWidth = 5.f;
+        polyline2.strokeWidth = 5.f;
+        polyline1.strokeColor = [UIColor redColor];
+        polyline2.strokeColor = [UIColor redColor];
+        polyline1.map = mapView_;
+        polyline2.map = mapView_;
+        
+        GMSMutablePath *path = [GMSMutablePath path];
+        [path addCoordinate:markerA.position];
+        [path addCoordinate:markerB.position];
+        polyline = [GMSPolyline polylineWithPath:path];
+        polyline.strokeWidth = 5.f;
+        polyline.strokeColor = [UIColor grayColor];
+        polyline.map = mapView_;
+    });
+}
+
+- (void)onSuccessRequestRoute:(NSData *)data {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        NSError *error = nil;
+        NSMutableDictionary *dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&error];
+        NSDictionary *di = dic;
+        NSString *enc_path = [NSString stringWithFormat:@"%@",di[@"polyline"]];
+        NSLog(@"%@", enc_path);
+        GMSMutablePath *path = [GMSMutablePath pathFromEncodedPath:enc_path];
+        
+        polyline1.map =nil;
+        polyline2.map =nil;
+        polyline.map = nil;
+        polyline = [GMSPolyline polylineWithPath:path];
+        polyline.strokeWidth = 5.f;
+        polyline.strokeColor = [UIColor redColor];
+        polyline.map = mapView_;
+        
+        CLLocationCoordinate2D loc = CLLocationCoordinate2DMake((mapView_.myLocation.coordinate.latitude + nearPOImarker.position.latitude)/2, (mapView_.myLocation.coordinate.longitude + nearPOImarker.position.longitude)/2);
+        CLLocation *A = [[CLLocation alloc] initWithLatitude:nearPOImarker.position.latitude longitude:nearPOImarker.position.longitude];
+        CLLocation *B = [[CLLocation alloc] initWithLatitude:mapView_.myLocation.coordinate.latitude longitude:mapView_.myLocation.coordinate.longitude];
+        
+        CLLocationDistance distance = [A distanceFromLocation:B];
+        float z = [GMSCameraPosition zoomAtCoordinate:loc forMeters:distance perPoints:300];
+        GMSCameraPosition *camera = [GMSCameraPosition cameraWithLatitude:loc.latitude longitude:loc.longitude zoom:z];
+        [mapView_ animateToCameraPosition:camera];
+    });
+}
 
 - (void)onFailedRequest:(NSString *)err{
     [self showAlertWithYesNo:err];
@@ -310,23 +383,11 @@ typedef NS_ENUM (NSInteger, modeNum) {
             nearPOImarker.icon = [GMSMarker markerImageWithColor:[UIColor orangeColor]];
             nearPOImarker.map = mapView_;
             
-            GMSMutablePath *path = [GMSMutablePath path];
-            [path addCoordinate:CLLocationCoordinate2DMake(lat, lon)];
-            [path addCoordinate:CLLocationCoordinate2DMake(mapView_.myLocation.coordinate.latitude, mapView_.myLocation.coordinate.longitude)];
-            polyline.map = nil;
-            polyline = [GMSPolyline polylineWithPath:path];
-            polyline.strokeWidth = 5.f;
-            polyline.strokeColor = [UIColor redColor];
-            polyline.map = mapView_;
+            NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://gif-animaker.sakura.ne.jp/metro/API/getRoute.php?latA=%lf&lonA=%lf&latB=%lf&lonB=%lf&escape=true", mapView_.myLocation.coordinate.latitude, mapView_.myLocation.coordinate.longitude, lat, lon]];
+            NSLog(@"url : %@", url);
+            [self.req sendAsynchronousRequestForRoute:url];
             
-            CLLocationCoordinate2D loc = CLLocationCoordinate2DMake((mapView_.myLocation.coordinate.latitude + lat)/2, (mapView_.myLocation.coordinate.longitude + lon)/2);
-            CLLocation *A = [[CLLocation alloc] initWithLatitude:lat longitude:lon];
-            CLLocation *B = [[CLLocation alloc] initWithLatitude:mapView_.myLocation.coordinate.latitude longitude:mapView_.myLocation.coordinate.longitude];
-            
-            CLLocationDistance distance = [A distanceFromLocation:B];
-            float z = [GMSCameraPosition zoomAtCoordinate:loc forMeters:distance perPoints:300];
-            GMSCameraPosition *camera = [GMSCameraPosition cameraWithLatitude:loc.latitude longitude:loc.longitude zoom:z];
-            [mapView_ animateToCameraPosition:camera];
+           
         }
     } else {
         NSLog(@"%ld", [dic[@"result"] count]);
@@ -380,16 +441,11 @@ typedef NS_ENUM (NSInteger, modeNum) {
             markerB.icon = [GMSMarker markerImageWithColor:[UIColor yellowColor]];
             markerB.map = mapView_;
             
-            GMSMutablePath *path = [GMSMutablePath path];
-            [path addCoordinate:mapView_.myLocation.coordinate];
-            [path addCoordinate:CLLocationCoordinate2DMake(latA, lonA)];
-            [path addCoordinate:CLLocationCoordinate2DMake(latB, lonB)];
-            [path addCoordinate:searchedMarker.position];
-            polyline.map = nil;
-            polyline = [GMSPolyline polylineWithPath:path];
-            polyline.strokeWidth = 5.f;
-            polyline.strokeColor = [UIColor redColor];
-            polyline.map = mapView_;
+            
+            NSURL *urlA = [NSURL URLWithString:[NSString stringWithFormat:@"http://gif-animaker.sakura.ne.jp/metro/API/getRoute.php?latA=%lf&lonA=%lf&latB=%lf&lonB=%lf&escape=true", mapView_.myLocation.coordinate.latitude, mapView_.myLocation.coordinate.longitude, latA, lonB]];
+            [self.req sendAsynchronousRequestFor2PointRouteA:urlA];
+            
+            
         }
     } else if (err == 1) {
         NSLog(@"%ld", [dic[@"result"] count]);
