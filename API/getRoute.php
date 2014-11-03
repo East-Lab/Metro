@@ -52,10 +52,6 @@ $arr[count($steps) - 1] = array(
 	"lat" => $data["routes"][0]["legs"][0]["end_location"]["lat"],
 	"lon" => $data["routes"][0]["legs"][0]["end_location"]["lng"],
 );
-$arr[count($steps)] = array(
-	"lat" => $latB,
-	"lon" => $lonB,
-);
 $return = array(
 	"res" => $arr,
 	"polyline" => $data["routes"][0]["overview_polyline"]["points"],
