@@ -154,10 +154,10 @@
 
 // ルート設定_目的地へ
 function calcOrientRoute(originLatLng, directionLatLng, metroWayPointIn, metroWayPointOut) {
-    alert(originLatLng);
-    alert(directionLatLng);
-    alert(metroWayPointIn);
-    alert(metroWayPointOut);
+    //alert(originLatLng);
+    //alert(directionLatLng);
+    //alert(metroWayPointIn);
+    //alert(metroWayPointOut);
 
     var mode = "WALKING";
 
