@@ -23,11 +23,14 @@
     GMSPolyline *polyline;
     GMSPolyline *polyline1;
     GMSPolyline *polyline2;
+    GMSPolyline *polylineA;
+    GMSPolyline *polylineB;
     NSInteger mode;
     UITableView *tb;
     NSDictionary *d;
     GMSMutablePath *p1;
     GMSMutablePath *p2;
+    GMSMutablePath *pa;
 }
 
 typedef NS_ENUM (NSInteger, modeNum) {
@@ -147,6 +150,13 @@ typedef NS_ENUM (NSInteger, modeNum) {
         p1 = [GMSMutablePath pathFromEncodedPath:enc_path];
         NSURL *urlB = [NSURL URLWithString:[NSString stringWithFormat:@"http://gif-animaker.sakura.ne.jp/metro/API/getRoute.php?latA=%lf&lonA=%lf&latB=%lf&lonB=%lf&escape=true", markerB.position.latitude, markerB.position.longitude, searchedMarker.position.latitude, searchedMarker.position.longitude]];
         [self.req sendAsynchronousRequestFor2PointRouteB:urlB];
+        
+        pa = [GMSMutablePath path];
+        int c = (int)[di[@"res"] count];
+        c -= 2;
+        NSLog(@"c : %d", c);
+        [pa addCoordinate:CLLocationCoordinate2DMake([di[@"res"][c][@"lat"] floatValue], [di[@"res"][c][@"lon"] floatValue])];
+        [pa addCoordinate:markerA.position];
     });
 }
 
@@ -161,6 +171,8 @@ typedef NS_ENUM (NSInteger, modeNum) {
         polyline.map = nil;
         polyline1.map = nil;
         polyline2.map = nil;
+        polylineA.map = nil;
+        polylineB.map = nil;
         polyline1 = [GMSPolyline polylineWithPath:p1];
         polyline2 = [GMSPolyline polylineWithPath:p2];
         polyline1.strokeWidth = 5.f;
@@ -170,13 +182,30 @@ typedef NS_ENUM (NSInteger, modeNum) {
         polyline1.map = mapView_;
         polyline2.map = mapView_;
         
+        polylineA = [GMSPolyline polylineWithPath:pa];
+        polylineA.strokeWidth = 5.f;
+        polylineA.strokeColor = [UIColor redColor];
+        polylineA.map = mapView_;
+        
         GMSMutablePath *path = [GMSMutablePath path];
+        CLLocationCoordinate2D pos;
+        pos.latitude = [di[@"res"][0][@"lat"] floatValue];
+        pos.longitude = [di[@"res"][0][@"lon"] floatValue];
+        [path addCoordinate:pos];
+        [path addCoordinate:markerB.position];
+        polylineB = [GMSPolyline polylineWithPath:path];
+        polylineB.strokeWidth = 5.f;
+        polylineB.strokeColor = [UIColor redColor];
+        polylineB.map = mapView_;
+        
+        path = [GMSMutablePath path];
         [path addCoordinate:markerA.position];
         [path addCoordinate:markerB.position];
         polyline = [GMSPolyline polylineWithPath:path];
         polyline.strokeWidth = 5.f;
         polyline.strokeColor = [UIColor grayColor];
         polyline.map = mapView_;
+        
     });
 }
 
@@ -191,6 +220,8 @@ typedef NS_ENUM (NSInteger, modeNum) {
         
         polyline1.map =nil;
         polyline2.map =nil;
+        polylineA.map =nil;
+        polylineB.map =nil;
         polyline.map = nil;
         polyline = [GMSPolyline polylineWithPath:path];
         polyline.strokeWidth = 5.f;
@@ -386,8 +417,6 @@ typedef NS_ENUM (NSInteger, modeNum) {
             NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://gif-animaker.sakura.ne.jp/metro/API/getRoute.php?latA=%lf&lonA=%lf&latB=%lf&lonB=%lf&escape=true", mapView_.myLocation.coordinate.latitude, mapView_.myLocation.coordinate.longitude, lat, lon]];
             NSLog(@"url : %@", url);
             [self.req sendAsynchronousRequestForRoute:url];
-            
-           
         }
     } else {
         NSLog(@"%ld", [dic[@"result"] count]);
@@ -442,7 +471,7 @@ typedef NS_ENUM (NSInteger, modeNum) {
             markerB.map = mapView_;
             
             
-            NSURL *urlA = [NSURL URLWithString:[NSString stringWithFormat:@"http://gif-animaker.sakura.ne.jp/metro/API/getRoute.php?latA=%lf&lonA=%lf&latB=%lf&lonB=%lf&escape=true", mapView_.myLocation.coordinate.latitude, mapView_.myLocation.coordinate.longitude, latA, lonB]];
+            NSURL *urlA = [NSURL URLWithString:[NSString stringWithFormat:@"http://gif-animaker.sakura.ne.jp/metro/API/getRoute.php?latA=%lf&lonA=%lf&latB=%lf&lonB=%lf&escape=true", mapView_.myLocation.coordinate.latitude, mapView_.myLocation.coordinate.longitude, latA, lonA]];
             [self.req sendAsynchronousRequestFor2PointRouteA:urlA];
             
             
