@@ -225,7 +225,7 @@ function getPoint(lat, lon){
 
 // Metro API
 function goToPoint(latNow, lonNow, latOrient, lonOrient){
-  //alert("func in " + latOrient + "," + lonOrient);
+  alert("func in " + latOrient + "," + lonOrient);
     $.ajax({
       url: "/metro/API/get2Point.php",
       data: {
@@ -264,12 +264,14 @@ function goToPoint(latNow, lonNow, latOrient, lonOrient){
 
             //$("#result").append("title:" + title + "<br>lat:" + latOut + "<br>lon:" + lonOut + "<br>metro:" + metroPoint + "<br>start:" + start + "<hr>\n");
 
-//            alert("b " + start + " " + startMetroIn);
 //            calcRoute(start, startMetroIn);
-//            alert("c " + startMetroOut + " " + orient);
 //            calcRoute(startMetroOut, orient);
 
             calcOrientRoute(start, orient, startMetroIn, startMetroOut);
+
+            alert("b " + start + " " + startMetroIn);
+            alert("c " + startMetroOut + " " + orient);
+
 
             return "success";
 
