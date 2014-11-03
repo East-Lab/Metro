@@ -243,7 +243,7 @@ function goToPoint(latNow, lonNow, latOrient, lonOrient){
         if (data.error == 1) {
           $("#result").html(data["error_msg"]);
         } else {
-          alert("to mokuteki");
+          //alert("to mokuteki");
 
         //    $("#result").html("");
             var titleA = data["result"][0]["pointA"]["title"];
@@ -253,7 +253,7 @@ function goToPoint(latNow, lonNow, latOrient, lonOrient){
             var latOutB = data["result"][0]["pointB"]["lat"];
             var lonOutB = data["result"][0]["pointB"]["lon"];
 
-          alert("to mokuteki 2");
+          //alert("to mokuteki 2");
 
 
             //var metroPoint = latOut + "," + lonOut;
@@ -262,13 +262,13 @@ function goToPoint(latNow, lonNow, latOrient, lonOrient){
             var start = latNow + "," + lonNow;
             var startMetroIn = latOutA + "," + lonOutA;
 
-            alert("to mokuteki 3");
+            //alert("to mokuteki 3");
 
 
             var startMetroOut = latOutB + "," + lonOutB;
             var orient = latOrient + "," + lonOrient;
 
-            alert("to mokuteki 4");
+            //alert("to mokuteki 4");
 
             //$("#result").append("title:" + title + "<br>lat:" + latOut + "<br>lon:" + lonOut + "<br>metro:" + metroPoint + "<br>start:" + start + "<hr>\n");
 
@@ -277,8 +277,8 @@ function goToPoint(latNow, lonNow, latOrient, lonOrient){
 
             calcOrientRoute(start, orient, startMetroIn, startMetroOut);
 
-            alert("b " + start + " " + startMetroIn);
-            alert("c " + startMetroOut + " " + orient);
+            //alert("b " + start + " " + startMetroIn);
+            //alert("c " + startMetroOut + " " + orient);
 
 
             return "success";
