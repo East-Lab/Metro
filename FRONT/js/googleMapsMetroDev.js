@@ -245,7 +245,7 @@ function goToPoint(latNow, lonNow, latOrient, lonOrient){
         } else {
           alert("to mokuteki");
 
-          $("#result").html("");
+        //    $("#result").html("");
             var titleA = data["result"][0]["pointA"]["title"];
             var latOutA = data["result"][0]["pointA"]["lat"];
             var lonOutA = data["result"][0]["pointA"]["lon"];
@@ -253,14 +253,22 @@ function goToPoint(latNow, lonNow, latOrient, lonOrient){
             var latOutB = data["result"][0]["pointB"]["lat"];
             var lonOutB = data["result"][0]["pointB"]["lon"];
 
+          alert("to mokuteki 2");
+
+
             //var metroPoint = latOut + "," + lonOut;
             //var start = lat + "," + lon;
 
             var start = latNow + "," + lonNow;
             var startMetroIn = latOutA + "," + lonOutA;
 
+            alert("to mokuteki 3");
+
+
             var startMetroOut = latOutB + "," + lonOutB;
             var orient = latOrient + "," + lonOrient;
+
+            alert("to mokuteki 4");
 
             //$("#result").append("title:" + title + "<br>lat:" + latOut + "<br>lon:" + lonOut + "<br>metro:" + metroPoint + "<br>start:" + start + "<hr>\n");
 
