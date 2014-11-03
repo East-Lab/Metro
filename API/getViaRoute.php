@@ -55,7 +55,8 @@ $url = "http://maps.googleapis.com/maps/api/directions/json?origin={$arg["latA"]
 $contents = $google->sendRequest($url);
 $data = json_decode($contents, true);
 //var_dump($data["routes"][0]["legs"][0]["steps"][0]["start_location"]["lat"]);
-//exit(0);
+var_dump($data);
+exit(0);
 $steps = $data["routes"][0]["legs"][0]["steps"];
 $arr = array();
 foreach ($steps as $s) {
