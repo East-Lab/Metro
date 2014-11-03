@@ -17,6 +17,7 @@
     var nearMetroOut;
 
     var initFlg = 1;
+    var orientFlg = 0;
 
     function initGL() {
       // 目的地ボタンの無効化
@@ -431,11 +432,17 @@ function HomeControl(controlDiv, map){
 
 // タッチしたところにピンを立てる
 function placeMarker(position, map) {
+  if(orientFlg == 1 && marker != null){
+    marker.setMap(null);
+  }
+  
   var marker = new google.maps.Marker({
     position: position,
     map: map
   });
   map.panTo(position);
+
+  orientFlg = 1;
 
   orientLocationLat = position.lat();
   orientLocationLon = position.lng();
