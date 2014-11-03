@@ -435,7 +435,7 @@ function HomeControl(controlDiv, map){
 // タッチしたところにピンを立てる
 function placeMarker(position, map) {
   if(orientFlg == 1){
-    marker.setMap(null);
+    orientMarker.setMap(null);
     orientFlg = 0;
   }
 
