@@ -44,7 +44,7 @@ if ($err) {
 
 $metro = new MetroAPI();
 
-$contents = $metro->get2Point($arg["latA"],$arg["lonA"], $arg["radiusA"],$arg["latB"],$arg["lonB"], $arg["radiusB"], 10);
+$contents = $metro->get2Point($arg["latA"],$arg["lonA"], $arg["radiusA"],$arg["latB"],$arg["lonB"], $arg["radiusB"], 40);
 if ($arg["escape"]) {
 	echo json_encode($contents, JSON_UNESCAPED_UNICODE);
 } else {
