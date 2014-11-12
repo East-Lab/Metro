@@ -10,6 +10,8 @@
 		429761D619ED887100212422 /* InfoWindowView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 429761D519ED887100212422 /* InfoWindowView.xib */; };
 		429761D919ED893D00212422 /* InfoWindowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 429761D819ED893D00212422 /* InfoWindowView.m */; };
 		429761DB19F2086100212422 /* GoogleMaps.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 429761DA19F2086100212422 /* GoogleMaps.bundle */; };
+		42A126ED1A093BDE00DF4AFE /* GoogleMapsAPIManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 42A126EC1A093BDE00DF4AFE /* GoogleMapsAPIManager.m */; };
+		42A126EF1A139EAA00DF4AFE /* splash.png in Resources */ = {isa = PBXBuildFile; fileRef = 42A126EE1A139EAA00DF4AFE /* splash.png */; };
 		42A323DC19EB9D970061BB48 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 42A323DB19EB9D970061BB48 /* AVFoundation.framework */; };
 		42A323DE19EB9DA40061BB48 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 42A323DD19EB9DA40061BB48 /* CoreData.framework */; };
 		42A323E019EB9DAC0061BB48 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 42A323DF19EB9DAC0061BB48 /* CoreLocation.framework */; };
@@ -49,6 +51,9 @@
 		429761D719ED893D00212422 /* InfoWindowView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InfoWindowView.h; sourceTree = "<group>"; };
 		429761D819ED893D00212422 /* InfoWindowView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InfoWindowView.m; sourceTree = "<group>"; };
 		429761DA19F2086100212422 /* GoogleMaps.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = GoogleMaps.bundle; sourceTree = "<group>"; };
+		42A126EB1A093BDE00DF4AFE /* GoogleMapsAPIManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GoogleMapsAPIManager.h; sourceTree = "<group>"; };
+		42A126EC1A093BDE00DF4AFE /* GoogleMapsAPIManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GoogleMapsAPIManager.m; sourceTree = "<group>"; };
+		42A126EE1A139EAA00DF4AFE /* splash.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = splash.png; path = ../../design/splash/splash.png; sourceTree = "<group>"; };
 		42A323DB19EB9D970061BB48 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		42A323DD19EB9DA40061BB48 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		42A323DF19EB9DAC0061BB48 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
@@ -177,6 +182,8 @@
 				429761D519ED887100212422 /* InfoWindowView.xib */,
 				429761D719ED893D00212422 /* InfoWindowView.h */,
 				429761D819ED893D00212422 /* InfoWindowView.m */,
+				42A126EB1A093BDE00DF4AFE /* GoogleMapsAPIManager.h */,
+				42A126EC1A093BDE00DF4AFE /* GoogleMapsAPIManager.m */,
 				42EFC4C819E1B06B003F8E80 /* Images.xcassets */,
 				42EFC4CA19E1B06B003F8E80 /* LaunchScreen.xib */,
 				42EFC4BB19E1B06B003F8E80 /* Supporting Files */,
@@ -187,6 +194,7 @@
 		42EFC4BB19E1B06B003F8E80 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				42A126EE1A139EAA00DF4AFE /* splash.png */,
 				42EFC4BC19E1B06B003F8E80 /* Info.plist */,
 				42EFC4BD19E1B06B003F8E80 /* main.m */,
 			);
@@ -294,6 +302,7 @@
 				429761D619ED887100212422 /* InfoWindowView.xib in Resources */,
 				42EFC4CC19E1B06B003F8E80 /* LaunchScreen.xib in Resources */,
 				429761DB19F2086100212422 /* GoogleMaps.bundle in Resources */,
+				42A126EF1A139EAA00DF4AFE /* splash.png in Resources */,
 				42EFC4C919E1B06B003F8E80 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -316,6 +325,7 @@
 				42A323F719EBA9C80061BB48 /* LocationManager.m in Sources */,
 				429761D919ED893D00212422 /* InfoWindowView.m in Sources */,
 				42EFC4C119E1B06B003F8E80 /* AppDelegate.m in Sources */,
+				42A126ED1A093BDE00DF4AFE /* GoogleMapsAPIManager.m in Sources */,
 				42EFC4BE19E1B06B003F8E80 /* main.m in Sources */,
 				42EFC4E319E8479F003F8E80 /* RequestUrl.m in Sources */,
 			);
@@ -440,6 +450,7 @@
 			baseConfigurationReference = E83923ED64B34761B9E3F531 /* Pods-Metro.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -457,6 +468,7 @@
 			baseConfigurationReference = E83923ED64B34761B9E3F531 /* Pods-Metro.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",

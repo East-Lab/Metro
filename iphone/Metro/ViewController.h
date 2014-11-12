@@ -7,9 +7,9 @@
 #import <UIKit/UIKit.h>
 #import "RequestUrl.h"
 #import <GoogleMaps/GoogleMaps.h>
-#import "LocationManager.h"
+#import "GoogleMapsAPIManager.h"
 
-@interface ViewController : UIViewController<RequestUrlDelegate, GMSMapViewDelegate, UISearchBarDelegate, LocationManagerDelegate, UITableViewDataSource, UITableViewDelegate>
+@interface ViewController : UIViewController<RequestUrlDelegate, GMSMapViewDelegate, UISearchBarDelegate, GoogleMapsAPIManagerDelegate, UITableViewDataSource, UITableViewDelegate>
 
 @property (nonatomic) NSString *searchText;
 @property (nonatomic, retain) RequestUrl *req;

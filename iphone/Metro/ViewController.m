@@ -51,7 +51,8 @@ typedef NS_ENUM (NSInteger, modeNum) {
     self.ud = [NSUserDefaults standardUserDefaults];
     [self showInitialMap];
     
-    [LocationManager sharedManager].delegate = self;
+    //[LocationManager sharedManager].delegate = self;
+    [GoogleMapsAPIManager sharedManager].delegate = self;
     
     
 }
@@ -103,10 +104,11 @@ typedef NS_ENUM (NSInteger, modeNum) {
     [self.view addSubview:downBtn];
     
     UIButton *goGroundBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, self.view.frame.size.height - 60, self.view.frame.size.width - 75, 50)];
+    goGroundBtn.layer.cornerRadius = 25.0f;
     [goGroundBtn setTitle:@"とりあえず地下へ" forState:UIControlStateNormal];
     [goGroundBtn addTarget:self action:@selector(onTouchGoGroundBtn) forControlEvents:UIControlEventTouchUpInside];
-    goGroundBtn.backgroundColor = [UIColor orangeColor];
-    [goGroundBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    goGroundBtn.backgroundColor = [UIColor colorWithRed:0.28 green:0.28 blue:0.29 alpha:1.0];
+    [goGroundBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     goGroundBtn.layer.shadowOpacity = 0.3f;
     goGroundBtn.layer.shadowOffset = CGSizeMake(0.5, 0.5);
     [self.view addSubview:goGroundBtn];
@@ -153,7 +155,7 @@ typedef NS_ENUM (NSInteger, modeNum) {
         
         pa = [GMSMutablePath path];
         int c = (int)[di[@"res"] count];
-        c -= 2;
+        c -= 1;
         NSLog(@"c : %d", c);
         [pa addCoordinate:CLLocationCoordinate2DMake([di[@"res"][c][@"lat"] floatValue], [di[@"res"][c][@"lon"] floatValue])];
         [pa addCoordinate:markerA.position];
@@ -240,7 +242,9 @@ typedef NS_ENUM (NSInteger, modeNum) {
 }
 
 - (void)onFailedRequest:(NSString *)err{
-    [self showAlertWithYesNo:err];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self showAlert:err];
+    });
 }
 
 #pragma mapview delegate
@@ -271,8 +275,7 @@ typedef NS_ENUM (NSInteger, modeNum) {
 -(void)searchBarSearchButtonClicked:(UISearchBar*)searchBar {
     [searchBar resignFirstResponder];
     NSLog(@"searchText : %@", self.searchText);
-    [[LocationManager sharedManager] findLocation:self.searchText];
-   
+    [[GoogleMapsAPIManager sharedManager] getGeoByKeyword:self.searchText];
 }
 
 -(void)searchBarCancelButtonClicked:(UISearchBar*)searchBar {
@@ -333,6 +336,22 @@ typedef NS_ENUM (NSInteger, modeNum) {
     NSString *title = d[@"result"][indexPath.row][@"name"];
     [self markDestinationPlace:coordinate withTitle:title];
     [tb removeFromSuperview];
+}
+
+#pragma mark - GoogleMapsAPIManagerDelegate method
+- (void) onSuccessGetGoogleGeoByKeyword:(NSString *)name andLat:(float)lat andLon:(float)lon {
+    NSLog(@"%lf",lat);
+    NSLog(@"%lf",lon);
+    CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(lat, lon);
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self markDestinationPlace:coordinate withTitle:name];
+    });
+}
+
+-(void) onFailedGoogleRequest:(NSString *)err {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self showAlert:err];
+    });
 }
 
 #pragma mark - LocationManagerDelegate method
@@ -551,10 +570,11 @@ typedef NS_ENUM (NSInteger, modeNum) {
     
     [goThereBtn removeFromSuperview];
     goThereBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, self.view.frame.size.height - 120, self.view.frame.size.width - 75, 50)];
+    goThereBtn.layer.cornerRadius = 25.0f;
     [goThereBtn setTitle:@"ここへ行く" forState:UIControlStateNormal];
     [goThereBtn addTarget:self action:@selector(onTouchGoThereBtn) forControlEvents:UIControlEventTouchUpInside];
-    goThereBtn.backgroundColor = [UIColor purpleColor];
-    [goThereBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    goThereBtn.backgroundColor = [UIColor colorWithRed:0.08 green:0.67 blue:0.91 alpha:1.0];
+    [goThereBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     goThereBtn.layer.shadowOpacity = 0.3f;
     goThereBtn.layer.shadowOffset = CGSizeMake(0.5, 0.5);
     [self.view addSubview:goThereBtn];
