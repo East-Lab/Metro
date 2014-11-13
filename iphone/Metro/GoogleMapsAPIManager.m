@@ -7,6 +7,7 @@
 //
 
 #import "GoogleMapsAPIManager.h"
+#import <UIKit/UIKit.h>
 
 static GoogleMapsAPIManager *manager = nil;
 
@@ -28,8 +29,11 @@ static GoogleMapsAPIManager *manager = nil;
     NSURL *url = [NSURL URLWithString:urlstr];
     NSLog(@"url : %@" ,url) ;
     NSURLRequest *request = [[NSURLRequest alloc] initWithURL:url cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:10];
+    UIApplication *application = [UIApplication sharedApplication];
+    application.networkActivityIndicatorVisible = YES;
     
     [NSURLConnection sendAsynchronousRequest:request queue:[[NSOperationQueue alloc] init] completionHandler:^(NSURLResponse *response, NSData *resData, NSError *error) {
+        application.networkActivityIndicatorVisible = NO;
         if(error) {
             NSLog(@"error: %@", error);
             if (delegate) {
@@ -37,11 +41,16 @@ static GoogleMapsAPIManager *manager = nil;
             }
         } else {
             NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:resData options:NSJSONReadingAllowFragments error:&error];
-            //NSLog(@"google res : %@",dic[@"results"][0][@"address_components"][0][@"short_name"]);
-            NSLog(@"google lat : %@",dic[@"results"][0][@"geometry"][@"location"][@"lat"]);
-            NSLog(@"google lng : %@",dic[@"results"][0][@"geometry"][@"location"][@"lng"]);
+            if ([dic[@"status"] isEqualToString:@"ZERO_RESULTS"]) {
             if (delegate) {
-                [delegate onSuccessGetGoogleGeoByKeyword: dic[@"results"][0][@"address_components"][0][@"short_name"] andLat:[dic[@"results"][0][@"geometry"][@"location"][@"lat"] floatValue] andLon:[dic[@"results"][0][@"geometry"][@"location"][@"lng"] floatValue]];
+                [delegate onFailedGoogleRequest:@"結果がありませんでした。"];
+            }
+            } else {
+                NSLog(@"google lat : %@",dic[@"results"][0][@"geometry"][@"location"][@"lat"]);
+                NSLog(@"google lng : %@",dic[@"results"][0][@"geometry"][@"location"][@"lng"]);
+                if (delegate) {
+                    [delegate onSuccessGetGoogleGeoByKeyword: dic[@"results"][0][@"address_components"][0][@"short_name"] andLat:[dic[@"results"][0][@"geometry"][@"location"][@"lat"] floatValue] andLon:[dic[@"results"][0][@"geometry"][@"location"][@"lng"] floatValue]];
+                }
             }
         }
     }];

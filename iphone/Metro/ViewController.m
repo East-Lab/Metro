@@ -179,15 +179,17 @@ typedef NS_ENUM (NSInteger, modeNum) {
         polyline2 = [GMSPolyline polylineWithPath:p2];
         polyline1.strokeWidth = 5.f;
         polyline2.strokeWidth = 5.f;
-        polyline1.strokeColor = [UIColor redColor];
-        polyline2.strokeColor = [UIColor redColor];
+        polyline1.strokeColor = [UIColor colorWithRed:0.27 green:0.73 blue:0.92 alpha:1.0];
+        polyline2.strokeColor = [UIColor colorWithRed:0.08 green:0.67 blue:0.91 alpha:1.0];
         polyline1.map = mapView_;
         polyline2.map = mapView_;
         
+        /*
         polylineA = [GMSPolyline polylineWithPath:pa];
         polylineA.strokeWidth = 5.f;
-        polylineA.strokeColor = [UIColor redColor];
+        polylineA.strokeColor = [UIColor blueColor];
         polylineA.map = mapView_;
+         */
         
         GMSMutablePath *path = [GMSMutablePath path];
         CLLocationCoordinate2D pos;
@@ -195,17 +197,20 @@ typedef NS_ENUM (NSInteger, modeNum) {
         pos.longitude = [di[@"res"][0][@"lon"] floatValue];
         [path addCoordinate:pos];
         [path addCoordinate:markerB.position];
+        
+        /*
         polylineB = [GMSPolyline polylineWithPath:path];
         polylineB.strokeWidth = 5.f;
-        polylineB.strokeColor = [UIColor redColor];
+        polylineB.strokeColor = [UIColor blueColor];
         polylineB.map = mapView_;
+         */
         
         path = [GMSMutablePath path];
         [path addCoordinate:markerA.position];
         [path addCoordinate:markerB.position];
         polyline = [GMSPolyline polylineWithPath:path];
         polyline.strokeWidth = 5.f;
-        polyline.strokeColor = [UIColor grayColor];
+        polyline.strokeColor = [UIColor colorWithRed:0.28 green:0.28 blue:0.29 alpha:1.0];
         polyline.map = mapView_;
         
     });
@@ -227,7 +232,8 @@ typedef NS_ENUM (NSInteger, modeNum) {
         polyline.map = nil;
         polyline = [GMSPolyline polylineWithPath:path];
         polyline.strokeWidth = 5.f;
-        polyline.strokeColor = [UIColor redColor];
+        //polyline.strokeColor = [UIColor redColor];
+        polyline.strokeColor = [UIColor colorWithRed:0.08 green:0.67 blue:0.91 alpha:1.0];
         polyline.map = mapView_;
         
         CLLocationCoordinate2D loc = CLLocationCoordinate2DMake((mapView_.myLocation.coordinate.latitude + nearPOImarker.position.latitude)/2, (mapView_.myLocation.coordinate.longitude + nearPOImarker.position.longitude)/2);
@@ -249,6 +255,7 @@ typedef NS_ENUM (NSInteger, modeNum) {
 
 #pragma mapview delegate
 - (void) mapView:(GMSMapView *)mapView didChangeCameraPosition:(GMSCameraPosition *)position {
+    [tb removeFromSuperview];
     [sb resignFirstResponder];
     [self.ud setFloat:position.target.longitude forKey:@"lon"];
     [self.ud setFloat:position.target.latitude forKey:@"lat"];
@@ -257,6 +264,7 @@ typedef NS_ENUM (NSInteger, modeNum) {
 
 - (void) mapView:(GMSMapView *)mapView didTapAtCoordinate:(CLLocationCoordinate2D)coordinate {
     [sb resignFirstResponder];
+    [tb removeFromSuperview];
 }
 
 - (UIView *) mapView:(GMSMapView *)mapView markerInfoWindow:(GMSMarker *)marker {
@@ -274,6 +282,7 @@ typedef NS_ENUM (NSInteger, modeNum) {
 
 -(void)searchBarSearchButtonClicked:(UISearchBar*)searchBar {
     [searchBar resignFirstResponder];
+    [tb removeFromSuperview];
     NSLog(@"searchText : %@", self.searchText);
     [[GoogleMapsAPIManager sharedManager] getGeoByKeyword:self.searchText];
 }
@@ -340,6 +349,7 @@ typedef NS_ENUM (NSInteger, modeNum) {
 
 #pragma mark - GoogleMapsAPIManagerDelegate method
 - (void) onSuccessGetGoogleGeoByKeyword:(NSString *)name andLat:(float)lat andLon:(float)lon {
+    [tb removeFromSuperview];
     NSLog(@"%lf",lat);
     NSLog(@"%lf",lon);
     CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(lat, lon);
@@ -430,7 +440,7 @@ typedef NS_ENUM (NSInteger, modeNum) {
             nearPOImarker.map = mapView_;
             nearPOImarker.position = CLLocationCoordinate2DMake(lat, lon);
             nearPOImarker.title = title;
-            nearPOImarker.icon = [GMSMarker markerImageWithColor:[UIColor orangeColor]];
+            nearPOImarker.icon = [GMSMarker markerImageWithColor:[UIColor colorWithRed:0.88 green:0.88 blue:0.84 alpha:1.0]];
             nearPOImarker.map = mapView_;
             
             NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://gif-animaker.sakura.ne.jp/metro/API/getRoute.php?latA=%lf&lonA=%lf&latB=%lf&lonB=%lf&escape=true", mapView_.myLocation.coordinate.latitude, mapView_.myLocation.coordinate.longitude, lat, lon]];
@@ -463,17 +473,19 @@ typedef NS_ENUM (NSInteger, modeNum) {
             currentLocMarker.map = nil;
             nearPOImarker.map = nil;
             
+            /*
             currentLocMarker = [[GMSMarker alloc] init];
             currentLocMarker.position = CLLocationCoordinate2DMake(mapView_.myLocation.coordinate.latitude, mapView_.myLocation.coordinate.longitude);
             currentLocMarker.title = @"現在地";
             currentLocMarker.icon = [GMSMarker markerImageWithColor:[UIColor blueColor]];
             currentLocMarker.map = mapView_;
+             */
             
             markerA = [[GMSMarker alloc] init];
             markerA.position = CLLocationCoordinate2DMake(latA, lonA);
             markerA.title = title;
             markerA.snippet = station;
-            markerA.icon = [GMSMarker markerImageWithColor:[UIColor yellowColor]];
+            markerA.icon = [GMSMarker markerImageWithColor:[UIColor colorWithRed:0.88 green:0.88 blue:0.84 alpha:1.0]];
             markerA.map = mapView_;
             
             title =  dic[@"result"][0][@"pointB"][@"title"];
@@ -486,7 +498,7 @@ typedef NS_ENUM (NSInteger, modeNum) {
             markerB.position = CLLocationCoordinate2DMake(latB, lonB);
             markerB.title = title;
             markerB.snippet = station;
-            markerB.icon = [GMSMarker markerImageWithColor:[UIColor yellowColor]];
+            markerB.icon = [GMSMarker markerImageWithColor:[UIColor colorWithRed:0.88 green:0.88 blue:0.84 alpha:1.0]];
             markerB.map = mapView_;
             
             
@@ -564,6 +576,7 @@ typedef NS_ENUM (NSInteger, modeNum) {
     searchedMarker.appearAnimation = YES;
     searchedMarker.position = CLLocationCoordinate2DMake(coordinate.latitude, coordinate.longitude);
     //searchedMarker.title = self.searchText;
+    searchedMarker.icon = [GMSMarker markerImageWithColor:[UIColor colorWithRed:0.82 green:0.91 blue:0.26 alpha:1.0]];
     searchedMarker.title = title;
     //searchedMarker.snippet = station;
     searchedMarker.map = mapView_;

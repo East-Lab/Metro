@@ -4,6 +4,7 @@
 //
 
 #import "RequestUrl.h"
+#import <UIKit/UIKit.h>
 
 @implementation RequestUrl
 
@@ -13,8 +14,11 @@
 - (void)sendAsynchronousRequestFor2Point:(NSURL *)url
 {
     NSURLRequest *request = [[NSURLRequest alloc] initWithURL:url cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:10];
+    UIApplication *application = [UIApplication sharedApplication];
+    application.networkActivityIndicatorVisible = YES;
     
     [NSURLConnection sendAsynchronousRequest:request queue:[[NSOperationQueue alloc] init] completionHandler:^(NSURLResponse *response, NSData *resData, NSError *error) {
+        application.networkActivityIndicatorVisible = NO;
         if(error) {
             NSLog(@"error: %@", error);
             if (delegate) {
@@ -32,8 +36,11 @@
 - (void)sendAsynchronousRequestForPOI:(NSURL *)url
 {
     NSURLRequest *request = [[NSURLRequest alloc] initWithURL:url cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:10];
+    UIApplication *application = [UIApplication sharedApplication];
+    application.networkActivityIndicatorVisible = YES;
     
     [NSURLConnection sendAsynchronousRequest:request queue:[[NSOperationQueue alloc] init] completionHandler:^(NSURLResponse *response, NSData *resData, NSError *error) {
+        application.networkActivityIndicatorVisible = NO;
         if(error) {
             NSLog(@"error: %@", error);
             if (delegate) {
@@ -51,8 +58,11 @@
 - (void)sendAsynchronousRequestForNearPlace:(NSURL *)url
 {
     NSURLRequest *request = [[NSURLRequest alloc] initWithURL:url cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:10];
+    UIApplication *application = [UIApplication sharedApplication];
+    application.networkActivityIndicatorVisible = YES;
     
     [NSURLConnection sendAsynchronousRequest:request queue:[[NSOperationQueue alloc] init] completionHandler:^(NSURLResponse *response, NSData *resData, NSError *error) {
+        application.networkActivityIndicatorVisible = NO;
         if(error) {
             NSLog(@"error: %@", error);
             if (delegate) {
@@ -70,8 +80,11 @@
 - (void)sendAsynchronousRequestForRoute:(NSURL *)url
 {
     NSURLRequest *request = [[NSURLRequest alloc] initWithURL:url cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:10];
+    UIApplication *application = [UIApplication sharedApplication];
+    application.networkActivityIndicatorVisible = YES;
     
     [NSURLConnection sendAsynchronousRequest:request queue:[[NSOperationQueue alloc] init] completionHandler:^(NSURLResponse *response, NSData *resData, NSError *error) {
+        application.networkActivityIndicatorVisible = NO;
         if(error) {
             NSLog(@"error: %@", error);
             if (delegate) {
@@ -89,8 +102,11 @@
 - (void)sendAsynchronousRequestFor2PointRouteA:(NSURL *)urlA
 {
     NSURLRequest *request = [[NSURLRequest alloc] initWithURL:urlA cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:10];
+    UIApplication *application = [UIApplication sharedApplication];
+    application.networkActivityIndicatorVisible = YES;
     
     [NSURLConnection sendAsynchronousRequest:request queue:[[NSOperationQueue alloc] init] completionHandler:^(NSURLResponse *response, NSData *resData, NSError *error) {
+        application.networkActivityIndicatorVisible = NO;
         if(error) {
             NSLog(@"error: %@", error);
             if (delegate) {
@@ -107,8 +123,11 @@
 - (void)sendAsynchronousRequestFor2PointRouteB:(NSURL *)urlB
 {
     NSURLRequest *request = [[NSURLRequest alloc] initWithURL:urlB cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:10];
+    UIApplication *application = [UIApplication sharedApplication];
+    application.networkActivityIndicatorVisible = YES;
     
     [NSURLConnection sendAsynchronousRequest:request queue:[[NSOperationQueue alloc] init] completionHandler:^(NSURLResponse *response, NSData *resData, NSError *error) {
+        application.networkActivityIndicatorVisible = NO;
         if(error) {
             NSLog(@"error: %@", error);
             if (delegate) {
