@@ -33,6 +33,7 @@
 		42EFC4CC19E1B06B003F8E80 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42EFC4CA19E1B06B003F8E80 /* LaunchScreen.xib */; };
 		42EFC4D819E1B06B003F8E80 /* MetroTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 42EFC4D719E1B06B003F8E80 /* MetroTests.m */; };
 		42EFC4E319E8479F003F8E80 /* RequestUrl.m in Sources */ = {isa = PBXBuildFile; fileRef = 42EFC4E219E8479F003F8E80 /* RequestUrl.m */; };
+		42F5A9CA1A190030001DB9B2 /* splash5:5s.png in Resources */ = {isa = PBXBuildFile; fileRef = 42F5A9C91A190030001DB9B2 /* splash5:5s.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,7 +53,6 @@
 		429761DA19F2086100212422 /* GoogleMaps.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = GoogleMaps.bundle; sourceTree = "<group>"; };
 		42A126EB1A093BDE00DF4AFE /* GoogleMapsAPIManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GoogleMapsAPIManager.h; sourceTree = "<group>"; };
 		42A126EC1A093BDE00DF4AFE /* GoogleMapsAPIManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GoogleMapsAPIManager.m; sourceTree = "<group>"; };
-		42A126EE1A139EAA00DF4AFE /* splash.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = splash.png; path = ../../design/splash/splash.png; sourceTree = "<group>"; };
 		42A323DB19EB9D970061BB48 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		42A323DD19EB9DA40061BB48 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		42A323DF19EB9DAC0061BB48 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
@@ -83,6 +83,7 @@
 		42EFC4D719E1B06B003F8E80 /* MetroTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MetroTests.m; sourceTree = "<group>"; };
 		42EFC4E119E8479F003F8E80 /* RequestUrl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RequestUrl.h; sourceTree = "<group>"; };
 		42EFC4E219E8479F003F8E80 /* RequestUrl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RequestUrl.m; sourceTree = "<group>"; };
+		42F5A9C91A190030001DB9B2 /* splash5:5s.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "splash5:5s.png"; sourceTree = "<group>"; };
 		E83923ED64B34761B9E3F531 /* Pods-Metro.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Metro.xcconfig"; path = "Pods/Pods-Metro.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -193,7 +194,7 @@
 		42EFC4BB19E1B06B003F8E80 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				42A126EE1A139EAA00DF4AFE /* splash.png */,
+				42F5A9C91A190030001DB9B2 /* splash5:5s.png */,
 				42EFC4BC19E1B06B003F8E80 /* Info.plist */,
 				42EFC4BD19E1B06B003F8E80 /* main.m */,
 			);
@@ -300,6 +301,7 @@
 				42EFC4C719E1B06B003F8E80 /* Main.storyboard in Resources */,
 				429761D619ED887100212422 /* InfoWindowView.xib in Resources */,
 				42EFC4CC19E1B06B003F8E80 /* LaunchScreen.xib in Resources */,
+				42F5A9CA1A190030001DB9B2 /* splash5:5s.png in Resources */,
 				429761DB19F2086100212422 /* GoogleMaps.bundle in Resources */,
 				42EFC4C919E1B06B003F8E80 /* Images.xcassets in Resources */,
 			);
