@@ -22,6 +22,7 @@
 
 + (LocationManager *)sharedManager;
 - (void)findLocation:(NSString *)location;
+- (void)start;
 
 
 

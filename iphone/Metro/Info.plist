@@ -22,10 +22,12 @@
 	<string>1</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>CFBundleDisplayName</key>
+	<string>メトロード</string>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>aaa</string>
+	<string>Always</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>bbb</string>
+	<string>When in use</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>

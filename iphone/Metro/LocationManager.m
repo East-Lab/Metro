@@ -21,6 +21,28 @@ static LocationManager *manager = nil;
     return manager;
 }
 
+
+- (void)start
+{
+    CLLocationManager *locationManager = [[CLLocationManager alloc] init];
+    locationManager.delegate = self;
+    
+    if ([locationManager respondsToSelector:@selector(requestAlwaysAuthorization)]) {
+        // iOS バージョンが 8 以上で、requestAlwaysAuthorization メソッドが
+        // 利用できる場合
+        
+        // 位置情報測位の許可を求めるメッセージを表示する
+        [locationManager requestAlwaysAuthorization];
+        //      [self.locationManager requestWhenInUseAuthorization];
+    } else {
+        // iOS バージョンが 8 未満で、requestAlwaysAuthorization メソッドが
+        // 利用できない場合
+        
+        // 測位を開始する
+        [locationManager startUpdatingLocation];
+    }
+}
+
 - (void)findLocation:(NSString *)location {
     if (self.geocoder == nil) {
         self.geocoder = [[CLGeocoder alloc] init];
