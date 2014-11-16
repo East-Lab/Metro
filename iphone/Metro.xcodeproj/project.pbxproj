@@ -11,7 +11,6 @@
 		429761D919ED893D00212422 /* InfoWindowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 429761D819ED893D00212422 /* InfoWindowView.m */; };
 		429761DB19F2086100212422 /* GoogleMaps.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 429761DA19F2086100212422 /* GoogleMaps.bundle */; };
 		42A126ED1A093BDE00DF4AFE /* GoogleMapsAPIManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 42A126EC1A093BDE00DF4AFE /* GoogleMapsAPIManager.m */; };
-		42A126EF1A139EAA00DF4AFE /* splash.png in Resources */ = {isa = PBXBuildFile; fileRef = 42A126EE1A139EAA00DF4AFE /* splash.png */; };
 		42A323DC19EB9D970061BB48 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 42A323DB19EB9D970061BB48 /* AVFoundation.framework */; };
 		42A323DE19EB9DA40061BB48 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 42A323DD19EB9DA40061BB48 /* CoreData.framework */; };
 		42A323E019EB9DAC0061BB48 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 42A323DF19EB9DAC0061BB48 /* CoreLocation.framework */; };
@@ -302,7 +301,6 @@
 				429761D619ED887100212422 /* InfoWindowView.xib in Resources */,
 				42EFC4CC19E1B06B003F8E80 /* LaunchScreen.xib in Resources */,
 				429761DB19F2086100212422 /* GoogleMaps.bundle in Resources */,
-				42A126EF1A139EAA00DF4AFE /* splash.png in Resources */,
 				42EFC4C919E1B06B003F8E80 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
