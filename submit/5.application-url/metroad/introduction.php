@@ -20,6 +20,8 @@
              <style>.embed-container {position: relative; padding-bottom: 100%; height: 0; overflow: hidden;} .embed-container iframe, .embed-container object, .embed-container embed { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }</style><div class='embed-container'><iframe width='100%' src='https://vine.co/v/OMQMIxUiF6Y/embed/simple' frameborder='0' scrolling='no' allowtransparency='true'></iframe><script async src='//platform.vine.co/static/scripts/embed.js' charset='utf-8'></script></div>
          </div>
          -->
+         <iframe width="480" height="360" src="//www.youtube.com/embed/NZCv38i9mcQ" frameborder="0" allowfullscreen></iframe>
+
        </div>
     </div><!-- row -->
   </div><!-- container -->
