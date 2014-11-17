@@ -1,0 +1,252 @@
+* {
+  margin: 0 auto;
+}
+
+html,
+body {
+  font-family: 'YuGothic', 'Noto sans Japanese', serif, thin, "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
+  height: 100%;
+}
+
+/* =======================================================
+header
+======================================================= */
+header.jumbotron {
+  color: inherit;
+  height: 95%;
+  min-height: 95%;
+  background: #e54737 url("../img/bg.jpg") no-repeat center center;
+  background-size: cover;
+  padding-top:0;
+  padding-bottom:0;
+}
+header.jumbotron .alpha_box{
+  background: rgba(1,1,1,0.55);
+  height: 100%;
+  min-height: 100%;
+  padding-top:150px;
+
+}
+header.jumbotron  .logo{
+  position:absolute;
+  top:30px;
+  left:30px;
+}
+header.jumbotron .logo img{
+  padding-left:15px;
+  padding-top:15px;
+  width:200px;
+}
+header.jumbotron .container{
+  height: 100%;
+  min-height: 100%;
+}
+header.jumbotron .abstract p {
+  color:white !important;
+}
+div.umamy_icon {
+  width:100%;
+  text-align:center;
+  margin-top:200px;
+  margin-bottom: 80px;
+}
+div.umamy_title{
+  padding-top: 50px;
+  text-align:center;
+}
+.umamy_title{
+  margin-bottom:60px;
+}
+.umamy_title h1{
+  font-size: 300%;
+  margin: 0 auto 10px auto;
+  color:white;
+}
+.umamy_title h2{
+  color:white;
+  margin: 0 auto 50px auto;
+}
+.abstract{
+  margin-bottom:70px;
+  text-align: center;
+}
+.abstract p{
+  font-size:120%;
+  color:white;
+}
+
+header .app_store{
+  text-align:center;
+  margin-bottom:20px;
+}
+header .app_store img{
+
+}
+header .social{
+  text-align:center;
+}
+header .social .fb_iframe_widget > span {
+  vertical-align: baseline !important;
+}
+header .social .twitter-share-button{
+ width: 95px !important;
+}
+
+/* =======================================================
+main
+======================================================= */
+div.container p{
+  color:#858585;
+  line-height:200%;
+}
+.introduction{
+  background: #ffffff;
+  margin-bottom:30px;
+  padding-top:50px;
+  padding-bottom:20px;
+
+}
+.introductino p{
+
+}
+.introduction .image{
+  margin:auto;
+  text-align:center;
+}
+.introduction .image img{
+  width:100%;
+}
+.introduction .flow{
+  text-align:center;
+}
+
+.introduction .flow img{
+  width:100%;
+}
+.introduction .vine{
+  width:100%;
+}
+
+.step{
+  padding-top:50px;
+  background: #f5f5f5;
+  margin-bottom:20px;
+}
+.step h3.title{
+  margin-bottom:30px;
+}
+.step p{
+  margin-bottom:30px;
+  line-height: 200%;
+}
+.step img{
+  width:100%;
+}
+.container .row .col-md-10{
+  text-align:center;
+}
+
+.members{
+  padding-top:50px;
+  background: #ffffff;
+  padding-bottom: 100px;
+}
+.members p.abstract{
+  margin-bottom:50px;
+}
+.members .photo{
+
+}
+.members .photo img{
+  width:100%;
+  -webkit-border-radius: 50%;/* 50%でもOK */
+  -moz-border-radius: 50%;
+  border-radius: 50%;
+}
+.members .profile{
+
+}
+.members .member{
+  margin-bottom:20px;
+
+}
+.members .member .fa-hatena:before {
+  content: "B!";
+  font-family: Verdana;
+  font-weight: bold;
+}
+ .members i {
+  color: #999;
+  -webkit-transition: color 0.1s linear;
+}
+ .members i.fa-twitter:hover {
+  color: #33ccfc;
+}
+ .members i.fa-github:hover {
+  color: #000;
+}
+ .members i.fa-facebook-square:hover {
+  color: #3a5998;
+}
+ .members i.fa-hatena:hover {
+  color: #557be8;
+}
+ .members i.fa-qiita:hover {
+  color: #5ebd24;
+}
+ .members i.fa-tumblr-square:hover {
+  color: #35465c;
+}
+ .members i.fa-linkedin-square:hover {
+  color: #0089ba;
+}
+/* =======================================================
+footer
+======================================================= */
+footer{
+  border-top: 1px solid #eeeeee;
+  padding-top: 80px;
+  padding-bottom: 50px;
+  background:#e2e6e7;
+}
+footer .app_store{
+  magin-top:40px;
+  margin-bottom:50px;
+}
+
+/* =======================================================
+mobile
+======================================================= */
+@media screen and (max-width: 600px) {
+    h1 {
+      font-size:170% !important;
+    }
+    h2 {
+      font-size:120%;
+    }
+    header .abstract p{
+      font-size:110%;
+    }
+    .step p{
+      font-size:90%;
+    }
+    header.jumbotron {
+      padding:0;
+    }
+    header.jumbotron  .logo{
+      position:absolute;
+      top:0px;
+      left:0px;
+    }
+    div.umamy_title{
+      padding-top: 10px;
+      text-align:center;
+    }
+    .umamy_title{
+      margin-bottom:10px;
+    }
+    .umamy_title h2{
+      color:white;
+      margin: 0 auto 10px auto;
+    }
+}
