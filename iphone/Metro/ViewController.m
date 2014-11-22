@@ -51,7 +51,6 @@ typedef NS_ENUM (NSInteger, modeNum) {
     self.ud = [NSUserDefaults standardUserDefaults];
     [self showInitialMap];
     
-    //[LocationManager sharedManager].delegate = self;
     [GoogleMapsAPIManager sharedManager].delegate = self;
     
     
@@ -61,7 +60,6 @@ typedef NS_ENUM (NSInteger, modeNum) {
     GMSCameraPosition *camera = [GMSCameraPosition cameraWithLatitude:[self.ud floatForKey:@"lat"]longitude:[self.ud floatForKey:@"lon"] zoom:[self.ud floatForKey:@"zoom"]];
     mapView_ = [GMSMapView mapWithFrame:self.view.bounds camera:camera];
     [self.view addSubview:mapView_];
-    //self.view = mapView_;
     mapView_.myLocationEnabled = YES;
     mapView_.delegate = self;
     mapView_.settings.myLocationButton = YES;
@@ -119,14 +117,12 @@ typedef NS_ENUM (NSInteger, modeNum) {
 - (void)onSuccessRequestPOI:(NSData *)data {
     NSError *error = nil;
     NSMutableDictionary *dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&error];
-    //[self placePOIMarker:dic];
     [self performSelectorOnMainThread:@selector(placePOIMarker:) withObject:dic waitUntilDone:NO];
 }
 
 - (void)onSuccessRequest2Point:(NSData *)data {
     NSError *error = nil;
     NSMutableDictionary *dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&error];
-    //[self place2PointMarker:dic];
     [self performSelectorOnMainThread:@selector(place2PointMarker:) withObject:dic waitUntilDone:NO];
 }
 
@@ -136,10 +132,14 @@ typedef NS_ENUM (NSInteger, modeNum) {
         NSMutableDictionary *dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&error];
         d = dic;
         
-        tb = [[UITableView alloc] initWithFrame:CGRectMake(10, 70, self.view.frame.size.width-20, self.view.frame.size.height-300) style:UITableViewStylePlain];
-        tb.delegate = self;
-        tb.dataSource = self;
-        [self.view addSubview:tb];
+        if ([[d objectForKey:@"result"] count] == 0) {
+            [self showAlertForLocationSetting:@"現在地が取得できませんでした。\n設定画面から位置情報の利用を「常に許可」に変更してください。"];
+        } else {
+            tb = [[UITableView alloc] initWithFrame:CGRectMake(10, 70, self.view.frame.size.width-20, self.view.frame.size.height-300) style:UITableViewStylePlain];
+            tb.delegate = self;
+            tb.dataSource = self;
+            [self.view addSubview:tb];
+        }
     });
 }
 
@@ -184,26 +184,12 @@ typedef NS_ENUM (NSInteger, modeNum) {
         polyline1.map = mapView_;
         polyline2.map = mapView_;
         
-        /*
-        polylineA = [GMSPolyline polylineWithPath:pa];
-        polylineA.strokeWidth = 5.f;
-        polylineA.strokeColor = [UIColor blueColor];
-        polylineA.map = mapView_;
-         */
-        
         GMSMutablePath *path = [GMSMutablePath path];
         CLLocationCoordinate2D pos;
         pos.latitude = [di[@"res"][0][@"lat"] floatValue];
         pos.longitude = [di[@"res"][0][@"lon"] floatValue];
         [path addCoordinate:pos];
         [path addCoordinate:markerB.position];
-        
-        /*
-        polylineB = [GMSPolyline polylineWithPath:path];
-        polylineB.strokeWidth = 5.f;
-        polylineB.strokeColor = [UIColor blueColor];
-        polylineB.map = mapView_;
-         */
         
         path = [GMSMutablePath path];
         [path addCoordinate:markerA.position];
@@ -331,8 +317,6 @@ typedef NS_ENUM (NSInteger, modeNum) {
     }
     
     cell.textLabel.text = d[@"result"][indexPath.row][@"name"];
-    //NSLog(@"%@", d[@"result"][0][@"name"]);
-    //cell.textLabel.text = @"hoge";
     
     return cell;
 }
@@ -400,7 +384,7 @@ typedef NS_ENUM (NSInteger, modeNum) {
 - (void) onTouchGoThereBtn {
     NSLog(@"%s", __func__);
     if (mapView_.myLocation.coordinate.latitude == 0) {
-        [self showAlert:@"現在地が取得できませんでした"];
+        [self showAlertForLocationSetting:@"現在地が取得できませんでした。\n設定画面から位置情報の利用を「常に許可」に変更してください。"];
     } else {
         mode = goDestination;
         NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://gif-animaker.sakura.ne.jp/metro/API/get2Point.php?latA=%lf&lonA=%lf&radiusA=1000&latB=%lf&lonB=%lf&radiusB=200000&escape=0", mapView_.myLocation.coordinate.latitude, mapView_.myLocation.coordinate.longitude, searchedMarker.position.latitude, searchedMarker.position.longitude]];
@@ -412,7 +396,7 @@ typedef NS_ENUM (NSInteger, modeNum) {
 - (void) onTouchGoGroundBtn {
     NSLog(@"%s", __func__);
     if (mapView_.myLocation.coordinate.latitude == 0) {
-        [self showAlert:@"現在地が取得できませんでした"];
+        [self showAlertForLocationSetting:@"現在地が取得できませんでした。\n設定画面から位置情報の利用を「常に許可」に変更してください。"];
     } else {
         mode = goGround;
         NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://gif-animaker.sakura.ne.jp/metro/API/getMetroPOI.php?lat=%lf&lon=%lf&radius=1000", mapView_.myLocation.coordinate.latitude, mapView_.myLocation.coordinate.longitude]];
@@ -472,14 +456,6 @@ typedef NS_ENUM (NSInteger, modeNum) {
             markerB.map = nil;
             currentLocMarker.map = nil;
             nearPOImarker.map = nil;
-            
-            /*
-            currentLocMarker = [[GMSMarker alloc] init];
-            currentLocMarker.position = CLLocationCoordinate2DMake(mapView_.myLocation.coordinate.latitude, mapView_.myLocation.coordinate.longitude);
-            currentLocMarker.title = @"現在地";
-            currentLocMarker.icon = [GMSMarker markerImageWithColor:[UIColor blueColor]];
-            currentLocMarker.map = mapView_;
-             */
             
             markerA = [[GMSMarker alloc] init];
             markerA.position = CLLocationCoordinate2DMake(latA, lonA);
@@ -553,6 +529,22 @@ typedef NS_ENUM (NSInteger, modeNum) {
      otherButtonTitles:@"OK", nil
      ];
     [alert show];
+}
+
+- (void) showAlertForLocationSetting:(NSString *) msg {
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"メトロード" message:msg preferredStyle:UIAlertControllerStyleAlert];
+    
+
+    [alertController addAction:[UIAlertAction actionWithTitle:@"いいえ" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        // cancelボタンが押された時の処理
+    }]];
+    
+    [alertController addAction:[UIAlertAction actionWithTitle:@"はい" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        // otherボタンが押された時の処理
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
+    }]];
+    
+    [self presentViewController:alertController animated:YES completion:nil];
 }
 
 - (void) showAlertWithYesNo:(NSString *)msg {

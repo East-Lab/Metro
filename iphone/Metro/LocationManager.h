@@ -16,12 +16,12 @@
 @interface LocationManager: NSObject<CLLocationManagerDelegate>{
 }
 
-@property (strong, nonatomic) CLGeocoder *geocoder;
-
 @property (nonatomic,strong) id<LocationManagerDelegate> delegate;
+@property (nonatomic, retain) CLLocationManager *locationManager;
+
 
 + (LocationManager *)sharedManager;
-- (void)findLocation:(NSString *)location;
+- (void)startLocation;
 
 
 

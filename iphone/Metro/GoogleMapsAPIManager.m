@@ -42,9 +42,9 @@ static GoogleMapsAPIManager *manager = nil;
         } else {
             NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:resData options:NSJSONReadingAllowFragments error:&error];
             if ([dic[@"status"] isEqualToString:@"ZERO_RESULTS"]) {
-            if (delegate) {
-                [delegate onFailedGoogleRequest:@"結果がありませんでした。"];
-            }
+                if (delegate) {
+                    [delegate onFailedGoogleRequest:@"結果がありませんでした。"];
+                }
             } else {
                 NSLog(@"google lat : %@",dic[@"results"][0][@"geometry"][@"location"][@"lat"]);
                 NSLog(@"google lng : %@",dic[@"results"][0][@"geometry"][@"location"][@"lng"]);
